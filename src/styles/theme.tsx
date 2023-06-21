@@ -1,16 +1,39 @@
-import type { ThemeUIStyleObject, Theme } from "@libs/css";
+import type { ThemeUIStyleObject, Theme } from "@libs/css"
+
+const palette = {
+  main30: "#f57f8b",
+  main50: "#f54e5e",
+  main70: "#c23e4a",
+  sub: "#1393ff",
+  spot: "#00dab8",
+  fail: "#ff5746",
+  black90: "#191919",
+  black70: "#4d4d4d",
+  black50: "#808080",
+  black30: "#b3b3b3",
+  black20: "#cccccc",
+  black10: "#e6e6e6",
+  black05: "#f2f2f2",
+}
 
 export const theme: Theme = {
   space: {
     0: 0,
     1: 4,
     2: 8,
-    3: 16,
-    4: 24,
-    5: 32,
-    6: 48,
-    7: 64,
-    8: 80,
+    3: 12,
+    4: 16,
+    5: 20,
+    6: 24,
+    7: 28,
+    8: 32,
+    9: 36,
+    10: 40,
+    11: 48,
+    12: 60,
+    13: 72,
+    14: 84,
+    15: 96,
     lg: 48,
     line: 1,
     ls: 12,
@@ -30,10 +53,11 @@ export const theme: Theme = {
     0: 12,
     1: 14,
     2: 16,
-    3: 20,
-    4: 24,
-    5: 28,
-    6: 32,
+    3: 18,
+    4: 20,
+    5: 24,
+    6: 28,
+    7: 32,
     lg: 28,
     md: 16,
     minor: 18,
@@ -64,6 +88,12 @@ export const theme: Theme = {
     inputCode: 44,
     inputCodeMobile: 40,
   },
+  colors: {
+    ...palette,
+    t: {
+      primary: "#111",
+    },
+  },
   radii: {
     circle: "50%",
     default: 4,
@@ -77,6 +107,7 @@ export const theme: Theme = {
   },
   shadows: {
     area: "0px 0px 20px rgba(0, 0, 0, 0.08)",
+    shadow3: "2px 3px 5px 0 rgba(0, 0, 0, 0.4)",
     calendar:
       " 0px 3px 6px rgba(20,21,26,0.08), 0px 7px 14px rgba(71,77,87,0.08), 0px 0px 1px rgba(20,21,26,0.1)",
     card: " 0px 1px 2px rgba(20,21,26,0.04), 0px 3px 6px rgba(71,77,87,0.04), 0px 0px 1px rgba(20,21,26,0.1)",
@@ -91,6 +122,13 @@ export const theme: Theme = {
       "0px 0px 1px rgba(24, 26, 32, 0.1), 0px 16px 32px rgba(71, 77, 87, 0.16), 0px 8px 16px rgba(24, 26, 32, 0.16)",
     tooltip:
       " 0px 3px 6px rgba(20,21,26,0.08), 0px 7px 14px rgba(71,77,87,0.08), 0px 0px 1px rgba(20,21,26,0.1)",
+    scard:
+      "rgba(24, 26, 32, 0.1) 0px 0px 1px, rgba(71, 77, 87, 0.04) 0px 3px 6px, rgba(24, 26, 32, 0.04) 0px 1px 2px",
+    scardhover:
+      "rgba(24, 26, 32, 0.1) 0px 0px 1px, rgba(71, 77, 87, 0.08) 0px 7px 14px, rgba(24, 26, 32, 0.08) 0px 3px 6px",
+    myscard: "3px 3px 10px 0 rgba(0, 0, 0, 0.5)",
+    makercardProfile:
+      "2px 2px 5px 0 rgba(0, 0, 0, 0.4), 2px 2px 5px 0 rgba(0, 0, 0, 0.5)",
   },
   zIndices: {
     alert: 1350,
@@ -124,4 +162,4 @@ export const theme: Theme = {
       lineHeight: "20px",
     },
   },
-};
+}

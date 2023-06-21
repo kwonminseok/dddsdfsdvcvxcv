@@ -19,6 +19,7 @@
       "@components/*": ["./src/components/*"],
       "@styles/*": ["./src/styles/*"],
       "@pages/*": ["./src/pages/*"],
+      "@icons/*": ["./src/assets/icons/*"],
       "@libs/*": ["./src/libs/*"],
       "@/*": ["./src/*"]
     }
