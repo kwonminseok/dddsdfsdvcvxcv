@@ -12,13 +12,14 @@ const MoreContents = ({ contents = "", line, boxSx }: ContentsProps) => {
   const contentRef = useRef<HTMLDivElement>(null)
   const [isTextOverflow, setIsTextOverflow] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
-
+  console.log(isTextOverflow)
   useEffect(() => {
     if (contentRef.current) {
       const handleResize = () => {
         const contentContainer = contentRef.current!
-
-        if (contentContainer.scrollHeight > contentContainer.clientHeight) {
+        console.log(contentContainer.scrollHeight)
+        console.log(contentContainer.clientHeight)
+        if (contentContainer.scrollHeight > contentContainer.clientHeight + 1) {
           setIsTextOverflow(true)
         } else {
           setIsTextOverflow(false)

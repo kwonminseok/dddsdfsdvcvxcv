@@ -8,7 +8,7 @@ import MakerInfo from "./component/maker-info"
 import BlockInfo from "./component/block-info"
 import useWindowSize from "@libs/hooks/use-window-size"
 import SupportInfo from "./component/support-info"
-import { MemberList } from "./component"
+import MemberList from "./component/member-list"
 export default function Support() {
   const sizeType = useWindowSize()
   return (

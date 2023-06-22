@@ -108,6 +108,7 @@ export const theme: Theme = {
   shadows: {
     area: "0px 0px 20px rgba(0, 0, 0, 0.08)",
     shadow3: "2px 3px 5px 0 rgba(0, 0, 0, 0.4)",
+    selectedTab: "inset 0px -2px 0px #191919",
     calendar:
       " 0px 3px 6px rgba(20,21,26,0.08), 0px 7px 14px rgba(71,77,87,0.08), 0px 0px 1px rgba(20,21,26,0.1)",
     card: " 0px 1px 2px rgba(20,21,26,0.04), 0px 3px 6px rgba(71,77,87,0.04), 0px 0px 1px rgba(20,21,26,0.1)",
@@ -160,6 +161,12 @@ export const theme: Theme = {
       fontSize: "sm",
       fontWeight: "normal",
       lineHeight: "20px",
+    },
+  },
+  tabs: {
+    container: {
+      boxShadow: "inset 0px -1px 0px currentColor",
+      color: "black30",
     },
   },
 }

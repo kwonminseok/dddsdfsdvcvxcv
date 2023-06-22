@@ -3,19 +3,26 @@ import {
   LazyLoadImage,
   LazyLoadImageProps,
 } from "react-lazy-load-image-component"
-import { ThemeUICSSProperties } from "@libs/css"
+import { ThemeUICSSProperties, ThemeUIStyleObject } from "@libs/css"
 
 interface ImageWrapper extends LazyLoadImageProps {
   brProps?: ThemeUICSSProperties["borderRadius"]
+  pb?: number
+  boxSx?: ThemeUIStyleObject
 }
 
-const ImageWrapper = ({ brProps = "0px", ...props }: ImageWrapper) => {
+const ImageWrapper = ({
+  brProps = "0px",
+  pb = 100,
+  boxSx,
+  ...props
+}: ImageWrapper) => {
   return (
     <Box
       sx={{
         position: "relative",
         width: "100%",
-        paddingBottom: "100%",
+        paddingBottom: `${pb}%`,
       }}
     >
       <Box
@@ -28,12 +35,12 @@ const ImageWrapper = ({ brProps = "0px", ...props }: ImageWrapper) => {
         }}
       >
         <Box
-          sx={{
+          __css={{
             width: "100%",
             height: "100%",
             border: "0px solid",
-            borderRadius: brProps,
           }}
+          sx={boxSx}
         >
           <LazyLoadImage {...props} />
         </Box>

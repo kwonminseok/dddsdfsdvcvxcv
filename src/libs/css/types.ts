@@ -867,4 +867,5 @@ export interface Theme {
    * @see https://theme-ui.com/components/message#variants
    */
   messages?: Record<string, ThemeUIStyleObject>
+  tabs?: Record<string, ThemeUIStyleObject>
 }
