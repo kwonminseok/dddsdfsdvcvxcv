@@ -38,7 +38,7 @@ const SupportCard = ({
           cursor: "pointer",
           overlofw: "hidden",
           transition: "all 0.3s ease 0s",
-          boxShadow: "scard",
+          // boxShadow: "scard",
           minHeight: "120px",
           ":hover": {
             transform: "translateY(-4px)",
@@ -48,7 +48,7 @@ const SupportCard = ({
           },
         }}
       >
-        <Box
+        {/* <Box
           sx={{
             display: "inline-flex",
             alignItems: "center",
@@ -69,7 +69,7 @@ const SupportCard = ({
           <Box sx={{ pl: 1, fontSize: [0, 2], lineHeight: ["16px", "20px"] }}>
             42
           </Box>
-        </Box>
+        </Box> */}
         <CardImageWrapper src={imgSrc} />
         <Box sx={{ padding: 2, color: "t.primary", paddingLeft: ["136px", 2] }}>
           <Box
@@ -79,7 +79,7 @@ const SupportCard = ({
               lineHeight: "20px",
             }}
           >
-            {category}
+            {maker}
           </Box>
           <Box
             sx={{
@@ -105,7 +105,8 @@ const SupportCard = ({
             }}
           >
             <Flex sx={{ flex: 1, lineHeight: "20px", fontSize: 0 }}>
-              @{maker}
+              {/* @{maker} */}
+              Aug 24 2021
             </Flex>
             <Flex
               sx={{

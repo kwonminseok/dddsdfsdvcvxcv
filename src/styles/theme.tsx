@@ -107,6 +107,7 @@ export const theme: Theme = {
   },
   shadows: {
     area: "0px 0px 20px rgba(0, 0, 0, 0.08)",
+    floody3: "4px 4px 6px 0 rgba(0, 0, 0, 0.4)",
     shadow3: "2px 3px 5px 0 rgba(0, 0, 0, 0.4)",
     selectedTab: "inset 0px -2px 0px #191919",
     calendar:

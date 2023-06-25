@@ -1,9 +1,6 @@
 import Head from "next/head"
 import { Box, Flex, Avatar, Button } from "@components/commons"
 import ImageWrapper from "@components/imageWrapper"
-import ListIcon from "@icons/list-icons"
-import Link from "next/link"
-import { LuYoutube, LuInstagram, LuTwitter } from "react-icons/lu"
 import { Instagram, Twitter, Chrome, Plus, Zap } from "lucide-react"
 import MoreContents from "@components/more-contents"
 import WrapBox from "../component/wrap-box"
@@ -94,12 +91,12 @@ export default function Maker() {
                 영웅시대 HERO
               </Box>
               <Flex sx={{ alignItems: "center" }}>
-                <Flex sx={{ alignItems: "center", mr: 4 }}>
+                {/* <Flex sx={{ alignItems: "center", mr: 4 }}>
                   <Button sx={{ px: 4, borderRadius: "12px" }}>
                     <Plus size={18} />
                     <Box sx={{ px: 1 }}>Join</Box>
                   </Button>
-                </Flex>
+                </Flex> */}
                 <Flex sx={{ alignItems: "center" }}>
                   <Button sx={{ bg: "transparent", border: "none" }}>
                     <Twitter size={24} />
@@ -113,7 +110,7 @@ export default function Maker() {
                 </Flex>
               </Flex>
             </Flex>
-            <Flex sx={{ pt: 2 }}>
+            {/* <Flex sx={{ pt: 2 }}>
               <Flex
                 sx={{
                   bg: "#6c707b",
@@ -131,7 +128,7 @@ export default function Maker() {
                 <Box sx={{ lineHeight: "20px", pl: 1 }}>#</Box>
                 <Box sx={{ px: 1, lineHeight: "20px" }}>임영웅</Box>
               </Flex>
-            </Flex>
+            </Flex> */}
             <Flex sx={{ maxWidth: "720px" }}>
               <MoreContents
                 contents={
@@ -146,7 +143,7 @@ export default function Maker() {
                 }}
               />
             </Flex>
-            <Flex
+            {/* <Flex
               sx={{
                 flexWrap: "wrap",
                 pt: 5,
@@ -159,7 +156,7 @@ export default function Maker() {
               <WrapBox name={"badges"} value={"3.72k"} />
               <WrapBox name={"owners"} value={"903"} />
               <WrapBox name={"created"} value={"May 2023"} />
-            </Flex>
+            </Flex> */}
             <Flex
               __css={{
                 alignItems: "center",
@@ -241,9 +238,9 @@ export default function Maker() {
                 </Flex>
               </Box>
             </Flex>
-            <Tabs defaultActiveKey="hi" variant="container">
+            {/* <Tabs defaultActiveKey="hi" variant="container">
               <Box>테스트</Box>
-            </Tabs>
+            </Tabs> */}
           </Box>
         </Box>
       </Flex>

@@ -3,7 +3,7 @@ import { LuPackage } from "react-icons/lu"
 
 const test_list = [
   { title: "Chain", content: "Klaytn" },
-  { title: "Contract Address", content: "0x523kj234...w45klsdfj" },
+  { title: "Contract Address", content: "0x523kj234...w45klsdfj", link: "/" },
   { title: "Total Minted", content: "43" },
 ]
 
@@ -21,7 +21,14 @@ const BlockInfo = ({ sizeType }: { sizeType: number }) => {
         }}
       >
         <Box sx={{ color: "black50", fontWeight: "normal" }}>{item.title}</Box>
-        <Box sx={{ fontWeight: "medium" }}>{item.content}</Box>
+        <Box
+          sx={{
+            fontWeight: "medium",
+            color: item.link ? "#007aff" : "inherit",
+          }}
+        >
+          {item.content}
+        </Box>
       </Flex>
     )
   })

@@ -83,14 +83,25 @@ const SupportInfo = () => {
           left: "0px",
         }}
       >
-        <Button sx={{ width: ["100%", "50%"] }}>뱃지 받기</Button>
+        <Button
+          sx={{
+            width: ["100%", "50%"],
+            minWidth: "120px",
+            minHeight: "48px",
+            backgroundColor: "main50",
+            color: "#fff",
+            boxShadow: "floody3",
+          }}
+        >
+          뱃지 받기
+        </Button>
         <Box
           sx={{
             display: ["none", "flex"],
             bg: "black05",
             padding: "18px 24px",
             borderRadius: "8px",
-            mt: 3,
+            mt: 6,
           }}
         >
           <LuInfo size={18} />

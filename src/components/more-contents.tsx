@@ -1,4 +1,4 @@
-import { ThemeUIStyleObject } from "@libs/css"
+import { ThemeUIStyleObject, ThemeUICSSProperties } from "@libs/css"
 import React, { useRef, useState, useEffect } from "react"
 import { Box } from "./commons"
 
@@ -6,9 +6,15 @@ interface ContentsProps {
   contents: React.ReactNode
   line: number
   boxSx?: ThemeUIStyleObject
+  moreSize?: ThemeUICSSProperties["fontSize"]
 }
 
-const MoreContents = ({ contents = "", line, boxSx }: ContentsProps) => {
+const MoreContents = ({
+  contents = "",
+  line,
+  boxSx,
+  moreSize = [0, 1],
+}: ContentsProps) => {
   const contentRef = useRef<HTMLDivElement>(null)
   const [isTextOverflow, setIsTextOverflow] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -45,7 +51,7 @@ const MoreContents = ({ contents = "", line, boxSx }: ContentsProps) => {
       }
 
   return (
-    <Box sx={{ mb: 8 }}>
+    <Box>
       <Box
         __css={{
           position: "relative",
@@ -70,7 +76,7 @@ const MoreContents = ({ contents = "", line, boxSx }: ContentsProps) => {
         isTextOverflow && (
           <Box
             onClick={() => setIsOpen(true)}
-            sx={{ color: "black50", fontSize: [0, 1], cursor: "pointer" }}
+            sx={{ color: "black50", fontSize: moreSize, cursor: "pointer" }}
           >
             더 보기
           </Box>
@@ -78,7 +84,7 @@ const MoreContents = ({ contents = "", line, boxSx }: ContentsProps) => {
       ) : (
         <Box
           onClick={() => setIsOpen(false)}
-          sx={{ color: "black50", fontSize: [0, 1], cursor: "pointer" }}
+          sx={{ color: "black50", fontSize: moreSize, cursor: "pointer" }}
         >
           접기
         </Box>

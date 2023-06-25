@@ -1,7 +1,10 @@
 import Head from "next/head"
 import Wrapper from "@components/supports/[pid]/Wrapper"
-import { Box, Flex } from "@components/commons"
+import { Avatar, Box, Button, Flex } from "@components/commons"
 import ImageWrapper from "@components/imageWrapper"
+import Link from "next/link"
+import { Share2, Plus, ChevronRight } from "lucide-react"
+import MoreContents from "@components/more-contents"
 export default function Support() {
   return (
     <>
@@ -12,7 +15,7 @@ export default function Support() {
       </Head>
       <Wrapper>
         <Flex sx={{ flexWrap: "wrap", justifyContent: "space-between" }}>
-          <Box sx={{ width: "calc((100% + 16px)/12*7 - 16px)" }}>
+          <Box sx={{ width: "calc((100% + 16px)*0.475 - 16px)" }}>
             <ImageWrapper
               brProps="8px"
               src={
@@ -34,9 +37,133 @@ export default function Support() {
                 objectFit: "contain",
               }}
             />
+            <Box sx={{ mt: 8 }}>
+              <Box
+                sx={{
+                  borderRadius: "8px",
+                  border: "1px solid",
+                  borderColor: "black10",
+                  padding: 4,
+                }}
+              >
+                <Flex sx={{ justifyContent: "space-between" }}>
+                  <Link href="/makers/1" passHref legacyBehavior>
+                    <Box as="a" sx={{ display: "flex", alignItems: "center" }}>
+                      <Avatar
+                        size={36}
+                        src="https://public.nftstatic.com/static/nft/webp/nft-extdata-loader/S3/1687117348836_qisaf0n3f5cs35v6e73o0x7kmkxh7rm7_400x400.webp"
+                        boxSx={{ mr: 2 }}
+                      />
+                      <Box>
+                        <Box sx={{ fontSize: 1, fontWeight: "bold" }}>
+                          영웅시대 HERO
+                        </Box>
+                        <Box sx={{ fontSize: 0, color: "black50" }}>
+                          <Box as="span">맴버 1.23천명 </Box>
+                          <Box as="span">서포터 32개</Box>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Link>
+                  <Flex align="center">
+                    {" "}
+                    <Button
+                      sx={{
+                        px: 4,
+                        borderRadius: "12px",
+                        bg: "main50",
+                        color: "#fff",
+                      }}
+                    >
+                      <Plus size={14} />
+                      <Box sx={{ px: 1, fontSize: 0 }}>Join</Box>
+                    </Button>
+                  </Flex>
+                </Flex>
+                <Box>
+                  <MoreContents
+                    contents={
+                      "신세계백화점의 대표 캐릭터 푸빌라의 친구들입니다. 붉은 털 여우 “깨또“, 귀여운 너구리 “후트“, 작고 날 쌘 다람쥐 “포코“입니다. 각기 다른 매력을 뽐내는 푸빌라의 유쾌한 친구들을 만나볼까요? 긍정적 분위기, 훌륭한 커뮤니티가 구축되고 있습니다. \n They are friends of Puuvilla, the representative character of Shinsegae Department Store. It’s a red-haired fox ‘kettu’, a cute raccoon “hut”, and a small sharp squirrel, “Poco”. Let’s meet the fun friends of Puuvilla a who show off their different charms A positive atmosphere, a great community is being built."
+                    }
+                    line={2}
+                    boxSx={{
+                      fontSize: 0,
+                      lineHeight: "1.25",
+                      minHeight: "28px",
+                      color: "black70",
+                      mt: [4, 4],
+                      mb: [3, 3],
+                    }}
+                    moreSize="0"
+                  />
+                </Box>
+              </Box>
+            </Box>
           </Box>
-          <Box sx={{ width: "calc((100% + 16px)*.375 - 8px)" }}></Box>
+          <Box sx={{ width: "calc((100% + 16px)*.45 - 8px)" }}>
+            <Box>
+              <Flex __css={{ flexDirection: "column" }}>
+                <Flex
+                  justify="space-between"
+                  __css={{
+                    pb: 2,
+                    borderBottom: "1px solid",
+                    borderColor: "black10",
+                  }}
+                >
+                  <Link href="/" passHref legacyBehavior>
+                    <Box
+                      as="a"
+                      sx={{
+                        display: "flex",
+                        bg: "black05",
+                        px: 3,
+                        py: 1,
+                        fontSize: 0,
+                        borderRadius: "12px",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Box as="span" sx={{ color: "main50", pr: "tiny" }}>
+                        <ChevronRight size={14} />
+                      </Box>
+                      <Box as="span" sx={{ color: "black90" }}>
+                        임영웅
+                      </Box>
+                    </Box>
+                  </Link>
+                  <Box sx={{ color: "black70" }}>
+                    <Share2 size={20} />
+                  </Box>
+                </Flex>
+                <Box>
+                  <Box
+                    sx={{
+                      mt: 4,
+                      fontSize: "32px",
+                      lineHeight: "40px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    임영웅 FC서울 시축 이벤트 참여
+                  </Box>
+                  <Box
+                    sx={{
+                      fontSize: "14px",
+                      lineHeight: "20px",
+                      fontWeight: "normal",
+                      color: "black50",
+                      pl: "tiny",
+                    }}
+                  >
+                    임영웅이가 시축한 FC서울 경기관람에 참여자 모임입니다!
+                  </Box>
+                </Box>
+              </Flex>
+            </Box>
+          </Box>
         </Flex>
+        <Box>해위</Box>
       </Wrapper>
     </>
   )

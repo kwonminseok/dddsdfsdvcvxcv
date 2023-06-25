@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Box, Flex, Avatar } from "@components/commons"
 import { LazyLoadImage } from "react-lazy-load-image-component"
+import { Award } from "lucide-react"
 
 const MakerCard = () => {
   return (
@@ -83,7 +84,7 @@ const MakerCard = () => {
             <Flex
               sx={{
                 mt: 5,
-                pl: 6,
+                px: 6,
                 pb: 2,
                 flexDirection: "column",
                 // justifyContent: "space-between",
@@ -113,11 +114,14 @@ const MakerCard = () => {
                   }}
                 >
                   러닝의 새로운 기술, 퍼포먼스를 위한 최상의 스타일을
-                  확인해보시라구요
+                  확인해보시라구요오오오오오오옹
                 </Box>
               </Box>
-              <Flex sx={{ justifyContent: "flex-end" }}>
-                <Box></Box>
+              <Flex sx={{ justifyContent: "flex-end", pt: 4 }}>
+                <Flex sx={{ alignItems: "center" }}>
+                  <Award size={16} />
+                  <Box sx={{ fontSize: "14px", pl: 1 }}>127</Box>
+                </Flex>
               </Flex>
             </Flex>
           </Box>

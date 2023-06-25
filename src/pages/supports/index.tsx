@@ -1,12 +1,21 @@
 import Head from "next/head"
 import { Inter } from "next/font/google"
 import styles from "@styles/Home.module.css"
-
-import { Box, Flex } from "@components/commons"
+import { useState } from "react"
+import { Box, Flex, Selector } from "@components/commons"
 import { SkeletonSupportCard, SupportCard } from "@components/supports"
 
 const inter = Inter({ subsets: ["latin"] })
 export default function Supports() {
+  const [order, setOrder] = useState<string>("lastest")
+
+  const onChangeOrder = (newOrder: string) => {
+    if (newOrder !== order) {
+      setOrder(newOrder)
+      // mutation.mutate(category[activeTab].baseUrl)
+    }
+  }
+
   return (
     <>
       <Head>
@@ -41,6 +50,33 @@ export default function Supports() {
             당신의 사랑을 표현하고 행동해 보세요
           </Box>
         </Flex>
+        <Box
+          __css={{
+            maxWidth: "1260px",
+            width: "100%",
+            marginX: "auto",
+            px: ["12px", "30px"],
+          }}
+        >
+          <Flex direction={"row-reverse"} pb="4">
+            <Selector
+              options={[
+                { content: "인기 순", key: "popular" },
+                { content: "최근 순", key: "lastest" },
+              ]}
+              value={order} //초기값됴
+              onChange={onChangeOrder}
+              sx={{
+                fontSize: [1, 2],
+                lineHeight: "26px",
+                padding: "6px 12px",
+                color: "black90",
+                width: ["96px", "120px"],
+                height: ["32px", "40px"],
+              }}
+            />
+          </Flex>
+        </Box>
         <Box
           sx={{
             maxWidth: "1260px",

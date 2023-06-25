@@ -28,7 +28,7 @@ export const Button: ForwardRef<HTMLButtonElement, ButtonProps> =
       px: 3,
       py: 2,
       border: 0,
-      borderRadius: "8px",
+      borderRadius: "6px",
     }
     return (
       <Box

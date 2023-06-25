@@ -12,7 +12,7 @@ const SkeletonSupportCard = () => {
         cursor: "pointer",
         overlofw: "hidden",
         transition: "all 0.3s ease 0s",
-        boxShadow: "scard",
+        // boxShadow: "scard",
         minHeight: "120px",
       }}
     >
