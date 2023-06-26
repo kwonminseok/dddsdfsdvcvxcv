@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
+const nextBuildId = require("next-build-id")
+
 const nextConfig = {
+  generateBuildId: async () => {
+    const buildId = await nextBuildId({ dir: __dirname })
+    return buildId
+  },
   reactStrictMode: true,
   compiler: {
     emotion: true,

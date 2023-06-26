@@ -1,11 +1,7 @@
 import Head from "next/head"
 import { Box, Flex } from "@components/commons"
-import { Inter } from "next/font/google"
-import styles from "@/styles/Home.module.css"
 import { SupportCard, SkeletonSupportCard } from "@components/profile"
 import UserInfo from "@components/profile/user-info"
-import Tabs from "@components/commons/Tabs/tabs"
-const inter = Inter({ subsets: ["latin"] })
 export default function Profile() {
   return (
     <>
