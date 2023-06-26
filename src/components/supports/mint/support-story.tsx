@@ -3,12 +3,12 @@ import ImageWrapper from "@components/imageWrapper"
 import { LuBookOpen } from "react-icons/lu"
 const SupportStory = ({ sizeType }: { sizeType: number }) => {
   const iconSize = sizeType > 0 ? 24 : 18
-  console.log(iconSize)
+
   return (
     <Box sx={{ mb: 7, width: "100%", mr: [0, 3] }}>
       <Flex sx={{ alignItems: "center", pb: 3 }}>
         <Flex sx={{ pr: 2, alignItems: "center", justifyContent: "center" }}>
-          <LuBookOpen size={iconSize} />
+          <LuBookOpen size={sizeType} />
         </Flex>
         <Box
           sx={{

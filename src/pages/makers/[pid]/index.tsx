@@ -1,10 +1,20 @@
 import Head from "next/head"
 import { Box, Flex, Avatar, Button } from "@components/commons"
 import ImageWrapper from "@components/imageWrapper"
-import { Instagram, Twitter, Chrome, Plus, Zap } from "lucide-react"
+import {
+  Instagram,
+  Twitter,
+  Chrome,
+  Plus,
+  Share2,
+  MoreVertical,
+} from "lucide-react"
 import MoreContents from "@components/more-contents"
 import WrapBox from "../component/wrap-box"
 import Tabs from "@components/commons/Tabs/tabs"
+import { SupportCard } from "@components/supports"
+import { SkeletonSupportCard } from "@components/supports"
+// import useWindowSize from "@libs/hooks/use-window-size"
 export default function Maker() {
   return (
     <>
@@ -29,7 +39,7 @@ export default function Maker() {
             }}
           >
             <ImageWrapper
-              pb={25}
+              pb={["40%", "25%"]}
               src="https://i.seadn.io/gcs/files/cf29f66e5492c40bd190d6e858521e4f.jpg?auto=format&dpr=1&w=3840"
               wrapperClassName="lazy-load-image-wrapper"
               effect="blur"
@@ -47,11 +57,11 @@ export default function Maker() {
             />
           </Box>
           <Box sx={{ width: "100%", pl: 4, maxWidth: "1200px", mx: "auto" }}>
-            <Box sx={{ mt: "-160px", mb: 4 }}>
+            <Box sx={{ mt: "-80px", mb: 4 }}>
               <Box
                 sx={{
-                  width: "200px",
-                  height: "200px",
+                  width: ["104px", "200px"],
+                  height: ["104px", "200px"],
                   position: "relative",
                   border: "8px solid #fff",
                   boxShadow: "shadow3",
@@ -90,7 +100,7 @@ export default function Maker() {
               >
                 영웅시대 HERO
               </Box>
-              <Flex sx={{ alignItems: "center" }}>
+              <Flex sx={{ alignItems: "center", display: ["none", "block"] }}>
                 {/* <Flex sx={{ alignItems: "center", mr: 4 }}>
                   <Button sx={{ px: 4, borderRadius: "12px" }}>
                     <Plus size={18} />
@@ -107,7 +117,21 @@ export default function Maker() {
                   <Button sx={{ bg: "transparent", border: "none" }}>
                     <Chrome size={24} />
                   </Button>
+                  <Button sx={{ bg: "transparent", border: "none" }}>
+                    <Share2 size={24} />
+                  </Button>
+                  <Button sx={{ bg: "transparent", border: "none" }}>
+                    <MoreVertical size={24} />
+                  </Button>
                 </Flex>
+              </Flex>
+              <Flex sx={{ alignItems: "center", display: ["block", "none"] }}>
+                <Button sx={{ bg: "transparent", border: "none" }}>
+                  <Share2 size={20} />
+                </Button>
+                <Button sx={{ bg: "transparent", border: "none" }}>
+                  <MoreVertical size={20} />
+                </Button>
               </Flex>
             </Flex>
             {/* <Flex sx={{ pt: 2 }}>
@@ -166,19 +190,25 @@ export default function Maker() {
               }}
             >
               {/* Tabs */}
-              <Box __css={{ position: "relative" }}>
+              <Box __css={{ position: "relative", width: "100%" }}>
                 <Flex
                   __css={{
                     flexDirection: "row",
                     overflow: "scroll",
                     whiteSpace: "nowrap",
                     width: "100%",
-                    gap: "24px",
+                    gap: [0, "24px"],
                   }}
                   sx={{ mt: 8 }}
                 >
                   {/* Tab */}
-                  <Box __css={{ cursor: "pointer", minWidth: "auto" }}>
+                  <Box
+                    __css={{
+                      cursor: "pointer",
+                      minWidth: "auto",
+                      flex: [1, 0],
+                    }}
+                  >
                     <Box
                       __css={{
                         userSelect: "none",
@@ -188,12 +218,19 @@ export default function Maker() {
                         px: 2,
                         color: "black90",
                         boxShadow: "selectedTab",
+                        textAlign: "center",
                       }}
                     >
-                      홈
+                      서포트 목록
                     </Box>
                   </Box>
-                  <Box __css={{ cursor: "pointer", minWidth: "auto" }}>
+                  <Box
+                    __css={{
+                      cursor: "pointer",
+                      minWidth: "auto",
+                      flex: [1, 0],
+                    }}
+                  >
                     <Box
                       __css={{
                         userSelect: "none",
@@ -202,37 +239,10 @@ export default function Maker() {
                         py: 3,
                         px: 2,
                         color: "black50",
+                        textAlign: "center",
                       }}
                     >
-                      서포터
-                    </Box>
-                  </Box>
-                  <Box __css={{ cursor: "pointer", minWidth: "auto" }}>
-                    <Box
-                      __css={{
-                        userSelect: "none",
-                        lineHeight: "20px",
-                        fontWeight: "medium",
-                        py: 3,
-                        px: 2,
-                        color: "black50",
-                      }}
-                    >
-                      맴버
-                    </Box>
-                  </Box>
-                  <Box __css={{ cursor: "pointer", minWidth: "auto" }}>
-                    <Box
-                      __css={{
-                        userSelect: "none",
-                        lineHeight: "20px",
-                        fontWeight: "medium",
-                        py: 3,
-                        px: 2,
-                        color: "black50",
-                      }}
-                    >
-                      커뮤니티
+                      맴버 목록
                     </Box>
                   </Box>
                 </Flex>
@@ -241,6 +251,61 @@ export default function Maker() {
             {/* <Tabs defaultActiveKey="hi" variant="container">
               <Box>테스트</Box>
             </Tabs> */}
+            {/* TabLists */}
+            <Box
+              sx={{
+                width: "100%",
+                height: "100%",
+                position: "relative",
+                overflow: "hidden",
+              }}
+            >
+              <Box
+                sx={{
+                  width: "100%",
+                  display: ["flex", "grid"],
+                  flexDirection: "column",
+                  gap: ["8px", "24px"],
+                  gridTemplateColumns: "repeat(4, calc(25% - 18px))",
+                  pt: 3,
+                }}
+              >
+                <SupportCard
+                  category="임영웅"
+                  maker={"임영웅 영웅시대"}
+                  name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
+                  supports={12}
+                />
+                <SupportCard
+                  category="임영웅"
+                  maker={"임영웅 영웅시대"}
+                  name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
+                  supports={12}
+                />{" "}
+                <SupportCard
+                  category="임영웅"
+                  maker={"임영웅 영웅시대"}
+                  name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
+                  supports={12}
+                />{" "}
+                <SupportCard
+                  category="임영웅"
+                  maker={"임영웅 영웅시대"}
+                  name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
+                  supports={12}
+                />{" "}
+                <SupportCard
+                  category="임영웅"
+                  maker={"임영웅 영웅시대"}
+                  name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
+                  supports={12}
+                />
+                <SkeletonSupportCard />
+                <SkeletonSupportCard />
+                <SkeletonSupportCard />
+                <SkeletonSupportCard />
+              </Box>
+            </Box>
           </Box>
         </Box>
       </Flex>

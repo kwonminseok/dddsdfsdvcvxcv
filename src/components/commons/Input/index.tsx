@@ -27,10 +27,10 @@ const defaultInputStyles: ThemeUIStyleObject = {
   borderRadius: 4,
   color: "inherit",
   bg: "transparent",
-
-  ":autofill, :autofill:hover, :autofill:focus": autofillStyles,
-  ":-webkit-autofill, :-webkit-autofill:hover, :-webkit-autofill:focus":
-    autofillStyles,
+  outline: "none",
+  //   ":autofill, :autofill:hover, :autofill:focus": autofillStyles,
+  //   ":-webkit-autofill, :-webkit-autofill:hover, :-webkit-autofill:focus":
+  //     autofillStyles,
 }
 
 export interface InputProps
@@ -51,8 +51,8 @@ export const Input: ForwardRef<HTMLInputElement, InputProps> = React.forwardRef(
         as="input"
         variant="input"
         sx={{
-          "--theme-ui-input-autofill-bg": theme =>
-            theme.colors && get(theme.colors, autofillBackgroundColor, null),
+          //   "--theme-ui-input-autofill-bg": theme =>
+          //     theme.colors && get(theme.colors, autofillBackgroundColor, null),
           ...sx,
         }}
         {...rest}

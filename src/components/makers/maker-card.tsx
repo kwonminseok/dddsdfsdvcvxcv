@@ -6,7 +6,7 @@ import { Award } from "lucide-react"
 const MakerCard = () => {
   return (
     <Box sx={{ width: "100%", bg: "", mb: 3 }}>
-      <Link href="/" passHref legacyBehavior>
+      <Link href="/makers/1" passHref legacyBehavior>
         <Box as="a" sx={{}}>
           <Box
             sx={{
@@ -21,7 +21,7 @@ const MakerCard = () => {
               },
             }}
           >
-            <Box sx={{ height: ["70px", "210px"], position: "relative" }}>
+            <Box sx={{ height: ["194px", "210px"], position: "relative" }}>
               <Box
                 sx={{
                   position: "relative",
@@ -58,13 +58,13 @@ const MakerCard = () => {
                   position: "absolute",
                   left: "18px",
                   overflow: "hidden",
-                  bottom: "-17px",
+                  bottom: ["-17px", "-17px"],
                 }}
               >
                 <Box
                   sx={{
-                    width: "64px",
-                    height: "64px",
+                    width: ["60px", "64px"],
+                    height: ["60px", "64px"],
                     margin: "5px",
                   }}
                 >
@@ -72,7 +72,7 @@ const MakerCard = () => {
                     src={
                       "https://public.nftstatic.com/static/nft/webp/nft-extdata-loader/S3/1687117348836_qisaf0n3f5cs35v6e73o0x7kmkxh7rm7_400x400.webp"
                     }
-                    size={64}
+                    size={[60, 64]}
                     style={{
                       boxShadow:
                         "2px 2px 5px 0 rgba(0, 0, 0, 0.4), 2px 2px 5px 0 rgba(0, 0, 0, 0.5)",

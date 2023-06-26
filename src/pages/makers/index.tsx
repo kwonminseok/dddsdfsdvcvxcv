@@ -30,7 +30,12 @@ export default function Makers() {
       >
         {/* Banner */}
         <Flex
-          sx={{ flexDirection: "column", alignItems: "center", pb: [6, 12] }}
+          sx={{
+            flexDirection: "column",
+            alignItems: "center",
+            pb: [6, 12],
+            justifyContent: "center",
+          }}
         >
           <Box
             sx={{
@@ -40,9 +45,9 @@ export default function Makers() {
               pb: [3, 6],
             }}
           >
-            Supoer Makers
+            Super Makers
           </Box>
-          <Box sx={{ fontSize: ["14px", "16px"] }}>
+          <Box sx={{ fontSize: ["14px", "16px"], textAlign: "center" }}>
             멋진 서포터를 만드는 메이커들을 만나 보세요. 당신과 함께 할 멋진
             메이커들
           </Box>
@@ -88,6 +93,7 @@ export default function Makers() {
               height: "100%",
               position: "relative",
               overflow: "hidden",
+              px: ["5px", 0],
             }}
           >
             <Box

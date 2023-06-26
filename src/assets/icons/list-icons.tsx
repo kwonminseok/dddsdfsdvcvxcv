@@ -10,8 +10,8 @@ interface ListIconProps extends SVGProps {
 
 const ListIcon = ({ icons, ...rest }: ListIconProps) => {
   const paths: string | string[] = Iconslists[icons].path
-  const rect: any = Iconslists[icons].rect
-  const line: any = Iconslists[icons].line
+  // const rect: any = Iconslists[icons].rect
+  // const line: any = Iconslists[icons].line
   return (
     <SVG
       viewBox={Iconslists[icons].viewBox}
@@ -22,7 +22,7 @@ const ListIcon = ({ icons, ...rest }: ListIconProps) => {
       stroke-linecap="round"
       stroke-strokeLinejoin="round"
     >
-      {typeof paths == "string" ? (
+      {/* {typeof paths == "string" ? (
         <path d={paths} />
       ) : (
         paths.map(item => <path d={item} />)
@@ -36,7 +36,7 @@ const ListIcon = ({ icons, ...rest }: ListIconProps) => {
         line.map(item => <line {...item} />)
       ) : (
         <></>
-      )}
+      )} */}
     </SVG>
   )
 }

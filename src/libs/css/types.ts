@@ -868,4 +868,5 @@ export interface Theme {
    */
   messages?: Record<string, ThemeUIStyleObject>
   tabs?: Record<string, ThemeUIStyleObject>
+  textField?: Record<string, ThemeUIStyleObject>
 }

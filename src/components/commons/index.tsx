@@ -6,4 +6,19 @@ import { Button } from "./Button/button"
 import { Input } from "./Input"
 import { Selector } from "./Selector/selector"
 import { SVG } from "./Svg"
-export { Box, Flex, Skeleton, Avatar, Button, SVG, Input, Selector }
+import { Text } from "./Text/text"
+import { Textarea } from "./Textarea/textarea"
+import { TextField } from "./TextField/textfield"
+export {
+  Box,
+  Flex,
+  Skeleton,
+  Avatar,
+  Button,
+  SVG,
+  Input,
+  Selector,
+  Text,
+  Textarea,
+  TextField,
+}

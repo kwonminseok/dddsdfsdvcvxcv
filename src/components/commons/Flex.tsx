@@ -3,7 +3,7 @@ import { Box, BoxOwnProps, BoxProps } from "./Box"
 import { ForwardRef } from "./types"
 import { CSSProperties } from "@libs/css"
 
-interface FlexProps extends BoxProps {
+export interface FlexProps extends BoxProps {
   align?: CSSProperties["alignItems"]
   justify?: CSSProperties["justifyContent"]
   wrap?: CSSProperties["flexWrap"]

@@ -1,6 +1,7 @@
 import { Avatar, Box, Button, Flex } from "@components/commons"
 import MoreContents from "@components/more-contents"
 import { LuInfo } from "react-icons/lu"
+import { Share2, MoreVertical } from "lucide-react"
 const SupportInfo = () => {
   return (
     <Flex
@@ -33,6 +34,14 @@ const SupportInfo = () => {
             >
               LPGA
             </Box>
+          </Flex>
+          <Flex sx={{ alignItems: "center" }}>
+            <Button sx={{ bg: "transparent", border: "none" }}>
+              <Share2 size={20} />
+            </Button>
+            <Button sx={{ bg: "transparent", border: "none" }}>
+              <MoreVertical size={20} />
+            </Button>
           </Flex>
         </Flex>
         <Box sx={{ fontSize: [3, 7], fontWeight: "bold", mb: 4 }}>
@@ -78,9 +87,10 @@ const SupportInfo = () => {
           flexDirection: "column",
           padding: ["8px 16px", 0],
           width: ["100%", "auto"],
-          //   alignItems: "center",
+          zIndex: "1",
           bottom: "0px",
           left: "0px",
+          bg: ["#fff", "inherit"],
         }}
       >
         <Button
@@ -90,7 +100,7 @@ const SupportInfo = () => {
             minHeight: "48px",
             backgroundColor: "main50",
             color: "#fff",
-            boxShadow: "floody3",
+            boxShadow: ["none", "floody3"],
           }}
         >
           뱃지 받기

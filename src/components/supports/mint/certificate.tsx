@@ -28,11 +28,13 @@ const Certificate = ({
       <Flex
         sx={{
           position: "relative",
-          maxHeight: "600px",
+          maxHeight: ["100%", "600px"],
           borderRadius: "12px",
           boxShadow: "shadow3",
-          px: 6,
-          py: 6,
+          flexDirection: ["column", "row"],
+          alignItems: ["center", "inherit"],
+          px: [4, 6],
+          py: [4, 6],
         }}
       >
         <Box
@@ -41,7 +43,7 @@ const Certificate = ({
             width: "100%",
             height: "100%",
             position: "relative",
-            maxWidth: "520px",
+            maxWidth: ["100%", "520px"],
             my: "auto",
           }}
         >
@@ -67,7 +69,8 @@ const Certificate = ({
         <Flex
           sx={{
             flex: 1,
-            ml: 6,
+            ml: [0, 6],
+            mt: [4, 0],
             justifyContent: "space-between",
             flexDirection: "column",
           }}
@@ -89,7 +92,7 @@ const Certificate = ({
                 <Box
                   sx={{
                     lineHeight: "28px",
-                    fontSize: [1, 2],
+                    fontSize: [0, 1],
                     fontWeight: "medium",
                   }}
                 >
@@ -97,7 +100,9 @@ const Certificate = ({
                 </Box>
               </Flex>
             </Flex>
-            <Box sx={{ fontSize: [3, 7], fontWeight: "bold", mb: 4, mt: 1 }}>
+            <Box
+              sx={{ fontSize: [3, 7], fontWeight: "bold", mb: 4, mt: [3, 1] }}
+            >
               동아마라톤 하프코스 완주 뱃지 동아마라톤 하프코스 완주 뱃지
             </Box>
             <Box sx={{ mt: 6, mb: 4 }}>
@@ -116,13 +121,13 @@ const Certificate = ({
                   <Avatar
                     src={ownerimgSrc}
                     boxSx={{ mr: [2, 2] }}
-                    size={[32, 48]}
+                    size={[48, 48]}
                   />
                   <Box>
                     <Box
                       sx={{
-                        fontSize: "20px",
-                        lineHeight: "28px",
+                        fontSize: [2, "20px"],
+                        lineHeight: ["24px", "28px"],
                         fontWeight: "bold",
                       }}
                     >
@@ -144,7 +149,7 @@ const Certificate = ({
                 </Flex>
               </Box>
             </Box>
-            <Box>
+            <Box sx={{ mb: 4 }}>
               {test_list.map(item => (
                 <Flex
                   key={item.title}
@@ -152,7 +157,7 @@ const Certificate = ({
                     alignItems: "center",
                     justifyContent: "space-between",
                     mb: 2,
-                    fontSize: [1, 1],
+                    fontSize: [0, 1],
                   }}
                 >
                   <Box sx={{ color: "black70", fontWeight: "normal" }}>
@@ -160,6 +165,7 @@ const Certificate = ({
                   </Box>
                   <Box
                     sx={{
+                      fontSize: [0, 1],
                       fontWeight: "normal",
                       color: item.link ? "rgb(32, 129, 226)" : "inherit",
                     }}

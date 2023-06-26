@@ -107,6 +107,7 @@ export const theme: Theme = {
   },
   shadows: {
     area: "0px 0px 20px rgba(0, 0, 0, 0.08)",
+    floody2: "3px 3px 4px 0 rgba(0, 0, 0, 0.4)",
     floody3: "4px 4px 6px 0 rgba(0, 0, 0, 0.4)",
     shadow3: "2px 3px 5px 0 rgba(0, 0, 0, 0.4)",
     selectedTab: "inset 0px -2px 0px #191919",
@@ -145,6 +146,7 @@ export const theme: Theme = {
     modal: 1200,
     notification: 1300,
     tooltip: 1400,
+    topbtn: 1420,
   },
   text: {
     addressLink: {
@@ -168,6 +170,14 @@ export const theme: Theme = {
     container: {
       boxShadow: "inset 0px -1px 0px currentColor",
       color: "black30",
+    },
+  },
+  textField: {
+    line: {
+      bg: "transparent",
+      border: "1px solid transparent",
+      borderColor: "black50",
+      borderRadius: "4px",
     },
   },
 }

@@ -7,7 +7,7 @@ import { ThemeUICSSProperties, ThemeUIStyleObject } from "@libs/css"
 
 interface ImageWrapper extends LazyLoadImageProps {
   brProps?: ThemeUICSSProperties["borderRadius"]
-  pb?: number
+  pb?: number | string[]
   boxSx?: ThemeUIStyleObject
 }
 
@@ -17,12 +17,15 @@ const ImageWrapper = ({
   boxSx,
   ...props
 }: ImageWrapper) => {
+  const wrapperstyles = {
+    paddingBottom: typeof pb === "number" ? `${pb}%` : pb,
+  }
   return (
     <Box
       sx={{
         position: "relative",
         width: "100%",
-        paddingBottom: `${pb}%`,
+        ...wrapperstyles,
       }}
     >
       <Box
