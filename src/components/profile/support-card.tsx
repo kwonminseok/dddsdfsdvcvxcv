@@ -11,12 +11,7 @@ interface SupportCardProps {
 }
 const defualt =
   "https://public.nftstatic.com/static/nft/webp/nft-extdata-loader/S3/1687117348836_qisaf0n3f5cs35v6e73o0x7kmkxh7rm7_400x400.webp"
-const SupportCard = ({
-  href = "/",
-  imgSrc = defualt,
-  maker,
-  name,
-}: SupportCardProps) => {
+const SupportCard = ({ href = "/", imgSrc = defualt, maker, name }: SupportCardProps) => {
   return (
     <Box sx={{ margin: ["12px", "4px 0px 10px 4px"] }}>
       <Link href={href} passHref legacyBehavior>
@@ -35,12 +30,12 @@ const SupportCard = ({
             minHeight: "120px",
           }}
         >
-          <Box sx={{ padding: 1 }}>
+          <Box sx={{}}>
             <CardImageWrapper src={imgSrc} />
             <Box
               sx={{
                 pr: 4,
-                pb: 4,
+                pb: 1,
                 color: "t.primary",
                 paddingLeft: 4,
               }}
@@ -78,9 +73,7 @@ const SupportCard = ({
                   pt: 8,
                 }}
               >
-                <Flex sx={{ flex: 1, lineHeight: "20px", fontSize: 0 }}>
-                  Aug 24 2021
-                </Flex>
+                <Flex sx={{ flex: 1, lineHeight: "20px", fontSize: 0 }}>Aug 24 2021</Flex>
                 <Flex
                   sx={{
                     flex: 1,

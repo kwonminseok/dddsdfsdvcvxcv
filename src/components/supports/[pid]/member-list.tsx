@@ -1,8 +1,13 @@
-import { Box, Flex } from "@components/commons"
+import { Box, Flex, Skeleton } from "@components/commons"
 import MemberCard from "@components/supports/member-card"
 import useWindowSize from "@libs/hooks/use-window-size"
 import { Users } from "lucide-react"
-const MemberList = () => {
+
+interface MemberListProps {
+  totalMinted: number
+}
+const MemberList = ({ totalMinted }: MemberListProps) => {
+  console.log(totalMinted)
   const sizetype = useWindowSize()
   const iconSize = (sizetype as number) > 0 ? 24 : 18
   return (
@@ -22,9 +27,15 @@ const MemberList = () => {
             서포터 리스트
           </Box>
         </Flex>
-        <Box>총 78명</Box>
+        {totalMinted !== undefined ? (
+          <Box>총 {totalMinted}명</Box>
+        ) : (
+          <Skeleton height={"23px"} sx={{ width: "76px" }} radius="4px" />
+        )}
       </Flex>
-      <Flex sx={{ my: 2 }}>
+      <Flex sx={{ my: 2, flexDirection: "column" }}>
+        <MemberCard sizeType={sizetype as number} />
+        <MemberCard sizeType={sizetype as number} />
         <MemberCard sizeType={sizetype as number} />
       </Flex>
     </Box>

@@ -9,6 +9,10 @@ import { SVG } from "./Svg"
 import { Text } from "./Text/text"
 import { Textarea } from "./Textarea/textarea"
 import { TextField } from "./TextField/textfield"
+import { Checkbox } from "./CheckBox/checkbox"
+import Portal from "./Portal/portal"
+import Modal from "./Modal/modal"
+import { Label } from "./Label/label"
 export {
   Box,
   Flex,
@@ -21,4 +25,8 @@ export {
   Text,
   Textarea,
   TextField,
+  Checkbox,
+  Portal,
+  Modal,
+  Label,
 }

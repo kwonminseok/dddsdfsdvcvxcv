@@ -1,8 +1,5 @@
 import { Box } from "./commons"
-import {
-  LazyLoadImage,
-  LazyLoadImageProps,
-} from "react-lazy-load-image-component"
+import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component"
 import { ThemeUICSSProperties, ThemeUIStyleObject } from "@libs/css"
 
 interface ImageWrapper extends LazyLoadImageProps {
@@ -11,12 +8,7 @@ interface ImageWrapper extends LazyLoadImageProps {
   boxSx?: ThemeUIStyleObject
 }
 
-const ImageWrapper = ({
-  brProps = "0px",
-  pb = 100,
-  boxSx,
-  ...props
-}: ImageWrapper) => {
+const ImageWrapper = ({ brProps = "0px", pb = 100, boxSx, src, ...props }: ImageWrapper) => {
   const wrapperstyles = {
     paddingBottom: typeof pb === "number" ? `${pb}%` : pb,
   }
@@ -45,7 +37,11 @@ const ImageWrapper = ({
           }}
           sx={boxSx}
         >
-          <LazyLoadImage {...props} />
+          {src ? (
+            <LazyLoadImage src={src} {...props} />
+          ) : (
+            <Box sx={{ bg: "black10", width: "100%", height: "100%" }}> </Box>
+          )}
         </Box>
       </Box>
     </Box>

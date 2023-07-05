@@ -9,22 +9,14 @@ interface ContentsProps {
   moreSize?: ThemeUICSSProperties["fontSize"]
 }
 
-const MoreContents = ({
-  contents = "",
-  line,
-  boxSx,
-  moreSize = [0, 1],
-}: ContentsProps) => {
+const MoreContents = ({ contents = "", line, boxSx, moreSize = [0, 1] }: ContentsProps) => {
   const contentRef = useRef<HTMLDivElement>(null)
   const [isTextOverflow, setIsTextOverflow] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  console.log(isTextOverflow)
   useEffect(() => {
     if (contentRef.current) {
       const handleResize = () => {
         const contentContainer = contentRef.current!
-        console.log(contentContainer.scrollHeight)
-        console.log(contentContainer.clientHeight)
         if (contentContainer.scrollHeight > contentContainer.clientHeight + 1) {
           setIsTextOverflow(true)
         } else {
@@ -74,18 +66,12 @@ const MoreContents = ({
       </Box>
       {!isOpen ? (
         isTextOverflow && (
-          <Box
-            onClick={() => setIsOpen(true)}
-            sx={{ color: "black50", fontSize: moreSize, cursor: "pointer" }}
-          >
+          <Box onClick={() => setIsOpen(true)} sx={{ color: "black50", fontSize: moreSize, cursor: "pointer" }}>
             더 보기
           </Box>
         )
       ) : (
-        <Box
-          onClick={() => setIsOpen(false)}
-          sx={{ color: "black50", fontSize: moreSize, cursor: "pointer" }}
-        >
+        <Box onClick={() => setIsOpen(false)} sx={{ color: "black50", fontSize: moreSize, cursor: "pointer" }}>
           접기
         </Box>
       )}

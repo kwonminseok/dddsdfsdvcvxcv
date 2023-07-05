@@ -2,22 +2,34 @@ import Link from "next/link"
 import { Box, Flex, Avatar } from "@components/commons"
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import { Award } from "lucide-react"
+import { forwardRef } from "react"
 
-const MakerCard = () => {
+interface MakerProps {
+  _id: string
+  banner: string //배너 이미지
+  profileImage: string
+  name: string
+  description: string
+  totalSupports: number
+
+  category: string
+}
+
+const MakerCard = forwardRef(({ _id, banner, profileImage, name, description, totalSupports }: MakerProps, ref) => {
   return (
-    <Box sx={{ width: "100%", bg: "", mb: 3 }}>
-      <Link href="/makers/1" passHref legacyBehavior>
+    <Box ref={ref} sx={{ width: "100%", bg: "", mb: 3 }}>
+      <Link href={`/makers/${_id}`} passHref legacyBehavior>
         <Box as="a" sx={{}}>
           <Box
             sx={{
-              borderRadius: "12px",
+              borderRadius: "24px",
               boxShadow: "shadow3",
               cursor: "pointer",
               overflow: "hidden",
               transition: "all 0.3s ease 0s",
               ":hover": {
-                boxShadow: "rgba(0, 0, 0, 0.7) 2px 2px 12px;",
-                transform: "translateY(-4px)",
+                boxShadow: "rgba(0, 0, 0, 0.5) 2px 2px 8px;",
+                transform: "translateY(-2px)",
               },
             }}
           >
@@ -32,7 +44,7 @@ const MakerCard = () => {
                 }}
               >
                 <LazyLoadImage
-                  src="https://public.nftstatic.com/static/nft/webp/a477bcb26a134af0a2a50266f0270f8e_600x600.webp"
+                  src={banner}
                   wrapperClassName="lazy-load-image-wrapper"
                   effect="blur"
                   wrapperProps={{
@@ -69,13 +81,10 @@ const MakerCard = () => {
                   }}
                 >
                   <Avatar
-                    src={
-                      "https://public.nftstatic.com/static/nft/webp/nft-extdata-loader/S3/1687117348836_qisaf0n3f5cs35v6e73o0x7kmkxh7rm7_400x400.webp"
-                    }
+                    src={profileImage}
                     size={[60, 64]}
                     style={{
-                      boxShadow:
-                        "2px 2px 5px 0 rgba(0, 0, 0, 0.4), 2px 2px 5px 0 rgba(0, 0, 0, 0.5)",
+                      boxShadow: "2px 2px 5px 0 rgba(0, 0, 0, 0.4), 2px 2px 5px 0 rgba(0, 0, 0, 0.5)",
                     }}
                   />
                 </Box>
@@ -85,7 +94,7 @@ const MakerCard = () => {
               sx={{
                 mt: 5,
                 px: 6,
-                pb: 2,
+                pb: 3,
                 flexDirection: "column",
                 // justifyContent: "space-between",
               }}
@@ -96,9 +105,10 @@ const MakerCard = () => {
                     fontSize: ["20px"],
                     fontWeight: "bold",
                     lineHeight: ["24px"],
+                    pb: 1,
                   }}
                 >
-                  NIKE NRC
+                  {name}
                 </Box>
                 <Box
                   __css={{
@@ -113,14 +123,13 @@ const MakerCard = () => {
                     lineHeight: "16px",
                   }}
                 >
-                  러닝의 새로운 기술, 퍼포먼스를 위한 최상의 스타일을
-                  확인해보시라구요오오오오오오옹
+                  {description}
                 </Box>
               </Box>
               <Flex sx={{ justifyContent: "flex-end", pt: 4 }}>
                 <Flex sx={{ alignItems: "center" }}>
                   <Award size={16} />
-                  <Box sx={{ fontSize: "14px", pl: 1 }}>127</Box>
+                  <Box sx={{ fontSize: "16px", pl: 1, fontWeight: "medium" }}>{totalSupports}</Box>
                 </Flex>
               </Flex>
             </Flex>
@@ -129,6 +138,6 @@ const MakerCard = () => {
       </Link>
     </Box>
   )
-}
+})
 
 export default MakerCard

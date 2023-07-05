@@ -38,6 +38,8 @@ const SearchInput = React.memo(() => {
           variant: "line",
           sx: {
             display: "flex",
+            border: "1px solid",
+            borderColor: "black90",
             alignItems: "center",
             width: "100%",
             borderRadius: "20px",

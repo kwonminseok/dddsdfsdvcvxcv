@@ -17,7 +17,9 @@ export const DropOption = (props: OptionProps) => {
       as="li"
       role="option"
       sx={{ py: "2", px: "4", width: "auto" }}
-      {...props}
-    />
+      // {...props}
+    >
+      <Box {...props} sx={{ px: 2, py: 2, borderRadius: "6px", ":hover": { backgroundColor: "#123123" } }} />
+    </Box>
   )
 }

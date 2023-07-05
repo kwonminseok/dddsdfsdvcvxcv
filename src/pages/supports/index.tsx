@@ -1,14 +1,36 @@
 import Head from "next/head"
 import { Inter } from "next/font/google"
-import styles from "@styles/Home.module.css"
 import { useState } from "react"
 import { Box, Flex, Selector } from "@components/commons"
 import { SkeletonSupportCard, SupportCard } from "@components/supports"
+import axios from "axios"
+import { useInfiniteQuery } from "@tanstack/react-query"
+import { useInView } from "react-intersection-observer"
 
-const inter = Inter({ subsets: ["latin"] })
 export default function Supports() {
+  const [ref, isView] = useInView()
   const [order, setOrder] = useState<string>("lastest")
-
+  const fetchSupport = async ({ pageParam = 1 }) => {
+    const res = await axios.get(`/api/supports/list?page=${pageParam}`)
+    const result = res.data
+    return {
+      result: result,
+      nextPage: pageParam + 1,
+      isLast: result.data.length < 10,
+    }
+  }
+  const { data, error, fetchNextPage, hasNextPage, isSuccess, isFetching, isFetchingNextPage, status } =
+    useInfiniteQuery({
+      queryKey: ["getSupports"],
+      queryFn: fetchSupport,
+      getNextPageParam: (lastPage, pages) => {
+        if (!lastPage.isLast) return lastPage.nextPage
+        return undefined
+      },
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: true,
+      retry: 1,
+    })
   const onChangeOrder = (newOrder: string) => {
     if (newOrder !== order) {
       setOrder(newOrder)
@@ -33,9 +55,7 @@ export default function Supports() {
           py: 8,
         }}
       >
-        <Flex
-          sx={{ flexDirection: "column", alignItems: "center", pb: [6, 12] }}
-        >
+        <Flex sx={{ flexDirection: "column", alignItems: "center", pb: [6, 12] }}>
           <Box
             sx={{
               fontSize: ["32px", "72px"],
@@ -46,9 +66,7 @@ export default function Supports() {
           >
             Love & Action
           </Box>
-          <Box sx={{ fontSize: ["14px", "16px"] }}>
-            당신의 사랑을 표현하고 행동해 보세요
-          </Box>
+          <Box sx={{ fontSize: ["14px", "16px"] }}>당신의 사랑을 표현하고 행동해 보세요</Box>
         </Flex>
         <Box
           __css={{
@@ -81,7 +99,7 @@ export default function Supports() {
           sx={{
             maxWidth: "1260px",
             width: "100%",
-            margin: "auto",
+            mx: "auto",
             px: ["12px", "30px"],
           }}
         >
@@ -103,40 +121,36 @@ export default function Supports() {
                 pt: 3,
               }}
             >
-              <SupportCard
-                category="임영웅"
-                maker={"임영웅 영웅시대"}
-                name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
-                supports={12}
-              />
-              <SupportCard
-                category="임영웅"
-                maker={"임영웅 영웅시대"}
-                name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
-                supports={12}
-              />{" "}
-              <SupportCard
-                category="임영웅"
-                maker={"임영웅 영웅시대"}
-                name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
-                supports={12}
-              />{" "}
-              <SupportCard
-                category="임영웅"
-                maker={"임영웅 영웅시대"}
-                name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
-                supports={12}
-              />{" "}
-              <SupportCard
-                category="임영웅"
-                maker={"임영웅 영웅시대"}
-                name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
-                supports={12}
-              />
-              <SkeletonSupportCard />
-              <SkeletonSupportCard />
-              <SkeletonSupportCard />
-              <SkeletonSupportCard />
+              {isSuccess && data.pages
+                ? data.pages.map((datas, page_num) => {
+                    const supports = datas.result.data
+                    return supports.map((support: any, idx: number) => {
+                      if (page_num == data.pages.length - 1 && supports.length - 1 == idx) {
+                        return <SupportCard ref={ref} key={support._id} {...support} />
+                      } else {
+                        return <SupportCard key={support._id} {...support} />
+                      }
+                    })
+                  })
+                : null}
+
+              {isFetching && (
+                <>
+                  {" "}
+                  <SkeletonSupportCard />
+                  <SkeletonSupportCard />
+                  <SkeletonSupportCard />
+                  <SkeletonSupportCard />
+                  <SkeletonSupportCard />
+                  <SkeletonSupportCard />
+                  <SkeletonSupportCard />
+                  <SkeletonSupportCard />
+                </>
+              )}
+              {/* <SupportCard category="임영웅" maker={"임영웅 영웅시대"} name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"} supports={12} />
+              <SupportCard category="임영웅" maker={"임영웅 영웅시대"} name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"} supports={12} /> <SupportCard category="임영웅" maker={"임영웅 영웅시대"} name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"} supports={12} />{" "}
+              <SupportCard category="임영웅" maker={"임영웅 영웅시대"} name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"} supports={12} /> <SupportCard category="임영웅" maker={"임영웅 영웅시대"} name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"} supports={12} />
+              <SkeletonSupportCard /> */}
             </Box>
           </Box>
         </Box>

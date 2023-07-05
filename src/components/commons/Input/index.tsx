@@ -23,18 +23,20 @@ const defaultInputStyles: ThemeUIStyleObject = {
   appearance: "none",
   fontSize: "inherit",
   lineHeight: "inherit",
-  border: "1px solid",
-  borderRadius: 4,
+  border: "none",
   color: "inherit",
   bg: "transparent",
   outline: "none",
+  ":disabled": {
+    opacity: 0.4,
+    cursor: "not-allowed",
+  },
   //   ":autofill, :autofill:hover, :autofill:focus": autofillStyles,
   //   ":-webkit-autofill, :-webkit-autofill:hover, :-webkit-autofill:focus":
   //     autofillStyles,
 }
 
-export interface InputProps
-  extends Assign<React.ComponentPropsWithRef<"input">, BoxOwnProps> {
+export interface InputProps extends Assign<React.ComponentPropsWithRef<"input">, BoxOwnProps> {
   autofillBackgroundColor?: string
 }
 
@@ -43,24 +45,25 @@ export interface InputProps
  * and the component uses the `theme.forms.input` variant by default.
  * @see https://theme-ui.com/components/input/
  */
-export const Input: ForwardRef<HTMLInputElement, InputProps> = React.forwardRef(
-  function Input({ sx, autofillBackgroundColor = "background", ...rest }, ref) {
-    return (
-      <Box
-        ref={ref}
-        as="input"
-        variant="input"
-        sx={{
-          //   "--theme-ui-input-autofill-bg": theme =>
-          //     theme.colors && get(theme.colors, autofillBackgroundColor, null),
-          ...sx,
-        }}
-        {...rest}
-        {...__internalProps({
-          __themeKey: "forms",
-          __css: defaultInputStyles,
-        })}
-      />
-    )
-  },
-)
+export const Input: ForwardRef<HTMLInputElement, InputProps> = React.forwardRef(function Input(
+  { sx, autofillBackgroundColor = "background", ...rest },
+  ref,
+) {
+  return (
+    <Box
+      ref={ref}
+      as="input"
+      variant="input"
+      sx={{
+        //   "--theme-ui-input-autofill-bg": theme =>
+        //     theme.colors && get(theme.colors, autofillBackgroundColor, null),
+        ...sx,
+      }}
+      {...rest}
+      {...__internalProps({
+        __themeKey: "forms",
+        __css: defaultInputStyles,
+      })}
+    />
+  )
+})

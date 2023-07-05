@@ -1,8 +1,23 @@
-import { Avatar, Box, Button, Flex } from "@components/commons"
+import { Avatar, Box, Button, Flex, Skeleton } from "@components/commons"
 import MoreContents from "@components/more-contents"
 import { LuInfo } from "react-icons/lu"
 import { Share2, MoreVertical } from "lucide-react"
-const SupportInfo = () => {
+
+interface TMaker {
+  _id: string
+  name: string
+  profileImage: string
+}
+
+interface SupportInfo {
+  maker: TMaker
+  title: string
+  useMintPeriod: boolean
+  startMintDate: number
+  endMintDate?: number | undefined
+}
+
+const SupportInfo = ({ maker, title, useMintPeriod, startMintDate, endMintDate }: SupportInfo) => {
   return (
     <Flex
       sx={{
@@ -13,18 +28,15 @@ const SupportInfo = () => {
       }}
     >
       <Box>
-        <Flex
-          sx={{ alignItems: "center", justifyContent: "space-between", mb: 2 }}
-        >
+        <Flex sx={{ alignItems: "center", justifyContent: "space-between", mb: 2 }}>
+          {/* maker */}
           <Flex sx={{ alignItems: "center" }}>
-            <Avatar
-              src={
-                "https://public.nftstatic.com/static/nft/webp/nft-extdata-loader/S3/1687117348836_qisaf0n3f5cs35v6e73o0x7kmkxh7rm7_400x400.webp"
-              }
-              boxSx={{ mr: [2, 4] }}
-              border="1px solid "
-              size={[32, 40]}
-            />
+            {maker ? (
+              <Avatar src={maker.profileImage} boxSx={{ mr: [2, 4] }} border="1px solid " size={[32, 40]} />
+            ) : (
+              <Skeleton height={["32px", "40px"]} sx={{ width: ["32px", "40px"], mr: [2, 4] }} radius="50%" />
+            )}
+
             <Box
               sx={{
                 lineHeight: "28px",
@@ -32,9 +44,10 @@ const SupportInfo = () => {
                 fontWeight: "medium",
               }}
             >
-              LPGA
+              {maker ? <>{maker.name}</> : <Skeleton height={"16px"} sx={{ minWidth: "80px" }} radius="4px" />}
             </Box>
           </Flex>
+
           <Flex sx={{ alignItems: "center" }}>
             <Button sx={{ bg: "transparent", border: "none" }}>
               <Share2 size={20} />
@@ -44,9 +57,15 @@ const SupportInfo = () => {
             </Button>
           </Flex>
         </Flex>
-        <Box sx={{ fontSize: [3, 7], fontWeight: "bold", mb: 4 }}>
-          소백산 등정 뱃지
-        </Box>
+        {/* <Box sx={{ fontSize: [3, 7], fontWeight: "bold", mb: 4 }}> */}
+        {/* <Skeleton height={"40px"} sx={{ width: "80%", mb: 4 }} radius="4px" /> */}
+
+        {title ? (
+          <Box sx={{ fontSize: [3, 7], fontWeight: "bold", mb: 4 }}>{title}</Box>
+        ) : (
+          <Skeleton height={"40px"} sx={{ width: "80%", mb: 4 }} radius="4px" />
+        )}
+        {/* </Box> */}
         <Flex sx={{ mb: 4 }}>
           <Box
             sx={{
@@ -56,7 +75,11 @@ const SupportInfo = () => {
               mr: 4,
             }}
           >
-            발급 기한
+            {useMintPeriod !== undefined ? (
+              <>발급 기한</>
+            ) : (
+              <Skeleton height={"16px"} sx={{ minWidth: "63px", my: 1 }} radius="4px" />
+            )}
           </Box>
           <Box
             sx={{
@@ -93,18 +116,27 @@ const SupportInfo = () => {
           bg: ["#fff", "inherit"],
         }}
       >
-        <Button
-          sx={{
-            width: ["100%", "50%"],
-            minWidth: "120px",
-            minHeight: "48px",
-            backgroundColor: "main50",
-            color: "#fff",
-            boxShadow: ["none", "floody3"],
-          }}
-        >
-          뱃지 받기
-        </Button>
+        {useMintPeriod !== undefined ? (
+          <Button
+            sx={{
+              width: ["100%", "50%"],
+              minWidth: "120px",
+              minHeight: "48px",
+              backgroundColor: "main50",
+              color: "black05",
+              boxShadow: ["none", "floody3"],
+            }}
+          >
+            뱃지 받기
+          </Button>
+        ) : (
+          <Skeleton
+            height={"48px"}
+            sx={{ minWidth: "120px", width: ["100%", "50%"], minHeight: "48px" }}
+            radius="4px"
+          />
+        )}
+
         <Box
           sx={{
             display: ["none", "flex"],
@@ -112,12 +144,11 @@ const SupportInfo = () => {
             padding: "18px 24px",
             borderRadius: "8px",
             mt: 6,
+            alignItems: "center",
           }}
         >
           <LuInfo size={18} />
-          <Box sx={{ lineHeight: "20px", ml: 2 }}>
-            발급 코드를 모를 경우 운영자에게 문의해주세요
-          </Box>
+          <Box sx={{ lineHeight: "18px", ml: 2, fontSize: 1 }}>발급 코드를 모를 경우 운영자에게 문의해주세요</Box>
         </Box>
       </Flex>
     </Flex>

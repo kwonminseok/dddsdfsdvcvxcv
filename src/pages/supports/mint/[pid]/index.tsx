@@ -20,16 +20,11 @@ const test_list = [
 export default function Support() {
   const sizeType = useWindowSize()
   return (
-    <Flex
-      as="main"
-      direction="column"
-      align="center"
-      __css={{ minHeight: "100vh" }}
-    >
+    <Flex as="main" direction="column" align="center" __css={{ minHeight: "100vh" }}>
       <Box sx={{ pb: "64px", width: "100%" }}>
         <Box sx={{ width: "100%", maxWidth: "1260px", px: "30px", mx: "auto" }}>
           {/* 인증서 */}
-          <Box mt={8}>
+          <Box my={10}>
             <Certificate />
           </Box>
           <Flex
@@ -57,7 +52,7 @@ export default function Support() {
               __css={{
                 flexDirection: "column",
                 flex: 1,
-                ml: [0, 3],
+                ml: [0, 10],
                 // order: [0, 1, 1],
               }}
             >

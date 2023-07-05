@@ -14,6 +14,7 @@ const palette = {
   black20: "#cccccc",
   black10: "#e6e6e6",
   black05: "#f2f2f2",
+  line: "#EAECEF",
 }
 
 export const theme: Theme = {
@@ -110,12 +111,10 @@ export const theme: Theme = {
     floody2: "3px 3px 4px 0 rgba(0, 0, 0, 0.4)",
     floody3: "4px 4px 6px 0 rgba(0, 0, 0, 0.4)",
     shadow3: "2px 3px 5px 0 rgba(0, 0, 0, 0.4)",
-    selectedTab: "inset 0px -2px 0px #191919",
-    calendar:
-      " 0px 3px 6px rgba(20,21,26,0.08), 0px 7px 14px rgba(71,77,87,0.08), 0px 0px 1px rgba(20,21,26,0.1)",
+    selectedTab: "inset 0px -4px 0px #191919",
+    calendar: " 0px 3px 6px rgba(20,21,26,0.08), 0px 7px 14px rgba(71,77,87,0.08), 0px 0px 1px rgba(20,21,26,0.1)",
     card: " 0px 1px 2px rgba(20,21,26,0.04), 0px 3px 6px rgba(71,77,87,0.04), 0px 0px 1px rgba(20,21,26,0.1)",
-    dialog:
-      "0px 8px 16px rgba(20,21,26,0.16), 0px 16px 32px rgba(71,77,87,0.16), 0px 0px 1px rgba(20,21,26,0.1)",
+    dialog: "0px 8px 16px rgba(20,21,26,0.16), 0px 16px 32px rgba(71,77,87,0.16), 0px 0px 1px rgba(20,21,26,0.1)",
     dropdown: "0px 8px 16px rgba(24, 26, 32, 0.16)",
     elevation1:
       "0px 0px 1px rgba(24, 26, 32, 0.1), 0px 3px 6px rgba(71, 77, 87, 0.04), 0px 1px 2px rgba(24, 26, 32, 0.04)",
@@ -123,15 +122,12 @@ export const theme: Theme = {
       "0px 0px 1px rgba(24, 26, 32, 0.1), 0px 7px 14px rgba(71, 77, 87, 0.08), 0px 3px 6px rgba(24, 26, 32, 0.08)",
     elevation3:
       "0px 0px 1px rgba(24, 26, 32, 0.1), 0px 16px 32px rgba(71, 77, 87, 0.16), 0px 8px 16px rgba(24, 26, 32, 0.16)",
-    tooltip:
-      " 0px 3px 6px rgba(20,21,26,0.08), 0px 7px 14px rgba(71,77,87,0.08), 0px 0px 1px rgba(20,21,26,0.1)",
-    scard:
-      "rgba(24, 26, 32, 0.1) 0px 0px 1px, rgba(71, 77, 87, 0.04) 0px 3px 6px, rgba(24, 26, 32, 0.04) 0px 1px 2px",
+    tooltip: " 0px 3px 6px rgba(20,21,26,0.08), 0px 7px 14px rgba(71,77,87,0.08), 0px 0px 1px rgba(20,21,26,0.1)",
+    scard: "rgba(24, 26, 32, 0.1) 0px 0px 1px, rgba(71, 77, 87, 0.04) 0px 3px 6px, rgba(24, 26, 32, 0.04) 0px 1px 2px",
     scardhover:
       "rgba(24, 26, 32, 0.1) 0px 0px 1px, rgba(71, 77, 87, 0.08) 0px 7px 14px, rgba(24, 26, 32, 0.08) 0px 3px 6px",
     myscard: "3px 3px 10px 0 rgba(0, 0, 0, 0.5)",
-    makercardProfile:
-      "2px 2px 5px 0 rgba(0, 0, 0, 0.4), 2px 2px 5px 0 rgba(0, 0, 0, 0.5)",
+    makercardProfile: "2px 2px 5px 0 rgba(0, 0, 0, 0.4), 2px 2px 5px 0 rgba(0, 0, 0, 0.5)",
   },
   zIndices: {
     alert: 1350,
@@ -171,13 +167,50 @@ export const theme: Theme = {
       boxShadow: "inset 0px -1px 0px currentColor",
       color: "black30",
     },
+    standard: {
+      tabs: {
+        alignItems: "center",
+        justifyContent: "",
+        borderBottom: "1px solid",
+        borderColor: "black30",
+      },
+      tab: {
+        userSelect: "none",
+        lineHeight: "20px",
+        fontWeight: "medium",
+        py: 3,
+        px: 6,
+        color: "black50",
+        textAlign: "center",
+        fontSize: ["16px", "18px"],
+        "&.active": {
+          color: "black90",
+          boxShadow: "selectedTab",
+          fontWeight: "bold",
+        },
+      },
+    },
   },
   textField: {
     line: {
       bg: "transparent",
       border: "1px solid transparent",
-      borderColor: "black50",
+      borderColor: "#dfe1e5",
       borderRadius: "4px",
+      "& input": {
+        // fontSize: [0, 1],
+        px: 3,
+        // color: 'text-primary',
+        // '&:-webkit-autofill' : {
+
+        // }
+      },
+      "&.input-status-disabled": {
+        "> input": {
+          // color: 'text-disabled',
+        },
+        bg: "line",
+      },
     },
   },
 }

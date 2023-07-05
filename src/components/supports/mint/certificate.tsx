@@ -18,11 +18,7 @@ interface CertificateProps {
 const defaultImg =
   "https://public.nftstatic.com/static/nft/webp/nft-extdata-loader/S3/1687117348836_qisaf0n3f5cs35v6e73o0x7kmkxh7rm7_400x400.webp"
 
-const Certificate = ({
-  imgSrc = defaultImg,
-  makerimgSrc = defaultImg,
-  ownerimgSrc = defaultImg,
-}: CertificateProps) => {
+const Certificate = ({ imgSrc = defaultImg, makerimgSrc = defaultImg, ownerimgSrc = defaultImg }: CertificateProps) => {
   return (
     <Box sx={{ mx: 1, mb: 2 }}>
       <Flex
@@ -30,11 +26,11 @@ const Certificate = ({
           position: "relative",
           maxHeight: ["100%", "600px"],
           borderRadius: "12px",
-          boxShadow: "shadow3",
+          boxShadow: "2px 3px 15px 0 rgba(0, 0, 0, 0.4)",
           flexDirection: ["column", "row"],
           alignItems: ["center", "inherit"],
-          px: [4, 6],
-          py: [4, 6],
+          px: [4, 10],
+          py: [4, 10],
         }}
       >
         <Box
@@ -83,12 +79,7 @@ const Certificate = ({
               }}
             >
               <Flex sx={{ alignItems: "center" }}>
-                <Avatar
-                  src={makerimgSrc}
-                  boxSx={{ mr: [2, 2] }}
-                  border="1px solid "
-                  size={[32, 32]}
-                />
+                <Avatar src={makerimgSrc} boxSx={{ mr: [2, 2] }} border="1px solid " size={[32, 32]} />
                 <Box
                   sx={{
                     lineHeight: "28px",
@@ -100,9 +91,7 @@ const Certificate = ({
                 </Box>
               </Flex>
             </Flex>
-            <Box
-              sx={{ fontSize: [3, 7], fontWeight: "bold", mb: 4, mt: [3, 1] }}
-            >
+            <Box sx={{ fontSize: [3, 7], fontWeight: "bold", mb: 4, mt: [3, 1] }}>
               동아마라톤 하프코스 완주 뱃지 동아마라톤 하프코스 완주 뱃지
             </Box>
             <Box sx={{ mt: 6, mb: 4 }}>
@@ -118,11 +107,7 @@ const Certificate = ({
                   Owner
                 </Box>
                 <Flex>
-                  <Avatar
-                    src={ownerimgSrc}
-                    boxSx={{ mr: [2, 2] }}
-                    size={[48, 48]}
-                  />
+                  <Avatar src={ownerimgSrc} boxSx={{ mr: [2, 2] }} size={[48, 48]} />
                   <Box>
                     <Box
                       sx={{
@@ -156,13 +141,11 @@ const Certificate = ({
                   sx={{
                     alignItems: "center",
                     justifyContent: "space-between",
-                    mb: 2,
+                    mb: 3,
                     fontSize: [0, 1],
                   }}
                 >
-                  <Box sx={{ color: "black70", fontWeight: "normal" }}>
-                    {item.title}
-                  </Box>
+                  <Box sx={{ color: "black70", fontWeight: "normal" }}>{item.title}</Box>
                   <Box
                     sx={{
                       fontSize: [0, 1],
@@ -178,7 +161,7 @@ const Certificate = ({
             </Box>
           </Box>
           <Flex sx={{ justifyContent: "flex-end" }}>
-            <LogoSmall width={"129px"} />
+            <LogoSmall width={"178px"} />
           </Flex>
         </Flex>
       </Flex>

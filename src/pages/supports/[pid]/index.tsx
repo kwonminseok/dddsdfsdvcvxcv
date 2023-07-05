@@ -1,16 +1,29 @@
 import Head from "next/head"
-import { Box, Flex } from "@components/commons"
+import { Box, Flex, Skeleton } from "@components/commons"
 import Wrapper from "@components/supports/[pid]/Wrapper"
 import ImageWrapper from "@components/imageWrapper"
-import SupportStory from "./component/support-story"
-import DetailInfo from "./component/detail-info"
-import MakerInfo from "./component/maker-info"
-import BlockInfo from "./component/block-info"
+import { SupportStory, DetailInfo, MakerInfo, SupportInfo, MemberList } from "@components/supports/[pid]"
+import BlockInfo from "../../../components/supports/[pid]/block-info"
 import useWindowSize from "@libs/hooks/use-window-size"
-import SupportInfo from "./component/support-info"
-import MemberList from "./component/member-list"
-export default function Support() {
+
+import { useQuery, useMutation } from "@tanstack/react-query"
+import axios from "axios"
+import { useEffect } from "react"
+import { GetServerSideProps } from "next"
+export default function Support({ pid }: any) {
   const sizeType = useWindowSize()
+  const fetchSupport = async () => {
+    if (pid) {
+      const res = await axios.get(`/api/supports/info/${pid}`)
+      const result = res.data
+
+      return result
+      //
+    }
+  }
+
+  const { data, isLoading, error } = useQuery({ queryKey: ["support", pid], queryFn: fetchSupport })
+
   return (
     <>
       <Head>
@@ -21,31 +34,38 @@ export default function Support() {
       <Wrapper>
         <Flex sx={{ flexWrap: "wrap", justifyContent: "space-between" }}>
           <Box sx={{ width: ["100%", "324px", "467px"] }}>
-            <ImageWrapper
-              brProps="8px"
-              src={
-                "https://public.nftstatic.com/static/nft/webp/nft-extdata-loader/S3/1687117348836_qisaf0n3f5cs35v6e73o0x7kmkxh7rm7_400x400.webp"
-              }
-              wrapperClassName="lazy-load-image-wrapper"
-              effect="blur"
-              wrapperProps={{
-                style: {
-                  display: "flex",
-                  width: "100%",
-                  height: "100%",
+            {data?.mainImage ? (
+              <ImageWrapper
+                brProps="8px"
+                src={data.mainImage}
+                wrapperClassName="lazy-load-image-wrapper"
+                effect="blur"
+                wrapperProps={{
+                  style: {
+                    display: "flex",
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: "8px",
+                    border: "0px solid",
+                  },
+                }}
+                style={{
                   borderRadius: "8px",
-                  border: "0px solid",
-                },
-              }}
-              style={{
-                borderRadius: "8px",
-                objectFit: "contain",
-              }}
-            />
+                  objectFit: "contain",
+                }}
+              />
+            ) : (
+              <Skeleton sx={{ width: "100%", pb: "100%" }} />
+            )}
+
             {(sizeType as number) > 0 && (
               <Box sx={{ pt: 6 }}>
-                <SupportStory sizeType={sizeType as number} />
-                <DetailInfo sizeType={sizeType as number} />
+                <SupportStory
+                  sizeType={sizeType as number}
+                  description={data && data.description}
+                  subImages={data && data.subImages}
+                />
+                <DetailInfo sizeType={sizeType as number} attributes={data && data.attributes} />
                 <MakerInfo sizeType={sizeType as number} />
                 <BlockInfo sizeType={sizeType as number} />
               </Box>
@@ -61,20 +81,44 @@ export default function Support() {
               mt: [6, 0],
             }}
           >
-            <SupportInfo />
-            {(sizeType as number) > 0 && <MemberList />}
+            <SupportInfo
+              maker={data && data.maker}
+              title={data && data.title}
+              useMintPeriod={data && data.useMintPeriod}
+              startMintDate={data && data.startMintDate}
+              endMintDate={data && data.endMintDate}
+            />
+            {/* <SupportInfo 
+            /> */}
+            {(sizeType as number) > 0 && <MemberList totalMinted={data && data.totalMinted} />}
           </Flex>
         </Flex>
         {(sizeType as number) < 1 && (
           <Box sx={{ width: "auto" }}>
-            <SupportStory sizeType={sizeType as number} />
-            <DetailInfo sizeType={sizeType as number} />
+            <SupportStory
+              sizeType={sizeType as number}
+              description={data && data.description}
+              subImages={data && data.subImages}
+            />
+            <DetailInfo sizeType={sizeType as number} attributes={data && data.attributes} />
             <BlockInfo sizeType={sizeType as number} />
             <MakerInfo sizeType={sizeType as number} />
-            <MemberList />
+            <MemberList totalMinted={data && data.totalMinted} />
           </Box>
         )}
       </Wrapper>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async context => {
+  console.log("server side")
+
+  const { pid } = context.query
+  console.log(pid)
+  return {
+    props: {
+      pid,
+    },
+  }
 }

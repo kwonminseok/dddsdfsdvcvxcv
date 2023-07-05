@@ -2,6 +2,7 @@ import Head from "next/head"
 import { Box, Flex } from "@components/commons"
 import { SupportCard, SkeletonSupportCard } from "@components/profile"
 import UserInfo from "@components/profile/user-info"
+import { TabsContainer, Tab, TabList, Panel } from "@components/commons/Tabs/tab"
 export default function Profile() {
   return (
     <>
@@ -12,7 +13,7 @@ export default function Profile() {
       </Head>
       <Flex as="main" sx={{ flexDirection: "column", flex: 1 }}>
         <Box sx={{ pb: [0, "80px"] }}>
-          <Box sx={{ maxWidth: "1260px", mx: "auto", pb: ["24px", "77px"] }}>
+          <Box sx={{ maxWidth: "1260px", mx: "auto", pb: ["24px", "77px"], pt: ["72px"] }}>
             <UserInfo />
           </Box>
         </Box>
@@ -21,7 +22,7 @@ export default function Profile() {
           sx={{
             maxWidth: "1260px",
             width: "100%",
-            margin: "auto",
+            mx: "auto",
             px: ["12px", "30px"],
           }}
         >
@@ -29,110 +30,58 @@ export default function Profile() {
             <Box>테스트</Box>
           </Tabs> */}
           {/* Tabs */}
-
-          <Flex
-            __css={{
-              alignItems: "center",
-              justifyContent: "",
-              borderBottom: "1px solid",
-              borderColor: "black30",
-              mb: 7,
-            }}
-          >
-            <Box __css={{ position: "relative", width: "100%" }}>
-              <Flex
-                __css={{
-                  flexDirection: "row",
-                  overflow: "scroll",
-                  whiteSpace: "nowrap",
-                  width: "100%",
-                  gap: ["0", "24px"],
-                }}
-                sx={{ mt: 8 }}
-              >
-                {/* Tab */}
-                <Box
-                  __css={{ cursor: "pointer", minWidth: "auto", flex: [1, 0] }}
-                >
-                  <Box
-                    __css={{
-                      userSelect: "none",
-                      lineHeight: "20px",
-                      fontWeight: "medium",
-                      py: 3,
-                      px: 2,
-                      color: "black90",
-                      boxShadow: "selectedTab",
-                      textAlign: "center",
-                    }}
-                  >
-                    서포터 목록
-                  </Box>
-                </Box>
-                <Box
-                  __css={{ cursor: "pointer", minWidth: "auto", flex: [1, 0] }}
-                >
-                  <Box
-                    __css={{
-                      userSelect: "none",
-                      lineHeight: "20px",
-                      fontWeight: "medium",
-                      py: 3,
-                      px: 2,
-                      color: "black50",
-                      textAlign: "center",
-                    }}
-                  >
-                    활동내역
-                  </Box>
-                </Box>
-              </Flex>
-            </Box>
-          </Flex>
-          <Box
-            sx={{
-              width: "100%",
-              height: "100%",
-              position: "relative",
-              overflow: "hidden",
-            }}
-          >
+          <TabsContainer defaultActiveKey={"supports"}>
+            <TabList tabsSx={{ mb: 7 }} variant="standard">
+              <Tab tabKey="supports">서포트 목록</Tab>
+              <Tab tabKey="activity">활동내역</Tab>
+            </TabList>
             <Box
               sx={{
                 width: "100%",
-                display: ["flex", "grid"],
-                flexDirection: "column",
-                gap: ["8px", "24px"],
-                gridTemplateColumns: "repeat(4, calc(25% - 20px))",
+                height: "100%",
+                position: "relative",
+                overflow: "hidden",
               }}
             >
-              <SupportCard
-                href="/supports/mint/1"
-                maker={"현대해상화재보험"}
-                name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
-              />
-              <SupportCard
-                href="/supports/mint/1"
-                maker={"현대해상화재보험"}
-                name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
-              />
-              <SupportCard
-                maker={"현대해상화재보험"}
-                name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
-                href="/supports/mint/1"
-              />
-              <SupportCard
-                maker={"현대해상화재보험"}
-                name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
-                href="/supports/mint/1"
-              />
-              <SkeletonSupportCard />
-              <SkeletonSupportCard />
-              <SkeletonSupportCard />
-              <SkeletonSupportCard />
-              <SkeletonSupportCard />
+              <Panel tabKey="supports">
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: ["flex", "grid"],
+                    flexDirection: "column",
+                    gap: ["8px", "24px"],
+                    gridTemplateColumns: "repeat(4, calc(25% - 20px))",
+                  }}
+                >
+                  <SupportCard
+                    href="/supports/mint/1"
+                    maker={"현대해상화재보험"}
+                    name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
+                  />
+                  <SupportCard
+                    href="/supports/mint/1"
+                    maker={"현대해상화재보험"}
+                    name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
+                  />
+                  <SupportCard
+                    maker={"현대해상화재보험"}
+                    name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
+                    href="/supports/mint/1"
+                  />
+                  <SupportCard
+                    maker={"현대해상화재보험"}
+                    name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
+                    href="/supports/mint/1"
+                  />
+                  <SkeletonSupportCard />
+                  <SkeletonSupportCard />
+                  <SkeletonSupportCard />
+                  <SkeletonSupportCard />
+                  <SkeletonSupportCard />
+                </Box>
+              </Panel>
             </Box>
-          </Box>
+          </TabsContainer>
         </Box>
       </Flex>
     </>

@@ -1,21 +1,26 @@
 import Head from "next/head"
-import { Box, Flex, Avatar, Button } from "@components/commons"
+import { Box, Flex, Avatar, Button, Skeleton } from "@components/commons"
 import ImageWrapper from "@components/imageWrapper"
-import {
-  Instagram,
-  Twitter,
-  Chrome,
-  Plus,
-  Share2,
-  MoreVertical,
-} from "lucide-react"
+import { Instagram, Twitter, Chrome, Plus, Share2, MoreVertical } from "lucide-react"
 import MoreContents from "@components/more-contents"
-import WrapBox from "../component/wrap-box"
-import Tabs from "@components/commons/Tabs/tabs"
-import { SupportCard } from "@components/supports"
 import { SkeletonSupportCard } from "@components/supports"
-// import useWindowSize from "@libs/hooks/use-window-size"
-export default function Maker() {
+import { GetServerSideProps } from "next"
+import axios from "axios"
+import { useQuery } from "@tanstack/react-query"
+import { Tab, TabsContainer, TabList, Panel } from "@components/commons/Tabs/tab"
+export default function Maker({ pid }: any) {
+  const fetchMaker = async () => {
+    if (pid) {
+      const res = await axios.get(`/api/makers/info/${pid}`)
+      const result = res.data
+
+      return result
+      //
+    }
+  }
+  const { data, isLoading, error } = useQuery({ queryKey: ["maker", pid], queryFn: fetchMaker })
+
+  console.log(data)
   return (
     <>
       {/* <Head>
@@ -28,19 +33,21 @@ export default function Maker() {
           flexDirection: "column",
           minHeight: "100vh",
           alignItems: "center",
+          marginTop: "-64px",
         }}
       >
         <Box sx={{ pb: "64px", width: "100%" }}>
           <Box
             sx={{
               position: "relative",
-              maxHeight: "320px",
+              maxHeight: "434px",
               overflow: "hidden",
             }}
           >
             <ImageWrapper
-              pb={["40%", "25%"]}
-              src="https://i.seadn.io/gcs/files/cf29f66e5492c40bd190d6e858521e4f.jpg?auto=format&dpr=1&w=3840"
+              pb={["40%", "30%"]}
+              src={data && data.banner}
+              // src="https://i.seadn.io/gcs/files/cf29f66e5492c40bd190d6e858521e4f.jpg?auto=format&dpr=1&w=3840"
               wrapperClassName="lazy-load-image-wrapper"
               effect="blur"
               wrapperProps={{
@@ -57,7 +64,7 @@ export default function Maker() {
             />
           </Box>
           <Box sx={{ width: "100%", pl: 4, maxWidth: "1200px", mx: "auto" }}>
-            <Box sx={{ mt: "-80px", mb: 4 }}>
+            <Box sx={{ mt: "-80px", mb: 5 }}>
               <Box
                 sx={{
                   width: ["104px", "200px"],
@@ -71,7 +78,7 @@ export default function Maker() {
               >
                 <ImageWrapper
                   pb={100}
-                  src="https://i.seadn.io/gcs/files/d6d3ef940fb05d2b946157c663b5fb78.gif?auto=format&dpr=1&w=3840"
+                  src={data && data.profileImage}
                   wrapperClassName="lazy-load-image-wrapper"
                   effect="blur"
                   wrapperProps={{
@@ -98,7 +105,7 @@ export default function Maker() {
                   fontWeight: "bold",
                 }}
               >
-                영웅시대 HERO
+                {data ? <>{data.name}</> : <Skeleton sx={{ height: "40px", minWidth: "276px" }} radius="4px" />}
               </Box>
               <Flex sx={{ alignItems: "center", display: ["none", "block"] }}>
                 {/* <Flex sx={{ alignItems: "center", mr: 4 }}>
@@ -134,143 +141,52 @@ export default function Maker() {
                 </Button>
               </Flex>
             </Flex>
-            {/* <Flex sx={{ pt: 2 }}>
-              <Flex
-                sx={{
-                  bg: "#6c707b",
-                  px: 2,
-                  pb: "6px",
-                  pt: 1,
-                  borderRadius: "12px",
-                  color: "#fff",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: 1,
-                }}
-              >
-                <Box sx={{ lineHeight: "20px", pl: 1 }}>#</Box>
-                <Box sx={{ px: 1, lineHeight: "20px" }}>임영웅</Box>
-              </Flex>
-            </Flex> */}
-            <Flex sx={{ maxWidth: "720px" }}>
-              <MoreContents
-                contents={
-                  "신세계백화점의 대표 캐릭터 푸빌라의 친구들입니다. 붉은 털 여우 “깨또“, 귀여운 너구리 “후트“, 작고 날 쌘 다람쥐 “포코“입니다. 각기 다른 매력을 뽐내는 푸빌라의 유쾌한 친구들을 만나볼까요? 긍정적 분위기, 훌륭한 커뮤니티가 구축되고 있습니다. \n They are friends of Puuvilla, the representative character of Shinsegae Department Store. It’s a red-haired fox ‘kettu’, a cute raccoon “hut”, and a small sharp squirrel, “Poco”. Let’s meet the fun friends of Puuvilla a who show off their different charms A positive atmosphere, a great community is being built."
-                }
-                line={2}
-                boxSx={{
-                  fontSize: 1,
-                  lineHeight: "1.5",
-                  minHeight: "36px",
-                  color: "black70",
-                }}
-              />
-            </Flex>
-            {/* <Flex
-              sx={{
-                flexWrap: "wrap",
-                pt: 5,
-                gap: "40px",
-                flexDirection: "row",
-              }}
-            >
-              <WrapBox name={"members"} value={"12.7k"} />
-              <WrapBox name={"supports"} value={"83"} />
-              <WrapBox name={"badges"} value={"3.72k"} />
-              <WrapBox name={"owners"} value={"903"} />
-              <WrapBox name={"created"} value={"May 2023"} />
-            </Flex> */}
-            <Flex
-              __css={{
-                alignItems: "center",
-                justifyContent: "",
-                borderBottom: "1px solid",
-                borderColor: "black30",
-              }}
-            >
-              {/* Tabs */}
-              <Box __css={{ position: "relative", width: "100%" }}>
-                <Flex
-                  __css={{
-                    flexDirection: "row",
-                    overflow: "scroll",
-                    whiteSpace: "nowrap",
-                    width: "100%",
-                    gap: [0, "24px"],
+
+            <Flex sx={{ maxWidth: "776px" }}>
+              {data ? (
+                <MoreContents
+                  contents={data.description}
+                  line={3}
+                  boxSx={{
+                    fontSize: 1,
+                    lineHeight: "1.5",
+                    minHeight: "36px",
+                    color: "black70",
                   }}
-                  sx={{ mt: 8 }}
-                >
-                  {/* Tab */}
-                  <Box
-                    __css={{
-                      cursor: "pointer",
-                      minWidth: "auto",
-                      flex: [1, 0],
-                    }}
-                  >
-                    <Box
-                      __css={{
-                        userSelect: "none",
-                        lineHeight: "20px",
-                        fontWeight: "medium",
-                        py: 3,
-                        px: 2,
-                        color: "black90",
-                        boxShadow: "selectedTab",
-                        textAlign: "center",
-                      }}
-                    >
-                      서포트 목록
-                    </Box>
-                  </Box>
-                  <Box
-                    __css={{
-                      cursor: "pointer",
-                      minWidth: "auto",
-                      flex: [1, 0],
-                    }}
-                  >
-                    <Box
-                      __css={{
-                        userSelect: "none",
-                        lineHeight: "20px",
-                        fontWeight: "medium",
-                        py: 3,
-                        px: 2,
-                        color: "black50",
-                        textAlign: "center",
-                      }}
-                    >
-                      맴버 목록
-                    </Box>
-                  </Box>
-                </Flex>
-              </Box>
+                />
+              ) : (
+                <Box sx={{ pt: 4, width: "100%", gap: "14px", display: "flex", flexDirection: "column" }}>
+                  <Skeleton sx={{ height: "15px", width: "70%" }} />
+                  <Skeleton sx={{ height: "15px", width: "90%" }} />
+                </Box>
+              )}
             </Flex>
-            {/* <Tabs defaultActiveKey="hi" variant="container">
-              <Box>테스트</Box>
-            </Tabs> */}
-            {/* TabLists */}
-            <Box
-              sx={{
-                width: "100%",
-                height: "100%",
-                position: "relative",
-                overflow: "hidden",
-              }}
-            >
-              <Box
-                sx={{
-                  width: "100%",
-                  display: ["flex", "grid"],
-                  flexDirection: "column",
-                  gap: ["8px", "24px"],
-                  gridTemplateColumns: "repeat(4, calc(25% - 18px))",
-                  pt: 3,
-                }}
-              >
-                <SupportCard
+            <TabsContainer defaultActiveKey={"supports"}>
+              <TabList tabsSx={{ mt: 8 }} variant="standard">
+                <Tab tabKey="supports">서포트 목록</Tab>
+                <Tab tabKey="members">맴버 목록</Tab>
+              </TabList>
+
+              <Panel tabKey="supports">
+                <Box
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    position: "relative",
+                    overflow: "hidden",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: ["flex", "grid"],
+                      flexDirection: "column",
+                      gap: ["8px", "24px"],
+                      gridTemplateColumns: "repeat(4, calc(25% - 18px))",
+                      pt: 3,
+                    }}
+                  >
+                    {/* <SupportCard
                   category="임영웅"
                   maker={"임영웅 영웅시대"}
                   name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
@@ -299,16 +215,30 @@ export default function Maker() {
                   maker={"임영웅 영웅시대"}
                   name={"임영웅 2022 'IM HERO'콘서트 잠실 주 경기장 대관 후원"}
                   supports={12}
-                />
-                <SkeletonSupportCard />
-                <SkeletonSupportCard />
-                <SkeletonSupportCard />
-                <SkeletonSupportCard />
-              </Box>
-            </Box>
+                /> */}
+                    <SkeletonSupportCard />
+                    <SkeletonSupportCard />
+                    <SkeletonSupportCard />
+                    <SkeletonSupportCard />
+                  </Box>
+                </Box>
+              </Panel>
+            </TabsContainer>
           </Box>
         </Box>
       </Flex>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async context => {
+  console.log("server side")
+
+  const { pid } = context.query
+  console.log(pid)
+  return {
+    props: {
+      pid,
+    },
+  }
 }

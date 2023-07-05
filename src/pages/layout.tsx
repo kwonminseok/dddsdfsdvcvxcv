@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Box, Flex, Text, Button } from "@components/commons"
 import useHeaderBorder from "@libs/hooks/use-header-border"
 import useWindowSize from "@libs/hooks/use-window-size"
@@ -6,6 +6,8 @@ import Link from "next/link"
 import LogoSmall from "@icons/logo-small"
 import SearchInput from "@components/search-input"
 import LogoMain from "@icons/logo-main"
+import axios from "axios"
+import Cookies from "js-cookie"
 export interface LayoutProps {
   children: React.ReactNode
 }
@@ -13,7 +15,31 @@ export interface LayoutProps {
 const Header = () => {
   const isborder = useHeaderBorder()
   const sizeType = useWindowSize()
+  const [isLoading, setIsLoading] = useState(true)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
+  useEffect(() => {
+    async function fetchUserMe() {
+      const res = await axios.get("api/users/logincheck")
+
+      if (res.data) {
+        if (res.data.status === 200) {
+          if (res.data.message == "USER_LOGIN") {
+            setIsLoggedIn(true)
+          } else if (res.data.message == "TOKEN_INVALID") {
+            setIsLoggedIn(false)
+          }
+        }
+      }
+      setIsLoading(false)
+    }
+    fetchUserMe()
+  }, [])
+
+  const handleLogout = () => {
+    Cookies.remove("ses_23k_xh")
+    window.location.reload()
+  }
   return (
     <>
       <Box
@@ -21,10 +47,12 @@ const Header = () => {
           top: 0,
           position: "fixed",
           width: "100%",
-          borderBottom: isborder ? "1px solid" : "none",
+          borderBottom: isborder ? "none" : "none",
+          boxShadow: "floody3",
           borderColor: "black10",
-          bg: isborder ? "black05" : "transparent",
+          bg: isborder ? "rgba(230,230,230,0.4)" : "rgba(230,230,230,0.4)",
           zIndex: "header",
+          backdropFilter: "blur(10px)",
         }}
         __css={{
           "&>header": {
@@ -37,8 +65,7 @@ const Header = () => {
           sx={{
             width: "100%",
             alignItems: "center",
-            pl: [2, 4],
-            pr: [2, 4],
+            px: 10,
             userSelect: "none",
             // bg: "#fff",
           }}
@@ -57,7 +84,7 @@ const Header = () => {
             }}
           >
             <Link href="/" passHref legacyBehavior>
-              <Box as="a" sx={{ flex: "unset", ml: [4, 4, 5], mr: [4, 4, 5] }}>
+              <Box as="a" sx={{ flex: "unset", mr: [4, 4, 5] }}>
                 <Flex sx={{ width: ["100%", "235px"] }}>
                   <LogoSmall width="100%" />
                 </Flex>
@@ -81,8 +108,7 @@ const Header = () => {
                   <Box
                     as="a"
                     sx={{
-                      ml: 2,
-                      mr: 2,
+                      mx: 5,
                       height: "100%",
                       display: "inline-flex",
                       alignItems: "center",
@@ -96,8 +122,7 @@ const Header = () => {
                   <Box
                     as="a"
                     sx={{
-                      ml: 2,
-                      mr: 2,
+                      mx: 5,
                       height: "100%",
                       display: "inline-flex",
                       alignItems: "center",
@@ -111,8 +136,7 @@ const Header = () => {
                   <Box
                     as="a"
                     sx={{
-                      ml: 2,
-                      mr: 2,
+                      mx: 5,
                       height: "100%",
                       display: "inline-flex",
                       alignItems: "center",
@@ -132,9 +156,12 @@ const Header = () => {
           )}
           {(sizeType as number) == 2 && (
             <Flex align="center">
-              <Link href="/login" passHref legacyBehavior>
+              {isLoading ? (
+                <></>
+              ) : isLoggedIn ? (
                 <Button
-                  as="a"
+                  type="button"
+                  onClick={handleLogout}
                   sx={{
                     minHeight: "40px",
                     bg: "main50",
@@ -143,9 +170,24 @@ const Header = () => {
                     px: 5,
                   }}
                 >
-                  로그인
+                  로그아웃
                 </Button>
-              </Link>
+              ) : (
+                <Link href="/login" passHref legacyBehavior>
+                  <Button
+                    as="a"
+                    sx={{
+                      minHeight: "40px",
+                      bg: "main50",
+                      // boxShadow: "floody3",
+                      color: "#fff",
+                      px: 5,
+                    }}
+                  >
+                    로그인
+                  </Button>
+                </Link>
+              )}
             </Flex>
           )}
           {/* {(sizeType as number) == 0 && <SearchDrawer />}
@@ -159,36 +201,23 @@ const Header = () => {
 const Footer = () => {
   return (
     <Box as="footer" sx={{ pt: 8, px: [4, 6, "96px"], width: "100%" }}>
-      <Flex
-        pb={[4, 8]}
-        sx={{ flexDirection: ["column", "row"], alignItems: "center" }}
-      >
+      <Flex pb={[4, 8]} sx={{ flexDirection: ["column", "row"], alignItems: "center" }}>
         <Flex>
           <LogoMain
             width="227px"
             // sx={{height:"50px", width: '200px'}}
           />
         </Flex>
-        <Flex
-          pl="32px"
-          direction="column"
-          sx={{ alignItems: ["center", "baseline"], pt: [6, 0] }}
-        >
+        <Flex pl="32px" direction="column" sx={{ alignItems: ["center", "baseline"], pt: [6, 0] }}>
           <Flex sx={{ flexDirection: ["row", "row"] }} pb="3">
             <Box pr="4">
-              <Text sx={{ fontSize: [1, 2], fontWeight: "bold" }}>
-                이용약관
-              </Text>
+              <Text sx={{ fontSize: [1, 2], fontWeight: "bold" }}>이용약관</Text>
             </Box>
             <Box pr="4">
-              <Text sx={{ fontSize: [1, 2], fontWeight: "bold" }}>
-                개인정보처리지침
-              </Text>
+              <Text sx={{ fontSize: [1, 2], fontWeight: "bold" }}>개인정보처리지침</Text>
             </Box>
             <Box pr="4" sx={{ display: ["none", "block"] }}>
-              <Text sx={{ fontSize: [1, 2], fontWeight: "bold" }}>
-                info@floody.kr
-              </Text>
+              <Text sx={{ fontSize: [1, 2], fontWeight: "bold" }}>info@floody.kr</Text>
             </Box>
           </Flex>
           <Flex sx={{ flexDirection: ["column", "row"], fontSize: [0, 1] }}>
@@ -267,9 +296,7 @@ const DefaultLayout = ({ children }: LayoutProps) => {
       <Box sx={{ position: "relative", height: ["56px", "64px"] }}>
         <Header />
       </Box>
-      <Flex sx={{ flexDirection: "column", minHeight: "100vh" }}>
-        {children}
-      </Flex>
+      <Flex sx={{ flexDirection: "column", minHeight: "100vh" }}>{children}</Flex>
       <Box>
         <Footer />
       </Box>
