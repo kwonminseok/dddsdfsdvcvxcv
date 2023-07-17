@@ -1,13 +1,42 @@
-import { Box, Flex } from "@components/commons"
+import { Avatar, Box, Flex, SVG } from "@components/commons"
 import { LuNetwork } from "react-icons/lu"
+import Link from "next/link"
+import MoreContents from "@components/more-contents"
+import { formatNumber, formatNumberKo } from "@libs/utils/fotmat-number"
+import { useTranslation } from "next-i18next"
+import { createIcon } from "@icons/icons"
+interface MakerInfoProps {
+  maker: {
+    _id: string
+    name: string
+    profileImage: string
+    scaAlias?: string
+    description: string
+    totalSupports: number
+    totalSupporters: number
+  }
+}
 
-const MakerInfo = ({ sizeType }: { sizeType: number }) => {
-  const iconSize = sizeType > 0 ? 24 : 18
+const MakerInfo = ({ maker }: MakerInfoProps) => {
+  const { t } = useTranslation(["common", "support"])
+  const members = maker
+    ? t("common:lang") == "en"
+      ? formatNumber(maker.totalSupporters)
+      : formatNumberKo(maker.totalSupporters)
+    : 0
+  const supports = maker
+    ? t("common:lang") == "en"
+      ? formatNumber(maker.totalSupports)
+      : formatNumberKo(maker.totalSupports)
+    : 0
+
   return (
     <Box sx={{ mb: 7, width: "100%", mr: [0, 3] }}>
       <Flex sx={{ alignItems: "center", pb: 3 }}>
         <Flex sx={{ pr: 2, alignItems: "center", justifyContent: "center" }}>
-          <LuNetwork size={iconSize} />
+          <SVG fill="1a1a1a" size={["18px", "24px"]} viewBox="0 0 222 222">
+            {createIcon("fandom")}
+          </SVG>
         </Flex>
         <Box
           sx={{
@@ -16,16 +45,57 @@ const MakerInfo = ({ sizeType }: { sizeType: number }) => {
             lineHeight: ["24px", "30px"],
           }}
         >
-          팬덤 소개
+          {t("fandom")}
         </Box>
       </Flex>
+      <Box></Box>
       <Box
-        sx={{ width: "100%", fontSize: [1, 2], lineHeight: ["20px", "24px"] }}
+        sx={{
+          borderRadius: "8px",
+          border: "1px solid",
+          borderColor: "black10",
+          pt: 4,
+          pb: 2,
+          px: 4,
+        }}
       >
-        플러디 국제산악회는 1997년부터 강원도 원주를 기반으로 시작된 전통 있는
-        산악회입니다. 매주 1회 전국 각지의 산을 오르며, 연 1회는 해외 유명 산을
-        방문합니다. 초보자도 함께 정상에 올라 뿌듯함을 만끽할 수 있는
-        산악회입니다.
+        <Flex sx={{ justifyContent: "space-between", pb: 3, borderBottom: "1px solid ", borderColor: "black10" }}>
+          {maker ? (
+            <Link href={`/makers/${maker._id}`} passHref legacyBehavior>
+              <Box as="a" sx={{ display: "flex", alignItems: "center" }}>
+                <Avatar size={48} src={maker.profileImage} boxSx={{ mr: 2 }} />
+                <Box>
+                  <Box sx={{ fontSize: 2, fontWeight: "bold" }}>{maker.name}</Box>
+                  <Box sx={{ fontSize: 1, color: "black50" }}>
+                    <Box as="span" sx={{ pr: 2 }}>
+                      {t("support:fandommember", { members })}
+                    </Box>
+                    <Box as="span">{t("support:fandomsupport", { supports })} </Box>
+                  </Box>
+                </Box>
+              </Box>
+            </Link>
+          ) : (
+            <></>
+          )}
+        </Flex>
+        <Box>
+          {maker && (
+            <MoreContents
+              contents={maker.description}
+              line={2}
+              boxSx={{
+                fontSize: 0,
+                lineHeight: "1.25",
+                minHeight: "28px",
+                color: "black70",
+                mt: [4, 4],
+                mb: [3, 3],
+              }}
+              moreSize="0"
+            />
+          )}
+        </Box>
       </Box>
     </Box>
   )

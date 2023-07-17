@@ -2,6 +2,7 @@ import NextAuth, { NextAuthOptions, User } from "next-auth"
 import KakaoProvider from "next-auth/providers/kakao"
 import GoogleProvider from "next-auth/providers/google"
 import NaverProvider from "next-auth/providers/naver"
+import TwitterProvider from "next-auth/providers/twitter"
 import axios from "axios"
 // import { JWT } from "next-auth/jwt";
 // import { userLogin, TSocial } from "../user/use-login";
@@ -24,6 +25,11 @@ export const authOptions: NextAuthOptions = {
     NaverProvider({
       clientId: process.env.NAVER_CLIENT_ID!,
       clientSecret: process.env.NAVER_CLIENT_SECRET!,
+    }),
+    TwitterProvider({
+      clientId: process.env.TWITTER_CLIENT_ID!,
+      clientSecret: process.env.TWITTER_CLIENT_SECRET!,
+      version: "2.0",
     }),
   ],
   secret: process.env.JWT_SECRET,
@@ -66,10 +72,10 @@ export const authOptions: NextAuthOptions = {
     //     // return url.startsWith(baseUrl) ? Promise.resolve(url) : Promise.resolve(baseUrl)
     // },
     async signIn({ user, account, profile, email, credentials }) {
-      // console.log("user ", user)
-      // console.log("account ", account)
-      // console.log("profile ", profile)
-      // console.log("email ", email)
+      console.log("user ", user)
+      console.log("account ", account)
+      console.log("profile ", profile)
+      console.log("email ", email)
 
       // console.log("credentials ", credentials)
 
@@ -80,7 +86,7 @@ export const authOptions: NextAuthOptions = {
         //   type: account?.provider as TSocial,
         //   access_t: account?.access_token as string,
         // }) //(user.email as string, account?.provider as TSocial, account?.access_token as string)
-
+        console.log(res)
         if (res) {
           const { status, statusText, data } = res
 

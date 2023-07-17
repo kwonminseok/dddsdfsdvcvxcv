@@ -6,8 +6,9 @@ export default function Document() {
       <Head />
       <body>
         <Main />
-        <NextScript />
         <div id="floody-portal"></div>
+        <div id="floody-dropdown"></div>
+        <NextScript />
       </body>
     </Html>
   )

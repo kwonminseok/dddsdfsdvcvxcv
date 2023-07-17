@@ -1,0 +1,23 @@
+{
+  "sub": "당신의 사랑을 표현하고 행동해 보세요",
+  "supportstory": "서포트 스토리",
+  "details": "상세정보",
+  "blockinfo": "블록체인 정보",
+  "fandom": "팬덤 소개",
+  "notice": "주의사항",
+  "certificateholders": "인증서 보유자",
+  "whocanget": "발급조건",
+  "howtoget": "발급방법",
+  "issueperiod": "발급기한",
+  "total": "총",
+  "enterdigit": "{{digit}}자리 비밀 코드를 입력하세요.",
+  "anypossible": "상시 발급",
+  "contactmanage": "비밀 코드를 모를 시, {{maker.name}}에 문의하세요.",
+  "fandommember": "맴버 {{members}}명",
+  "fandomsupport": "서포트 {{supports}}개",
+  "getcertificate": "발급 받기",
+  "issueend": "발급 종료",
+  "yetissue": "발급 예정",
+  "anyone": "누구나 발급가능",
+  "contributesupport": "서포트에 공헌한 팬분들"
+}

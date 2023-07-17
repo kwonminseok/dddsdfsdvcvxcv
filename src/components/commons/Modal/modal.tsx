@@ -23,7 +23,7 @@ const ModalOverlay = styled.div<{ visible: boolean }>`
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 1300;
   backdrop-filter: blur(10px);
 `
@@ -46,35 +46,25 @@ const ModalInner = styled.div`
 interface ModalProps {
   visible: boolean
   maskClosable?: boolean
+  setVisible: any
   children: React.ReactNode
 }
 
-const Modal = ({ maskClosable = true, visible = false, children }: ModalProps) => {
-  // const [isOpen, setIsOpen] = useState<boolean>(false)/
-
-  // const openModalHandler = () =>{
-  //     setIsOpen(!isOpen)
-  // }
-  // const onMaskClick = (e) =>{
-  //     if(e.target === e.currentTarget){
-  //         onClose(e)
-  //     }
-  // }
-  // const close = (e) =>{
-  //     if(onClose){
-  //         onClose(e)
-  //     }
-  // }
+const Modal = ({ maskClosable = true, visible = false, setVisible, children }: ModalProps) => {
+  const onMaskClick = (e: any) => {
+    if (e.target === e.currentTarget) {
+      console.log("들어옴")
+      setVisible(false)
+    }
+  }
 
   return (
     <Portal selector="floody-portal">
       <ModalOverlay visible={visible} />
-      <ModalWrapper
-        tabIndex={-1}
-        visible={visible}
-        // onClick={maskClosable ? onMaskClick : null}
-      >
-        <ModalInner tabIndex={0}>{children}</ModalInner>
+      <ModalWrapper tabIndex={-1} visible={visible}>
+        <ModalInner tabIndex={0} onClick={maskClosable ? onMaskClick : undefined}>
+          {children}
+        </ModalInner>
       </ModalWrapper>
     </Portal>
   )

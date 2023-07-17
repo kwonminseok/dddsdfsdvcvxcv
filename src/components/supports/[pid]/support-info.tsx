@@ -2,7 +2,10 @@ import { Avatar, Box, Button, Flex, Skeleton } from "@components/commons"
 import MoreContents from "@components/more-contents"
 import { LuInfo } from "react-icons/lu"
 import { Share2, MoreVertical } from "lucide-react"
-
+import MintButton from "./mint-button"
+import { Suspense, useCallback } from "react"
+import { InfoBox, InfoBOxLoading } from "./info-box"
+import { useTranslation } from "next-i18next"
 interface TMaker {
   _id: string
   name: string
@@ -15,9 +18,40 @@ interface SupportInfo {
   useMintPeriod: boolean
   startMintDate: number
   endMintDate?: number | undefined
+  _id: string
+  digit?: number
 }
 
-const SupportInfo = ({ maker, title, useMintPeriod, startMintDate, endMintDate }: SupportInfo) => {
+const formattedDate = (date: any) => {
+  const now = new Date(date)
+  return `${now.getFullYear()}.${("0" + (now.getMonth() + 1)).slice(-2)}.${("0" + now.getDate()).slice(-2)} ${(
+    "0" + now.getHours()
+  ).slice(-2)}:${("0" + now.getMinutes()).slice(-2)}`
+}
+
+const SupportInfo = ({ maker, title, useMintPeriod, startMintDate, endMintDate, _id, digit = 4 }: SupportInfo) => {
+  const { t } = useTranslation("support")
+
+  const howTogetContent = useCallback(
+    (digit: number) => {
+      return t("enterdigit", { digit }) //`Enter ${digit} digits of Secret Code`
+    },
+    [digit, t],
+  )
+
+  const issuedPeriodContent = useCallback(() => {
+    if (useMintPeriod) {
+      return `${formattedDate(startMintDate)} - ${formattedDate(endMintDate)}`
+    } else {
+      const now = new Date().valueOf()
+      if (startMintDate > now) {
+        return `${formattedDate(startMintDate)} ~ `
+      } else {
+        return t("anypossible")
+      }
+    }
+  }, [useMintPeriod, startMintDate, endMintDate])
+
   return (
     <Flex
       sx={{
@@ -47,110 +81,91 @@ const SupportInfo = ({ maker, title, useMintPeriod, startMintDate, endMintDate }
               {maker ? <>{maker.name}</> : <Skeleton height={"16px"} sx={{ minWidth: "80px" }} radius="4px" />}
             </Box>
           </Flex>
-
-          <Flex sx={{ alignItems: "center" }}>
-            <Button sx={{ bg: "transparent", border: "none" }}>
-              <Share2 size={20} />
-            </Button>
-            <Button sx={{ bg: "transparent", border: "none" }}>
-              <MoreVertical size={20} />
-            </Button>
-          </Flex>
         </Flex>
-        {/* <Box sx={{ fontSize: [3, 7], fontWeight: "bold", mb: 4 }}> */}
-        {/* <Skeleton height={"40px"} sx={{ width: "80%", mb: 4 }} radius="4px" /> */}
 
         {title ? (
-          <Box sx={{ fontSize: [3, 7], fontWeight: "bold", mb: 4 }}>{title}</Box>
+          <Box
+            sx={{
+              fontSize: [3, 7],
+              fontWeight: "bold",
+              mb: 4,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              wordWrap: "break-word",
+              wordBreak: "break-all",
+              WebkitBoxOrient: "vertical",
+              display: "-webkit-box",
+              WebkitLineClamp: 3,
+            }}
+          >
+            {title}
+          </Box>
         ) : (
           <Skeleton height={"40px"} sx={{ width: "80%", mb: 4 }} radius="4px" />
         )}
         {/* </Box> */}
-        <Flex sx={{ mb: 4 }}>
-          <Box
-            sx={{
-              fontSize: [1, 2],
-              fontWeight: "bold",
-              lineHeight: "24px",
-              mr: 4,
-            }}
-          >
-            {useMintPeriod !== undefined ? (
-              <>발급 기한</>
-            ) : (
-              <Skeleton height={"16px"} sx={{ minWidth: "63px", my: 1 }} radius="4px" />
-            )}
-          </Box>
-          <Box
-            sx={{
-              fontSize: [1, 2],
-              lineHeight: "24px",
-              display: ["block", "flex"],
-            }}
-          >
-            <Box as="p">2023.06.01 오전 10:00</Box>
-            <Box as="p" sx={{ display: ["none", "block"], mx: 2 }}>
-              -
-            </Box>
-            <Box as="p">2023.06.07 오전 10:00</Box>
-          </Box>
-        </Flex>
-        <MoreContents
-          contents={
-            "FT는 2023년 6월 30일 서울 잠실에서 열린 플러디 FT는 2023년 6월 30일 서울 잠실에서 열린 플러디FT는 2023년 6월 30일 서울 잠실에서 열린 플러디FT는 2023년 6월 30일 서울 잠실에서 열린 플러디FT는 2023년 6월 30일 서울 잠실에서 열린 플러디FT는 2023년 6월 30일 서울 잠실에서 열린 플러디FT는 2023년 6월 30일 서울 잠실에서 열린 플러디"
-          }
-          boxSx={{ fontSize: [1, 2], lineHeight: ["20px", "24px"] }}
-          line={3}
-        />
-      </Box>
-      <Flex
-        sx={{
-          position: ["fixed", "static"],
-          display: "flex",
-          flexDirection: "column",
-          padding: ["8px 16px", 0],
-          width: ["100%", "auto"],
-          zIndex: "1",
-          bottom: "0px",
-          left: "0px",
-          bg: ["#fff", "inherit"],
-        }}
-      >
-        {useMintPeriod !== undefined ? (
-          <Button
-            sx={{
-              width: ["100%", "50%"],
-              minWidth: "120px",
-              minHeight: "48px",
-              backgroundColor: "main50",
-              color: "black05",
-              boxShadow: ["none", "floody3"],
-            }}
-          >
-            뱃지 받기
-          </Button>
-        ) : (
-          <Skeleton
-            height={"48px"}
-            sx={{ minWidth: "120px", width: ["100%", "50%"], minHeight: "48px" }}
-            radius="4px"
-          />
-        )}
 
-        <Box
+        {useMintPeriod !== undefined ? (
+          <>
+            <InfoBox title={t("whocanget")} content={t("contributesupport")} />
+            <InfoBox title={t("howtoget")} content={howTogetContent(digit)} />
+            <InfoBox title={t("issueperiod")} content={issuedPeriodContent()} />
+          </>
+        ) : (
+          <>
+            <InfoBOxLoading />
+            <InfoBOxLoading />
+            <InfoBOxLoading />
+          </>
+        )}
+      </Box>
+      <Box>
+        <Flex
           sx={{
-            display: ["none", "flex"],
-            bg: "black05",
-            padding: "18px 24px",
-            borderRadius: "8px",
-            mt: 6,
-            alignItems: "center",
+            position: ["fixed", "static"],
+            display: "flex",
+            flexDirection: "column",
+            padding: ["8px 16px", 0],
+            width: ["100%", "auto"],
+            zIndex: "1",
+            bottom: "0px",
+            left: "0px",
+            bg: ["#fff", "inherit"],
           }}
         >
-          <LuInfo size={18} />
-          <Box sx={{ lineHeight: "18px", ml: 2, fontSize: 1 }}>발급 코드를 모를 경우 운영자에게 문의해주세요</Box>
-        </Box>
-      </Flex>
+          {useMintPeriod !== undefined ? (
+            <MintButton
+              useMintPeriod={useMintPeriod}
+              startMintDate={startMintDate}
+              endMintDate={endMintDate}
+              supportId={_id}
+              pinLength={digit}
+            />
+          ) : (
+            <Skeleton
+              height={"48px"}
+              sx={{ minWidth: "120px", width: ["100%", "50%"], minHeight: "48px" }}
+              radius="4px"
+            />
+          )}
+        </Flex>
+        {maker ? (
+          <Box
+            sx={{
+              display: ["flex", "flex"],
+              bg: "black05",
+
+              padding: ["12px 18px", "18px 24px"],
+              borderRadius: "8px",
+              mt: 6,
+              alignItems: "center",
+            }}
+          >
+            <LuInfo size={18} />
+            <Box sx={{ lineHeight: "18px", ml: 2, fontSize: [0, 1] }}>{t("contactmanage", { maker })}</Box>
+          </Box>
+        ) : null}
+      </Box>
     </Flex>
   )
 }

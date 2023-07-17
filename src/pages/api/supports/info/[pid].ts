@@ -40,6 +40,9 @@ export default async function handler(req: any, res: any) {
           description: result.data.description,
           subImages: result.data.subImages,
           attributes: result.data.attributes,
+          _id: result.data._id,
+          digit: result.data.passwordType == "MULTIPLE" ? 6 : 4,
+          totalSupporters: result.data.totalSupporters,
         })
       }
     }

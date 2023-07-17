@@ -1,0 +1,14 @@
+{
+  "title": "제목입니다.",
+  "lang": "ko",
+  "latest": "최신 순",
+  "oldest": "오래된 순",
+  "header": {
+    "fandoms": "팬텀",
+    "supports": "서포터",
+    "about": "소개"
+  },
+  "tab": {
+    "profileSupport": "서포트 목록"
+  }
+}

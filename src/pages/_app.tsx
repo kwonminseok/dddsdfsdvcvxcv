@@ -7,7 +7,8 @@ import DefaultLayout from "./layout"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { SessionProvider } from "next-auth/react"
 import { RecoilRoot } from "recoil"
-export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+import { appWithTranslation } from "next-i18next"
+function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -35,3 +36,5 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     </>
   )
 }
+
+export default appWithTranslation(App)

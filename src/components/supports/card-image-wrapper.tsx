@@ -1,17 +1,18 @@
 import { Box } from "@components/commons"
-import {
-  LazyLoadImage,
-  LazyLoadImageProps,
-} from "react-lazy-load-image-component"
+import { ThemeUICSSObject } from "@libs/css"
+import { CSSProperties } from "react"
+import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component"
 
 interface ImageWrapper {
   src: string
+  imageStyles?: CSSProperties
+  boxSx?: ThemeUICSSObject
 }
 
-const CardImageWrapper = ({ src, ...props }: ImageWrapper) => {
+const CardImageWrapper = ({ src, imageStyles, boxSx, ...props }: ImageWrapper) => {
   return (
     <Box
-      sx={{
+      __css={{
         display: ["contents", "block"],
         position: "relative",
         width: "100%",
@@ -25,15 +26,17 @@ const CardImageWrapper = ({ src, ...props }: ImageWrapper) => {
           left: "0px",
           width: "100%",
           height: "100%",
+          overflow: "hidden",
+          borderRadius: "8px",
         }}
       >
         <Box
-          sx={{
+          __css={{
             width: "100%",
             height: "100%",
-            borderRadius: ["8px", "8px 8px 0px 0px"],
-            border: "0px solid",
+            overflow: "hidden",
           }}
+          sx={boxSx}
         >
           <LazyLoadImage
             src={src}
@@ -44,13 +47,13 @@ const CardImageWrapper = ({ src, ...props }: ImageWrapper) => {
                 display: "flex",
                 width: "100%",
                 height: "100%",
-                borderRadius: "8px",
-                border: "0px solid",
               },
             }}
             style={{
               borderRadius: "8px",
               objectFit: "contain",
+              overflow: "hidden",
+              ...imageStyles,
             }}
           />
         </Box>

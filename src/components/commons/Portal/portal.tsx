@@ -12,10 +12,12 @@ const Portal = ({ children, selector }: PortalProps) => {
   useEffect(() => {
     if (selector) {
       setElement(document.getElementById(selector))
+    } else {
+      setElement(document.body)
     }
   }, [selector])
 
-  if (!element) return null
+  if (!element) return null //ReactDOM.createPortal(children, document.body)
 
   return ReactDOM.createPortal(children, element)
 }

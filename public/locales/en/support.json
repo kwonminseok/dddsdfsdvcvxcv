@@ -1,0 +1,23 @@
+{
+  "sub": "The Showcase of Global Fandoms",
+  "supportstory": "Support Story",
+  "details": "Details",
+  "blockinfo": "Block-chain Information",
+  "fandom": "Fandom",
+  "notice": "Notice",
+  "certificateholders": "Certificate Holders",
+  "whocanget": "Who can get",
+  "howtoget": "How to get",
+  "issueperiod": "Issue Period",
+  "total": "Total",
+  "enterdigit": "Enter {{digit}} digits of Secret Code",
+  "anypossible": "Anytime Possible",
+  "contactmanage": "if you do not know secret code, please contact the {{maker.name}}",
+  "fandommember": " {{members}} members",
+  "fandomsupport": "{{supports}} supports",
+  "getcertificate": "Get Certificate",
+  "issueend": "Issue has ended",
+  "yetissue": "Will be issued",
+  "anyone": "Anyone who want to get certificate",
+  "contributesupport": "The fans who contributed for this support"
+}

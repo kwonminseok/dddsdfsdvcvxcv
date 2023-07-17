@@ -110,6 +110,7 @@ export const theme: Theme = {
     area: "0px 0px 20px rgba(0, 0, 0, 0.08)",
     floody2: "3px 3px 4px 0 rgba(0, 0, 0, 0.4)",
     floody3: "4px 4px 6px 0 rgba(0, 0, 0, 0.4)",
+    floody5: "6px 6px 10px 0 rgba(0, 0, 0, 0.4)",
     shadow3: "2px 3px 5px 0 rgba(0, 0, 0, 0.4)",
     selectedTab: "inset 0px -4px 0px #191919",
     calendar: " 0px 3px 6px rgba(20,21,26,0.08), 0px 7px 14px rgba(71,77,87,0.08), 0px 0px 1px rgba(20,21,26,0.1)",

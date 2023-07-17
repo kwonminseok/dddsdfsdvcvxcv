@@ -8,7 +8,7 @@ const ModalCard = styled.div`
   width: 100%;
   min-height: 30px;
   max-height: 100%px;
-  background-color: #fff;
+  background-color: transparent;
   display: flex;
   flex-direction: column;
   padding: 12px 24px;
@@ -53,14 +53,14 @@ const SubImageModal = ({ visible, setVible, src, imageidx, setImageidx }: SubIma
     }
   }
   return (
-    <Modal visible={visible}>
+    <Modal visible={visible} setVisible={setVible}>
       <ModalCard>
         <Box sx={{ display: "flex", flexDirection: "row-reverse" }}>
-          <Button sx={{ background: "transparent", outline: "none" }} onClick={handleClickCancel}>
+          <Button sx={{ background: "transparent", outline: "none", color: "#fff" }} onClick={handleClickCancel}>
             <X />
           </Button>
         </Box>
-        <Flex sx={{ alignItems: "center" }}>
+        <Flex sx={{ alignItems: "center", color: "#fff" }}>
           {src && src.length > 1 && (
             <Box sx={{ pr: 2 }}>
               <Box sx={{ cursor: "pointer" }} onClick={clickLeft}>
@@ -88,6 +88,7 @@ const SubImageModal = ({ visible, setVible, src, imageidx, setImageidx }: SubIma
                     backgroundSize: "contain",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
+                    filter: "drop-shadow(2px 2px 15px rgba(0, 0, 0, 0.4))",
                   }}
                 ></Box>
               ) : (

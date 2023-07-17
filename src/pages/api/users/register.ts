@@ -10,18 +10,18 @@ export type TSocial = "kakao" | "google" | "naver"
 interface IRegisterProps {
   loginType: TSocial
   email: string
-  nickName: string
+  nickname: string
   token: string
 }
 
 export const userRegister = async (data: IRegisterProps) => {
   try {
     const res = await Axiosinstance.post(`/api/users/signup`, data)
-    console.log(res)
+
     return res.data
   } catch (error) {
-    console.log("error")
     console.log(error)
+    console.log("error")
   }
   // try{
   //     const res = await instance.get(`/api/makers?`)
@@ -32,19 +32,13 @@ export const userRegister = async (data: IRegisterProps) => {
 
 export default async function handler(req: any, res: any) {
   try {
-    console.log("hello")
     if (req.method === "POST") {
       const { loginType, email, nickname, token } = req.body
-      //   res.status(200).json({ data: comment })
-      //   const query = req.query
-      //   const { page, count, param, sorted, order } = query
 
-      const result = await userRegister({ loginType: loginType, email: email, nickName: nickname, token: token })
+      const result = await userRegister({ loginType: loginType, email: email, nickname: nickname, token: token })
 
-      console.log("결과 : ", result)
-      //   console.log(result)
       if (result) {
-        res.status(200).json({ status: 200, data: result })
+        res.status(200).json({ status: 200, result })
       }
     }
   } catch (e) {

@@ -78,7 +78,15 @@ const pickSystemProps = (props: BoxOwnProps) => {
 
 export const Box: ForwardRef<any, BoxProps> = forwardRef<any, BoxProps>(function Box(props, ref) {
   const theme = useTheme()
-  const { __themeKey = "variants", __css, variant, css: cssProp, sx, as: Component = "div", ...rest } = props as BoxProps
+  const {
+    __themeKey = "variants",
+    __css,
+    variant,
+    css: cssProp,
+    sx,
+    as: Component = "div",
+    ...rest
+  } = props as BoxProps
 
   const baseStyles: CSSObject = {
     boxSizing: "border-box",
@@ -94,7 +102,14 @@ export const Box: ForwardRef<any, BoxProps> = forwardRef<any, BoxProps>(function
 
   const systemPropsStyles = css(pickSystemProps(rest))(theme)
 
-  const style: ArrayInterpolation<unknown> = [baseStyles, __cssStyles, variantStyles, sxPropStyles, systemPropsStyles, cssProp]
+  const style: ArrayInterpolation<unknown> = [
+    baseStyles,
+    __cssStyles,
+    variantStyles,
+    sxPropStyles,
+    systemPropsStyles,
+    cssProp,
+  ]
 
   boxSystemProps.forEach(name => {
     delete (rest as Record<string, unknown>)[name]

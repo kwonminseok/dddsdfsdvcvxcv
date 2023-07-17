@@ -1,21 +1,13 @@
-import { Box, Flex, Skeleton, Modal } from "@components/commons"
+import { Box, Flex, Skeleton, SVG } from "@components/commons"
 import ImageWrapper from "@components/imageWrapper"
 import SubImageBox from "@components/supports/[pid]/sub-image-box"
 import SubImageModal from "@components/supports/[pid]/sub-image-modal"
 import { useState } from "react"
-import { LuBookOpen } from "react-icons/lu"
-
+import { useTranslation } from "next-i18next"
+import { createIcon } from "@icons/icons"
 const IDX_LIST = [0, 1, 2, 3]
-const SupportStory = ({
-  sizeType,
-  description,
-  subImages,
-}: {
-  sizeType: number
-  description: string
-  subImages?: string[]
-}) => {
-  const iconSize = sizeType > 0 ? 24 : 18
+const SupportStory = ({ description, subImages }: { description: string; subImages?: string[] }) => {
+  const { t } = useTranslation("support")
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [imageidx, setImageidx] = useState<number>(0)
 
@@ -28,7 +20,9 @@ const SupportStory = ({
       <Box sx={{ mb: 7, width: "100%", mr: [0, 3] }}>
         <Flex sx={{ alignItems: "center", pb: 3 }}>
           <Flex sx={{ pr: 2, alignItems: "center", justifyContent: "center" }}>
-            <LuBookOpen size={iconSize} />
+            <SVG fill="1a1a1a" size={["18px", "24px"]} viewBox="0 0 222 222">
+              {createIcon("story")}
+            </SVG>
           </Flex>
           <Box
             sx={{
@@ -37,7 +31,7 @@ const SupportStory = ({
               lineHeight: ["24px", "30px"],
             }}
           >
-            서포터 스토리
+            {t("supportstory")}
           </Box>
         </Flex>
         <Box sx={{ width: "100%", fontSize: [1, 2], lineHeight: ["20px", "24px"] }}>

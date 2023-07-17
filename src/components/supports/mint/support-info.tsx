@@ -22,12 +22,10 @@ const BadgeIntro = ({ sizeType }: { sizeType: number }) => {
           서포트 설명
         </Box>
       </Flex>
-      <Box sx={{ width: "full", fontSize: [1, 2], wordBreak: "keep-all" }}>
-        본 NFT는 2023년 6월 30일 서울 잠실에서 열린 플러디 국제 마라톤 대회에서
-        하프코스를 완주한 참가자들에게 지급하는 디지털 증서입니다. 본 NFT는
-        2023년 6월 30일 서울 잠실에서 열린 플러디 국제 마라톤 대회에서
-        하프코스를 완주한 참가자들에게 지급하는 디지털 증서입니다. 본 NFT는
-        2023.
+      <Box sx={{ width: "full", fontSize: [1, 2], lineHeight: ["20px", "24px"], wordBreak: "keep-all" }}>
+        본 NFT는 2023년 6월 30일 서울 잠실에서 열린 플러디 국제 마라톤 대회에서 하프코스를 완주한 참가자들에게 지급하는
+        디지털 증서입니다. 본 NFT는 2023년 6월 30일 서울 잠실에서 열린 플러디 국제 마라톤 대회에서 하프코스를 완주한
+        참가자들에게 지급하는 디지털 증서입니다. 본 NFT는 2023.
       </Box>
     </Box>
   )

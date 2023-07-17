@@ -13,10 +13,14 @@ import SkeletonSupportCard from "@components/profile/skeleton-support-card"
 import LogoSmall from "@/assets/icons/logo-small"
 import Logo from "../../public/logosmall.svg"
 import { TabsContainer, TabList, Tab } from "@components/commons/Tabs/tab"
-
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
+import { GetServerSideProps } from "next"
 const inter = Inter({ subsets: ["latin"] })
 
 export default function Home() {
+  const { t } = useTranslation()
+  console.log(t("title"))
   return (
     <>
       <Head>
@@ -35,4 +39,32 @@ export default function Home() {
       </div>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ query, req, locale }) => {
+  console.log("server side")
+  // const cookies = req.headers.cookie
+  // const cookieArray = cookies?.split(";").find(cookie => cookie.trim().startsWith("lang="))
+  // const acceptLang = req.headers["accept-language"]?.split(",")?.[0].split("-")?.[0].toLowerCase()
+  // let cookie
+  // if (cookieArray) {
+  //   cookie = cookieArray.split("=")[1]
+  // }
+
+  // const locales = cookie || acceptLang || "en"
+  // const available = ["ko", "en"]
+  // let locale = "en"
+  // if (available.includes(locales)) {
+  //   locale = locales
+  // }
+  //console.log(locale, locales)
+  //console.log(req.headers.cookie)
+  //console.log(req.headers["accept-language"]?.split(",")?.[0].split("-")?.[0].toLowerCase())
+  console.log(locale)
+  return {
+    props: {
+      ...(await serverSideTranslations(locale!, ["common", "header"])),
+      // locales,
+    },
+  }
 }

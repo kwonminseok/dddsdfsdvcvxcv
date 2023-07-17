@@ -19,12 +19,9 @@ const BadgeManage = ({ sizeType }: { sizeType: number }) => {
           인증서 관리
         </Box>
       </Flex>
-      <Box
-        sx={{ width: "100%", fontSize: [1, 2], wordBreak: "keep-all", mb: 6 }}
-      >
-        뱃지를 다른 지갑으로 전송 하거나 삭제 할 수 있습니다. 뱃지를 다른
-        지갑으로 전송 하거나 삭제 할 수 있습니다.뱃지를 다른 지갑으로 전송
-        하거나 삭제 할 수 있습니다.
+      <Box sx={{ width: "100%", fontSize: [1, 2], lineHeight: ["20px", "24px"], wordBreak: "keep-all", mb: 6 }}>
+        뱃지를 다른 지갑으로 전송 하거나 삭제 할 수 있습니다. 뱃지를 다른 지갑으로 전송 하거나 삭제 할 수
+        있습니다.뱃지를 다른 지갑으로 전송 하거나 삭제 할 수 있습니다.
       </Box>
       <Button
         sx={{

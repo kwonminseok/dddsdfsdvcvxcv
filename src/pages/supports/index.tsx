@@ -1,27 +1,40 @@
 import Head from "next/head"
 import { Inter } from "next/font/google"
-import { useState } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { Box, Flex, Selector } from "@components/commons"
 import { SkeletonSupportCard, SupportCard } from "@components/supports"
 import axios from "axios"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useInView } from "react-intersection-observer"
-
+import { GetServerSideProps } from "next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
 export default function Supports() {
   const [ref, isView] = useInView()
-  const [order, setOrder] = useState<string>("lastest")
-  const fetchSupport = async ({ pageParam = 1 }) => {
-    const res = await axios.get(`/api/supports/list?page=${pageParam}`)
-    const result = res.data
-    return {
-      result: result,
-      nextPage: pageParam + 1,
-      isLast: result.data.length < 10,
-    }
-  }
+  const { t } = useTranslation(["common", "support"])
+
+  const [filter, setFilter] = useState<string>("latest")
+  const [order, setOrder] = useState<number>(-1)
+  const [count, setCount] = useState<number>(0)
+  const fetchSupport = useCallback(
+    async ({ pageParam = 1 }) => {
+      const res = await axios.get(`/api/supports/list?page=${pageParam}&order=${order}`)
+      const result = res.data
+      return {
+        result: result,
+        nextPage: pageParam + 1,
+        isLast: result.data.length < 10,
+      }
+    },
+    [order],
+  )
+  useEffect(() => {
+    //감지 및 fetch
+    if (isView && hasNextPage) fetchNextPage()
+  }, [isView])
   const { data, error, fetchNextPage, hasNextPage, isSuccess, isFetching, isFetchingNextPage, status } =
     useInfiniteQuery({
-      queryKey: ["getSupports"],
+      queryKey: ["getSupports", count],
       queryFn: fetchSupport,
       getNextPageParam: (lastPage, pages) => {
         if (!lastPage.isLast) return lastPage.nextPage
@@ -31,10 +44,16 @@ export default function Supports() {
       refetchOnReconnect: true,
       retry: 1,
     })
+
   const onChangeOrder = (newOrder: string) => {
-    if (newOrder !== order) {
-      setOrder(newOrder)
-      // mutation.mutate(category[activeTab].baseUrl)
+    if (newOrder !== filter) {
+      if (newOrder == "latest") {
+        setOrder(-1)
+      } else if (newOrder == "oldest") {
+        setOrder(1)
+      }
+      setCount(prev => prev + 1)
+      setFilter(newOrder)
     }
   }
 
@@ -66,7 +85,7 @@ export default function Supports() {
           >
             Love & Action
           </Box>
-          <Box sx={{ fontSize: ["14px", "16px"] }}>당신의 사랑을 표현하고 행동해 보세요</Box>
+          <Box sx={{ fontSize: ["14px", "16px"] }}>{t("support:sub")}</Box>
         </Flex>
         <Box
           __css={{
@@ -79,10 +98,10 @@ export default function Supports() {
           <Flex direction={"row-reverse"} pb="4">
             <Selector
               options={[
-                { content: "인기 순", key: "popular" },
-                { content: "최근 순", key: "lastest" },
+                { content: t("common:latest"), key: "latest" },
+                { content: t("common:oldest"), key: "oldest" },
               ]}
-              value={order} //초기값됴
+              value={filter} //초기값됴
               onChange={onChangeOrder}
               sx={{
                 fontSize: [1, 2],
@@ -125,7 +144,7 @@ export default function Supports() {
                 ? data.pages.map((datas, page_num) => {
                     const supports = datas.result.data
                     return supports.map((support: any, idx: number) => {
-                      if (page_num == data.pages.length - 1 && supports.length - 1 == idx) {
+                      if (page_num == data.pages.length - 1 && idx == 0) {
                         return <SupportCard ref={ref} key={support._id} {...support} />
                       } else {
                         return <SupportCard key={support._id} {...support} />
@@ -157,4 +176,17 @@ export default function Supports() {
       </Box>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ query, locale, locales }) => {
+  if (locale == "default") {
+    return {
+      notFound: true,
+    }
+  }
+  return {
+    props: {
+      ...(await serverSideTranslations(locale!, ["common", "support"])),
+    },
+  }
 }

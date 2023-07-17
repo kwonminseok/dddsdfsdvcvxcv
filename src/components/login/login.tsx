@@ -89,6 +89,29 @@ const Login = () => {
                 네이버로 시작하기
               </Button>
             </Box>
+            <Box mb="3">
+              <Button
+                sx={{
+                  position: "relative",
+                  borderRadius: "12px",
+                  border: "1px solid",
+                  fontWeight: "medium",
+                  bg: "#03c75a",
+                  minWidth: "300px",
+                  px: 3,
+                  pt: 3,
+                  color: "#fff",
+                }}
+                leftIcon={<Image src="/logo-naver.png" width={32} height={32} alt="naver" />}
+                iconSx={{ position: "absolute", left: "24px", top: "4px" }}
+                onClick={e => {
+                  e.preventDefault()
+                  signIn("twitter")
+                }}
+              >
+                트위터로 시작하기
+              </Button>
+            </Box>
           </Flex>
           {/* mini - footer */}
           <Flex

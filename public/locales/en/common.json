@@ -1,0 +1,14 @@
+{
+  "title": "it's title.",
+  "lang": "en",
+  "latest": "Latest",
+  "oldest": "Oldest",
+  "tab": {
+    "profileSupport": "My Supports"
+  },
+  "header": {
+    "fandoms": "Fandoms",
+    "supports": "Supports",
+    "about": "About Us"
+  }
+}

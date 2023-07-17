@@ -63,27 +63,39 @@ export const Selector: ForwardRef<HTMLDivElement, SelectorProps> = forwardRef<HT
         onClick={() => setOpen(prev => !prev)}
       >
         <Box sx={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{nowValue?.content}</Box>
-        <ChevronDown />
+        <Box
+          __css={{ display: "flex", alignItems: "center" }}
+          sx={{
+            transition: "transform 0.2s ease-in-out 0s, background-color 0.2s ease-in-out 0s",
+            // bg: "0.2s ease-in-out 0s",
+            transform: open ? "rotate(180deg)" : undefined,
+          }}
+        >
+          <ChevronDown />
+        </Box>
         <Box
           __css={{
             ...ulStyles,
-            left: 0,
+            // left: 0,
             marginTop: "4px",
             maxHeight: "220px",
             minWidth: "100%! important",
             top: "100%",
-            width: "auto!important",
+            width: ["230px"],
+            left: ["-140px", "-120px"],
+            // width: "auto!important",
             borderRadius: "6px",
             border: "0.5px solid",
             borderColor: "black30",
-            backdropFilter: "blur(3px)",
+            backdropFilter: "blur(8px)",
             position: "absolute",
             overflowY: "scroll",
             zIndex: "99",
-            backgroundColor: "rgba(242,242,242,0.4)",
+            boxShadow: "floody5",
+            backgroundColor: "rgba(242,242,242,0.6)",
             transition: "height 0.2s ease 0s",
-            boxShadow:
-              "rgba(20, 21, 26, 0.08) 0px 3px 6px, rgba(71, 77, 87, 0.08) 0px 7px 14px, rgba(20, 21, 26, 0.1) 0px 0px 1px",
+            // boxShadow:
+            //   "rgba(20, 21, 26, 0.08) 0px 3px 6px, rgba(71, 77, 87, 0.08) 0px 7px 14px, rgba(20, 21, 26, 0.1) 0px 0px 1px",
           }}
           ref={dropdownRef}
           as="ul"

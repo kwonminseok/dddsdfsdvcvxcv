@@ -17,7 +17,7 @@ export const TabsContainer = ({ children, defaultActiveKey = null }: TabsContain
 
 interface TabsListProps {
   //   defaultActiveKey: string | number
-  children: any[] // React.ReactNode[]
+  children: any[] | any // React.ReactNode[]
   tabsSx?: ThemeUIStyleObject
   tabSx?: ThemeUIStyleObject
   variant?: string

@@ -1,28 +1,39 @@
 import Head from "next/head"
 import axios from "axios"
-import { GetServerSideProps } from "next"
-import { use, useEffect, useState } from "react"
+import { use, useCallback, useEffect, useState } from "react"
 import { Avatar, Box, Flex, Selector } from "@components/commons"
 import MakerCard from "@components/makers/maker-card"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useInView } from "react-intersection-observer"
 import SkeletonMakerCard from "@components/makers/skeleton-maker-card"
+import { GetServerSideProps } from "next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
 export default function Makers() {
-  const [order, setOrder] = useState<string>("lastest")
-  const fetchMaker = async ({ pageParam = 1 }) => {
-    const res = await axios.get(`/api/makers/list?page=${pageParam}`)
-    const result = res.data
-    return {
-      result: result,
-      nextPage: pageParam + 1,
-      isLast: result.data.length < 10,
-    }
-  }
+  const { t } = useTranslation(["common", "maker"])
+  const [filter, setFilter] = useState<string>("latest")
+  const [order, setOrder] = useState<number>(-1)
+  const [count, setCount] = useState<number>(0)
+  const fetchMaker = useCallback(
+    async ({ pageParam = 1 }) => {
+      const res = await axios.get(`/api/makers/list?page=${pageParam}&order=${order}`)
+      const result = res.data
+      return {
+        result: result,
+        nextPage: pageParam + 1,
+        isLast: result.data.length < 10,
+      }
+    },
+    [order],
+  )
   const [ref, isView] = useInView()
-
+  useEffect(() => {
+    //감지 및 fetch
+    if (isView && hasNextPage) fetchNextPage()
+  }, [isView])
   const { data, error, fetchNextPage, hasNextPage, isSuccess, isFetching, isFetchingNextPage, status } =
     useInfiniteQuery({
-      queryKey: ["getMakers"],
+      queryKey: ["getMakers", count],
       queryFn: fetchMaker,
       getNextPageParam: (lastPage, pages) => {
         if (!lastPage.isLast) return lastPage.nextPage
@@ -34,14 +45,17 @@ export default function Makers() {
     })
 
   const onChangeOrder = (newOrder: string) => {
-    if (newOrder !== order) {
-      setOrder(newOrder)
-      // mutation.mutate(category[activeTab].baseUrl)
+    if (newOrder !== filter) {
+      if (newOrder == "latest") {
+        setOrder(-1)
+      } else if (newOrder == "oldest") {
+        setOrder(1)
+      }
+      setCount(prev => prev + 1)
+      setFilter(newOrder)
     }
   }
 
-  console.log(data, status)
-  console.log(isFetching)
   return (
     <>
       <Head>
@@ -77,9 +91,7 @@ export default function Makers() {
           >
             Super Makers
           </Box>
-          <Box sx={{ fontSize: ["14px", "16px"], textAlign: "center" }}>
-            멋진 서포터를 만드는 메이커들을 만나 보세요. 당신과 함께 할 멋진 메이커들
-          </Box>
+          <Box sx={{ fontSize: ["14px", "16px"], textAlign: "center", px: 6 }}>{t("maker:sub")}</Box>
         </Flex>
         <Box
           __css={{
@@ -92,10 +104,10 @@ export default function Makers() {
           <Flex direction={"row-reverse"} pb="4">
             <Selector
               options={[
-                { content: "인기 순", key: "popular" },
-                { content: "최근 순", key: "lastest" },
+                { content: t("common:latest"), key: "latest" },
+                { content: t("common:oldest"), key: "oldest" },
               ]}
-              value={order} //초기값됴
+              value={filter} //초기값됴
               onChange={onChangeOrder}
               sx={{
                 fontSize: [1, 2],
@@ -133,6 +145,7 @@ export default function Makers() {
                 gap: ["8px", "24px"],
                 gridTemplateColumns: "repeat(3, calc(33.3% - 17px))",
                 pt: 3,
+                px: 2,
               }}
             >
               {/* 1 maker */}
@@ -140,7 +153,7 @@ export default function Makers() {
                 ? data.pages.map((datas, page_num) => {
                     const makers = datas.result.data
                     return makers.map((maker: any, idx: number) => {
-                      if (page_num == data.pages.length - 1 && makers.length - 1 == idx) {
+                      if (page_num == data.pages.length - 1 && idx == 0) {
                         return <MakerCard ref={ref} key={maker._id} {...maker} />
                       } else {
                         return <MakerCard key={maker._id} {...maker} />
@@ -168,22 +181,15 @@ export default function Makers() {
   )
 }
 
-// export const getServerSideProps: GetServerSideProps = async context => {
-//   console.log("server side")
-//   let maker = { total: 0, list: [] }
-//   try {
-//     const res = await axios.get("/api/makers/list?page=1")
-//     if (res.status === 200) {
-//       maker.total = res.total
-//       maker.list = res.list
-//     }
-//   } catch (e) {
-//     console.log("server sider error")
-//     // console.log(e)
-//   }
-//   return {
-//     props: {
-//       maker,
-//     },
-//   }
-// }
+export const getServerSideProps: GetServerSideProps = async ({ query, locale, locales }) => {
+  if (locale == "default") {
+    return {
+      notFound: true,
+    }
+  }
+  return {
+    props: {
+      ...(await serverSideTranslations(locale!, ["common", "maker"])),
+    },
+  }
+}

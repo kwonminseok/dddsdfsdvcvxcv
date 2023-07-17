@@ -1,44 +1,78 @@
 import React from "react"
-import { Flex, Box, Avatar } from "@components/commons"
-
-import { Wallet, Twitter, Instagram, Chrome } from "lucide-react"
+import { Flex, Box, Avatar, Skeleton, SVG } from "@components/commons"
 import useWindowSize from "@libs/hooks/use-window-size"
+import { transformedEOA } from "@libs/utils/transformed"
+import { createIcon } from "@icons/icons"
 // import Facebook from '@assets/icons/facebook';
 // import Twitter from '@assets/icons/twitter';
 // import Instagram from '@assets/icons/instargram';
 interface IUserInfoProps {
-  name?: string
+  user:
+    | {
+        nickname: string
+        eoa: string
+        email?: string
+        _id?: string
+      }
+    | undefined
 }
 
-const UserInfo = React.memo(({ name = "hi" }: IUserInfoProps) => {
+const UserInfo = React.memo(({ user, ...props }: IUserInfoProps) => {
   const sizeType = useWindowSize()
   const snsSizes = (sizeType as number) > 0 ? 32 : 24
   return (
     <Flex direction="column" align="center" justify="center">
       {/* profile */}
-      <Avatar
-        size={["104px", "160px"]}
-        src={
-          "https://public.nftstatic.com/static/nft/webp/nft-extdata-loader/S3/1687117348836_qisaf0n3f5cs35v6e73o0x7kmkxh7rm7_400x400.webp"
-        }
-        boxSx={{ m: 6 }}
-      />
-      <Box
-        sx={{
-          fontSize: ["18px", "32px"],
-          fontWeight: "bold",
-          lineHeight: ["24px", "45px"],
-        }}
-      >
-        {/* userName */}
-        산이좋아1749{name}
-      </Box>
-      <Flex sx={{ alignItems: "center", mt: 2 }}>
-        <Wallet size={16} style={{ marginRight: "4px" }} />
-        <Box sx={{ fontWeight: "500", fontSize: [0, 2] }}>
-          {/* user wallet */}
-          0X123SD…FHT5769
+
+      {user ? (
+        <Avatar
+          size={["104px", "160px"]}
+          src={
+            "https://public.nftstatic.com/static/nft/webp/nft-extdata-loader/S3/1687117348836_qisaf0n3f5cs35v6e73o0x7kmkxh7rm7_400x400.webp"
+          }
+          boxSx={{ m: 6 }}
+        />
+      ) : (
+        <Box sx={{ m: 6 }}>
+          <Skeleton sx={{ width: ["104px", "160px"], height: ["104px", "160px"] }} radius="50%" />
         </Box>
+      )}
+      {user ? (
+        <Box
+          sx={{
+            fontSize: ["18px", "32px"],
+            fontWeight: "bold",
+            lineHeight: ["24px", "45px"],
+          }}
+        >
+          {user.nickname}
+        </Box>
+      ) : (
+        <Box>
+          <Skeleton sx={{ height: "31px", minWidth: "276px" }} />
+        </Box>
+      )}
+      <Flex sx={{ alignItems: "center", mt: 2 }}>
+        {user ? (
+          <>
+            <SVG fill="1a1a1a" size={["16px"]} viewBox="0 0 222 222">
+              {createIcon("wallet")}
+            </SVG>
+            {/* <Wallet size={16} style={{ marginRight: "4px" }} /> */}
+            <Box sx={{ pl: 2, fontWeight: "500", fontSize: [0, 2] }}>
+              {/* user wallet */}
+              {transformedEOA(user.eoa)}
+            </Box>
+          </>
+        ) : (
+          <>
+            {" "}
+            <Box sx={{ pr: 2 }}>
+              <Skeleton sx={{ width: "24px", height: "24px" }} />
+            </Box>
+            <Skeleton sx={{ height: "13px", minWidth: "152px" }} />
+          </>
+        )}
       </Flex>
 
       <Box
@@ -55,15 +89,9 @@ const UserInfo = React.memo(({ name = "hi" }: IUserInfoProps) => {
         }}
       >
         {/* content */}
-        <Box sx={{ fontSize: [1, 2] }}>
-          미래해상은 1955년 국내 최초 해상보험 전업회사로 창립한 이래 고객께서
-          주신 한결같은 사랑을 바탕으로 국내 손해보험 산업을 선도하고
-          있습니다.고객의 신뢰를 기업 최고의 자산으로 생각하며 보험업계 최초로
-          고객만족헌장을 선포하고 ‘마음이 합니다’ 라는 브랜드 슬로건을 바탕으로
-          최상의 서비스를 펼치기 위해 노력하고 있습니다.
-        </Box>
+        <Box sx={{ fontSize: [1, 2] }}></Box>
       </Box>
-      <Flex
+      {/* <Flex
         sx={{
           alignItems: "center",
           justifyContent: "center",
@@ -82,7 +110,7 @@ const UserInfo = React.memo(({ name = "hi" }: IUserInfoProps) => {
         <Flex>
           <Chrome size={snsSizes} />
         </Flex>
-      </Flex>
+      </Flex> */}
     </Flex>
   )
 })

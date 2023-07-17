@@ -5,8 +5,8 @@ import ImageWrapper from "@components/imageWrapper"
 import { SupportStory, DetailInfo, MakerInfo, SupportInfo, MemberList } from "@components/supports/[pid]"
 import BlockInfo from "../../../components/supports/[pid]/block-info"
 import useWindowSize from "@libs/hooks/use-window-size"
-
-import { useQuery, useMutation } from "@tanstack/react-query"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { useEffect } from "react"
 import { GetServerSideProps } from "next"
@@ -18,11 +18,29 @@ export default function Support({ pid }: any) {
       const result = res.data
 
       return result
-      //
+    }
+  }
+  const fetchMemberList = async () => {
+    if (pid) {
+      const res = await axios.get(`/api/supports/memberlist/${pid}`)
+      const result = res.data
+
+      return result
     }
   }
 
-  const { data, isLoading, error } = useQuery({ queryKey: ["support", pid], queryFn: fetchSupport })
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["support", pid],
+    queryFn: fetchSupport,
+    refetchOnReconnect: true,
+    retry: 1,
+  })
+  const memberlist = useQuery({
+    queryKey: ["memberlist", pid],
+    queryFn: fetchMemberList,
+    refetchOnReconnect: true,
+    retry: 1,
+  })
 
   return (
     <>
@@ -47,11 +65,16 @@ export default function Support({ pid }: any) {
                     height: "100%",
                     borderRadius: "8px",
                     border: "0px solid",
+                    overflow: "hidden",
                   },
                 }}
                 style={{
                   borderRadius: "8px",
                   objectFit: "contain",
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  width: "auto",
+                  height: "auto",
                 }}
               />
             ) : (
@@ -60,14 +83,10 @@ export default function Support({ pid }: any) {
 
             {(sizeType as number) > 0 && (
               <Box sx={{ pt: 6 }}>
-                <SupportStory
-                  sizeType={sizeType as number}
-                  description={data && data.description}
-                  subImages={data && data.subImages}
-                />
-                <DetailInfo sizeType={sizeType as number} attributes={data && data.attributes} />
-                <MakerInfo sizeType={sizeType as number} />
-                <BlockInfo sizeType={sizeType as number} />
+                <SupportStory description={data && data.description} subImages={data && data.subImages} />
+                <DetailInfo attributes={data && data.attributes} />
+                <MakerInfo maker={data && data.maker} />
+                <BlockInfo totalMinted={data && data.totalMinted} />
               </Box>
             )}
           </Box>
@@ -87,23 +106,29 @@ export default function Support({ pid }: any) {
               useMintPeriod={data && data.useMintPeriod}
               startMintDate={data && data.startMintDate}
               endMintDate={data && data.endMintDate}
+              _id={data && data._id}
+              digit={data && data.digit}
             />
             {/* <SupportInfo 
             /> */}
-            {(sizeType as number) > 0 && <MemberList totalMinted={data && data.totalMinted} />}
+            {(sizeType as number) > 0 && (
+              <MemberList
+                total={memberlist.data && memberlist.data.data.total}
+                members={memberlist.data && memberlist.data.data.list}
+              />
+            )}
           </Flex>
         </Flex>
         {(sizeType as number) < 1 && (
           <Box sx={{ width: "auto" }}>
-            <SupportStory
-              sizeType={sizeType as number}
-              description={data && data.description}
-              subImages={data && data.subImages}
+            <SupportStory description={data && data.description} subImages={data && data.subImages} />
+            <DetailInfo attributes={data && data.attributes} />
+            <BlockInfo totalMinted={data && data.totalMinted} />
+            <MakerInfo maker={data && data.maker} />
+            <MemberList
+              total={memberlist.data && memberlist.data.data.total}
+              members={memberlist.data && memberlist.data.data.list}
             />
-            <DetailInfo sizeType={sizeType as number} attributes={data && data.attributes} />
-            <BlockInfo sizeType={sizeType as number} />
-            <MakerInfo sizeType={sizeType as number} />
-            <MemberList totalMinted={data && data.totalMinted} />
           </Box>
         )}
       </Wrapper>
@@ -111,14 +136,18 @@ export default function Support({ pid }: any) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async context => {
-  console.log("server side")
+export const getServerSideProps: GetServerSideProps = async ({ query, locale, locales }) => {
+  if (locale == "default") {
+    return {
+      notFound: true,
+    }
+  }
+  const { pid } = query
 
-  const { pid } = context.query
-  console.log(pid)
   return {
     props: {
       pid,
+      ...(await serverSideTranslations(locale!, ["common", "support"])),
     },
   }
 }

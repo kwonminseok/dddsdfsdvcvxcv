@@ -1,20 +1,28 @@
 import CardImageWrapper from "./card-image-wrapper"
 import Link from "next/link"
 import { Box, Flex } from "@components/commons"
-import LogoSmall from "@icons/logo-small"
+import { forwardRef } from "react"
 interface SupportCardProps {
-  href?: string
-  imgSrc?: string
-  maker: string
-  name: string
-  timestamp?: number
+  maker: {
+    name: string
+  }
+  _id: string
+  title: string
+  mainImage: string
+  createdAt: string
+  supporter: string
 }
-const defualt =
-  "https://public.nftstatic.com/static/nft/webp/nft-extdata-loader/S3/1687117348836_qisaf0n3f5cs35v6e73o0x7kmkxh7rm7_400x400.webp"
-const SupportCard = ({ href = "/", imgSrc = defualt, maker, name }: SupportCardProps) => {
+function formatTimestamp(str: string) {
+  const date = new Date(str)
+  const options = { year: "numeric", month: "short", day: "numeric" } as const
+  const formattedDate = date.toLocaleDateString("en-US", options)
+  return formattedDate
+}
+
+const SupportCard = forwardRef(({ maker, _id, title, mainImage, createdAt, supporter }: SupportCardProps, ref) => {
   return (
-    <Box sx={{ margin: ["12px", "4px 0px 10px 4px"] }}>
-      <Link href={href} passHref legacyBehavior>
+    <Box sx={{ margin: ["12px", "4px 0px 10px 4px"] }} ref={ref}>
+      <Link href={`/supports/mint/${_id}`} passHref legacyBehavior>
         <Box
           as="a"
           sx={{
@@ -31,7 +39,7 @@ const SupportCard = ({ href = "/", imgSrc = defualt, maker, name }: SupportCardP
           }}
         >
           <Box sx={{}}>
-            <CardImageWrapper src={imgSrc} />
+            <CardImageWrapper src={mainImage} />
             <Box
               sx={{
                 pr: 4,
@@ -47,7 +55,7 @@ const SupportCard = ({ href = "/", imgSrc = defualt, maker, name }: SupportCardP
                   lineHeight: "20px",
                 }}
               >
-                {maker}
+                {maker.name}
               </Box>
               <Box
                 sx={{
@@ -62,27 +70,27 @@ const SupportCard = ({ href = "/", imgSrc = defualt, maker, name }: SupportCardP
                   textOverflow: "ellipsis",
                 }}
               >
-                {name}
+                {title}
               </Box>
+              <Flex __css={{ pt: 8, fontSize: 0 }}>Supporter</Flex>
               <Flex
                 __css={{
                   alignItems: "center",
                   justifyContent: "space-between",
-                  px: 2,
                   pb: 1,
-                  pt: 8,
                 }}
               >
-                <Flex sx={{ flex: 1, lineHeight: "20px", fontSize: 0 }}>Aug 24 2021</Flex>
                 <Flex
                   sx={{
                     flex: 1,
-                    lineHeight: "20px",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
+                    fontSize: 1,
+                    fontWeight: "bold",
                   }}
                 >
-                  <LogoSmall width={"100%"} />
+                  <Box>{supporter}</Box>
+                </Flex>
+                <Flex sx={{ flex: 1, lineHeight: "20px", fontSize: 0, justifyContent: "flex-end" }}>
+                  {formatTimestamp(createdAt)}
                 </Flex>
               </Flex>
             </Box>
@@ -91,6 +99,6 @@ const SupportCard = ({ href = "/", imgSrc = defualt, maker, name }: SupportCardP
       </Link>
     </Box>
   )
-}
+})
 
 export default SupportCard

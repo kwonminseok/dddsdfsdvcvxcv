@@ -4,6 +4,7 @@ import { Box, Flex } from "@components/commons"
 import { LuUser, LuHeart } from "react-icons/lu"
 import useWindowSize from "@libs/hooks/use-window-size"
 import { forwardRef } from "react"
+import { useRouter } from "next/router"
 interface IMaker {
   name: string
   profileImage: string
@@ -12,11 +13,10 @@ interface IMaker {
 interface SupportCardProps {
   _id: string
   mainImage: string
-  maker: IMaker
+  maker?: IMaker
   title: string
   startSupportDate: number
   totalMinted: number
-
   category?: string
 }
 
@@ -27,15 +27,15 @@ function formatTimestamp(timestamp: number) {
   return formattedDate
 }
 
-const defualt =
-  "https://public.nftstatic.com/static/nft/webp/nft-extdata-loader/S3/1687117348836_qisaf0n3f5cs35v6e73o0x7kmkxh7rm7_400x400.webp"
 const SupportCard = forwardRef(
   ({ _id, mainImage, category, maker, title, totalMinted, startSupportDate }: SupportCardProps, ref) => {
     const sizeType = useWindowSize()
     const iconSize = (sizeType as number) > 0 ? 16 : 12
-
+    const router = useRouter()
+    const { pathname } = router
+    //sx={{ width: "100%", bg: "" }}
     return (
-      <Box ref={ref} sx={{ width: "100%", bg: "" }}>
+      <Box ref={ref} sx={{ width: "100%" }}>
         <Link href={`/supports/${_id}`} passHref legacyBehavior>
           <Box
             as="a"
@@ -43,19 +43,12 @@ const SupportCard = forwardRef(
               display: "block",
               position: "relative",
               width: "100%",
-              height: "100%",
+
               borderRadius: "8px",
               cursor: "pointer",
-              overlofw: "hidden",
+              overflow: "hidden",
               transition: "all 0.3s ease 0s",
-              // boxShadow: "scard",
               minHeight: "120px",
-              ":hover": {
-                transform: "translateY(-4px)",
-                boxShadow: "scardhover",
-                //         transform: translateY(-4px);
-                // box-shadow: rgba(24, 26, 32, 0.1) 0px 0px 1px, rgba(71, 77, 87, 0.08) 0px 7px 14px, rgba(24, 26, 32, 0.08) 0px 3px 6px;
-              },
             }}
           >
             {/* <Box
@@ -80,18 +73,28 @@ const SupportCard = forwardRef(
             42
           </Box>
         </Box> */}
-            <CardImageWrapper src={mainImage} />
+            <CardImageWrapper
+              src={mainImage}
+              boxSx={{
+                transition: "transform 0.3s ease 0s",
+                ":hover": {
+                  transform: "scale(1.05)",
+                },
+              }}
+            />
             <Box sx={{ padding: 2, color: "t.primary", paddingLeft: ["136px", 2] }}>
-              <Box
-                sx={{
-                  fontSize: [0, 1],
-                  fontWeight: "normal",
-                  lineHeight: "20px",
-                }}
-              >
-                메이커 네임
-                {/* {maker.name ? maker.name : "shq"} */}
-              </Box>
+              {maker && (
+                <Box
+                  sx={{
+                    fontSize: [0],
+                    fontWeight: "normal",
+                    lineHeight: "18px",
+                  }}
+                >
+                  {maker.name}
+                </Box>
+              )}
+
               <Box
                 sx={{
                   fontSize: [1, 2],
@@ -107,12 +110,15 @@ const SupportCard = forwardRef(
               >
                 {title}
               </Box>
+              {pathname !== "/supports" ? (
+                <Flex sx={{ fontSize: 0, lineHeight: "18px" }}>@ Bali, Indonesia</Flex>
+              ) : null}
               <Flex
                 __css={{
                   alignItems: "center",
                   justifyContent: "space-between",
                   pb: 1,
-                  pt: 4,
+                  pt: 2,
                 }}
               >
                 <Flex sx={{ flex: 1, lineHeight: "20px", fontSize: 0 }}>
@@ -124,6 +130,7 @@ const SupportCard = forwardRef(
                     flex: 1,
                     lineHeight: "20px",
                     justifyContent: "flex-end",
+                    alignItems: "center",
                   }}
                 >
                   <LuUser />
@@ -133,6 +140,7 @@ const SupportCard = forwardRef(
             </Box>
           </Box>
         </Link>
+        <Box></Box>
       </Box>
     )
   },

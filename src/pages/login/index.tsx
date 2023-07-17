@@ -1,4 +1,4 @@
-import { Flex } from "@components/commons"
+import { Flex, Box } from "@components/commons"
 import { GetServerSideProps } from "next"
 import Login from "@components/login/login"
 import LoginLayout from "./layout"
@@ -19,15 +19,19 @@ export default function LoginPages({ next, userInfo }: any) {
   return (
     <Flex
       as="main"
-      sx={{
-        width: "100%",
-        flexDirection: "column",
-        alignItems: "center",
-        overflow: "hidden",
-      }}
+      sx={{ height: "100vh", width: "100%", justifyContent: "center", alignItems: "center", bg: "black20" }}
     >
-      <Flex sx={{ bg: "black05", borderRadius: [0, "6px"], boxShadow: ["none", "floody3"], my: 2 }}>
-        {next === "notRegisted" ? <Register userInfo={userInfo} /> : <Login />}
+      <Flex
+        sx={{
+          width: "100%",
+          flexDirection: "column",
+          alignItems: "center",
+          overflow: "hidden",
+        }}
+      >
+        <Flex sx={{ bg: "black05", borderRadius: [0, "6px"], boxShadow: ["none", "floody3"], my: 2 }}>
+          {next === "notRegisted" ? <Register userInfo={userInfo} /> : <Login />}
+        </Flex>
       </Flex>
     </Flex>
   )
@@ -68,7 +72,9 @@ export const getServerSideProps: GetServerSideProps = async context => {
     }
   } else if (next == "SignIn") {
     console.log("SignIn")
+
     if (token !== "") {
+      console.log(token)
       context.res.setHeader("Set-Cookie", `ses_23k_xh=${token};Path=/;`)
     }
   }

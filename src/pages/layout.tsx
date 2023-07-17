@@ -1,37 +1,58 @@
 import React, { useEffect, useState } from "react"
-import { Box, Flex, Text, Button } from "@components/commons"
+import { Box, Flex, Text, Button, Avatar } from "@components/commons"
 import useHeaderBorder from "@libs/hooks/use-header-border"
 import useWindowSize from "@libs/hooks/use-window-size"
 import Link from "next/link"
 import LogoSmall from "@icons/logo-small"
 import SearchInput from "@components/search-input"
-import LogoMain from "@icons/logo-main"
+// import LogoMain from "@icons/logo-main"
 import axios from "axios"
 import Cookies from "js-cookie"
+import { useRecoilState } from "recoil"
+import { loginStatus } from "@/_states/user/selectors"
+import { useRouter } from "next/router"
+import { UserCircle2 } from "lucide-react"
+import HoverDrop from "@components/layout/hoverdrop"
+import { useTranslation } from "next-i18next"
+// import { GetServerSideProps } from "next"
+// import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 export interface LayoutProps {
   children: React.ReactNode
 }
 
+const instance = axios.create({
+  baseURL: "/",
+})
+
 const Header = () => {
+  // const { t, i18n } = useTranslation(["header"], {
+  //   bindI18n: "languageChanged loaded",
+  // })
+
+  // useEffect(() => {
+  //   i18n.reloadResources(i18n.resolvedLanguage, ["header"])
+  // }, [i18n])
+
   const isborder = useHeaderBorder()
   const sizeType = useWindowSize()
-  const [isLoading, setIsLoading] = useState(true)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
+  const [login, setLogin] = useRecoilState(loginStatus)
+  const router = useRouter()
+  const isLoginPage = router.pathname === "/login"
+  // console.log(window.navigator.language)
   useEffect(() => {
     async function fetchUserMe() {
-      const res = await axios.get("api/users/logincheck")
-
+      const res = await instance.get("api/users/logincheck")
       if (res.data) {
         if (res.data.status === 200) {
           if (res.data.message == "USER_LOGIN") {
-            setIsLoggedIn(true)
-          } else if (res.data.message == "TOKEN_INVALID") {
-            setIsLoggedIn(false)
+            setLogin(old => ({ ...old, isLoggedIn: true }))
+            // setIsLoggedIn(true)
+          } else if (res.data.message == "TOKEN_INVALID" || res.data.message == "TOKEN_EXPIRED") {
+            setLogin(old => ({ ...old, isLoggedIn: false }))
           }
         }
       }
-      setIsLoading(false)
+      setLogin(old => ({ ...old, isLoading: false }))
     }
     fetchUserMe()
   }, [])
@@ -40,6 +61,26 @@ const Header = () => {
     Cookies.remove("ses_23k_xh")
     window.location.reload()
   }
+
+  useEffect(() => {
+    async function fetchUserInfo() {
+      const res = await instance.get("api/users/basicinfo")
+      if (res.data) {
+        // console.log(res.data)
+      }
+    }
+
+    if (!login.isLoading) {
+      if (login.isLoggedIn && isLoginPage) {
+        window.location.href = "/"
+      }
+
+      if (login.isLoggedIn) {
+        fetchUserInfo()
+      }
+    }
+  }, [login])
+
   return (
     <>
       <Box
@@ -91,7 +132,7 @@ const Header = () => {
               </Box>
             </Link>
           </Flex>
-          {(sizeType as number) == 2 && (
+          {!isLoginPage && (sizeType as number) == 2 && (
             <>
               <Flex
                 sx={{
@@ -149,16 +190,20 @@ const Header = () => {
               </Flex>
             </>
           )}
-          {(sizeType as number) > 0 && (
+          {!isLoginPage && (sizeType as number) > 0 && (
             <Flex sx={{ alignItems: "center", flex: 1 }}>
               <SearchInput />
             </Flex>
           )}
-          {(sizeType as number) == 2 && (
+          <Flex sx={{ px: 2, position: "relative" }}>
+            <HoverDrop />
+          </Flex>
+
+          {!isLoginPage && (sizeType as number) == 2 && (
             <Flex align="center">
-              {isLoading ? (
+              {login.isLoading ? (
                 <></>
-              ) : isLoggedIn ? (
+              ) : login.isLoggedIn ? (
                 <Button
                   type="button"
                   onClick={handleLogout}
@@ -200,91 +245,50 @@ const Header = () => {
 
 const Footer = () => {
   return (
-    <Box as="footer" sx={{ pt: 8, px: [4, 6, "96px"], width: "100%" }}>
-      <Flex pb={[4, 8]} sx={{ flexDirection: ["column", "row"], alignItems: "center" }}>
-        <Flex>
-          <LogoMain
-            width="227px"
-            // sx={{height:"50px", width: '200px'}}
-          />
-        </Flex>
-        <Flex pl="32px" direction="column" sx={{ alignItems: ["center", "baseline"], pt: [6, 0] }}>
-          <Flex sx={{ flexDirection: ["row", "row"] }} pb="3">
+    <Box as="footer" sx={{ width: "100%", bg: "black30" }}>
+      <Flex
+        py={[4, 8]}
+        sx={{
+          flexDirection: ["column", "row"],
+          alignItems: "center",
+          maxWidth: "1200px",
+          mx: "auto",
+          borderBottom: "1px solid",
+          borderColor: "black05",
+        }}
+      >
+        <Flex direction="column" sx={{ alignItems: ["center", "baseline"] }}>
+          <Flex sx={{ flexDirection: ["row", "row"] }}>
             <Box pr="4">
-              <Text sx={{ fontSize: [1, 2], fontWeight: "bold" }}>이용약관</Text>
+              <Text sx={{ fontSize: [1, 2], fontWeight: "bold", color: "black05", cursor: "pointer" }}>
+                Terms and conditions
+              </Text>
             </Box>
             <Box pr="4">
-              <Text sx={{ fontSize: [1, 2], fontWeight: "bold" }}>개인정보처리지침</Text>
+              <Text sx={{ fontSize: [1, 2], fontWeight: "bold", color: "black05", cursor: "pointer" }}>
+                Privacy policy
+              </Text>
             </Box>
             <Box pr="4" sx={{ display: ["none", "block"] }}>
-              <Text sx={{ fontSize: [1, 2], fontWeight: "bold" }}>info@floody.kr</Text>
+              <Text sx={{ fontSize: [1, 2], fontWeight: "bold", color: "black05" }}>info@floody.kr</Text>
             </Box>
-          </Flex>
-          <Flex sx={{ flexDirection: ["column", "row"], fontSize: [0, 1] }}>
-            <Text sx={{ display: "inline-flex" }}>
-              <Box as="p">주식회사 플러디(368-88-01432)</Box>
-              <Box
-                as="p"
-                sx={{
-                  ":before": {
-                    content: `''`,
-                    display: "inline-block",
-                    width: "1px",
-                    height: "12px",
-                    backgroundColor: "black50",
-                    verticalAlign: "-1px",
-                    margin: "0 8px",
-                  },
-                }}
-              >
-                대표자 조재혁
-              </Box>
-              <Box
-                as="p"
-                sx={{
-                  ":before": {
-                    content: `''`,
-                    display: "inline-block",
-                    width: "1px",
-                    height: "12px",
-                    backgroundColor: "black50",
-                    verticalAlign: "-1px",
-                    margin: "0 8px",
-                  },
-                }}
-              >
-                개인정보관리책임자 남기원
-              </Box>
-              <Box
-                as="p"
-                sx={{
-                  ":before": {
-                    content: `''`,
-                    display: "inline-block",
-                    width: "1px",
-                    height: "12px",
-                    backgroundColor: "black50",
-                    verticalAlign: "-1px",
-                    margin: "0 8px",
-                  },
-                }}
-              >
-                서울시 마포구 동교로 38길 33-9 2층 202호(연남동)
-              </Box>
-            </Text>
           </Flex>
         </Flex>
       </Flex>
       <Flex
         align={"center"}
         sx={{
-          justifyContent: ["center", "center"],
+          maxWidth: "1200px",
+          mx: "auto",
           py: [4, 8],
           borderTop: "1px",
           borderColor: "black10",
         }}
       >
-        <Text>© 2023 Floody. All rights reserved.</Text>
+        <Flex sx={{ width: ["235px"] }}>
+          <LogoSmall color="#f2f2f2" width="100%" />
+        </Flex>
+        <Text sx={{ pl: 4, color: "black05", fontSize: 2 }}>© 2023 Floody. All rights reserved.</Text>
       </Flex>
     </Box>
   )
@@ -305,3 +309,15 @@ const DefaultLayout = ({ children }: LayoutProps) => {
 }
 
 export default DefaultLayout
+
+// export const getServerSideProps: GetServerSideProps = async ({ query, locale, locales }) => {
+//   console.log("server side")
+//   const { pid } = query
+//   return {
+//     props: {
+//       pid,
+//       ...(await serverSideTranslations(locale ?? "en", ["common", "header"])),
+//       locales,
+//     },
+//   }
+// }

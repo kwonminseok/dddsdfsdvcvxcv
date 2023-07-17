@@ -1,6 +1,7 @@
-import { Box, Flex, Skeleton } from "@components/commons"
+import { Box, Flex, Skeleton, SVG } from "@components/commons"
 import { LuNewspaper } from "react-icons/lu"
-
+import { useTranslation } from "next-i18next"
+import { createIcon } from "@icons/icons"
 const SKELETON_LIST = [
   { trait_value: 0, value: "" },
   { trait_value: 1, value: "" },
@@ -8,9 +9,8 @@ const SKELETON_LIST = [
   { trait_value: 3, value: "" },
 ]
 
-const DetailInfo = ({ sizeType, attributes }: { sizeType: number; attributes: any[] }) => {
-  const iconSize = sizeType > 0 ? 24 : 18
-
+const DetailInfo = ({ attributes }: { attributes: any[] }) => {
+  const { t } = useTranslation("support")
   const _renderSkeleton = SKELETON_LIST.map((item, idx) => {
     return (
       <Flex
@@ -31,7 +31,9 @@ const DetailInfo = ({ sizeType, attributes }: { sizeType: number; attributes: an
     <Box sx={{ mb: 7, width: "100%", mr: [0, 3] }}>
       <Flex sx={{ alignItems: "center", pb: 3 }}>
         <Flex sx={{ pr: 2, alignItems: "center", justifyContent: "center" }}>
-          <LuNewspaper size={iconSize} />
+          <SVG fill="1a1a1a" size={["18px", "24px"]} viewBox="0 0 222 222">
+            {createIcon("detail")}
+          </SVG>
         </Flex>
         <Box
           sx={{
@@ -40,7 +42,7 @@ const DetailInfo = ({ sizeType, attributes }: { sizeType: number; attributes: an
             lineHeight: ["24px", "30px"],
           }}
         >
-          상세 정보
+          {t("details")}
         </Box>
       </Flex>
       <Box>

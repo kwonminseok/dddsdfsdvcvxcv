@@ -1,5 +1,4 @@
 import axios from "axios"
-import { access } from "fs"
 
 export const Axiosinstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -28,9 +27,10 @@ export const userLoginCheck = async (cookie: string) => {
         Authorization: `Bearer ${cookie}`,
       },
     })
-    console.log(res.data)
     return res.data
   } catch (error) {
+    console.log("error in logincheck")
+    return null
     // console.log(error)
     console.log("error")
     // console.log(error)
@@ -45,15 +45,18 @@ export default async function handler(req: any, res: any) {
     if (req.method === "GET") {
       const { cookie } = req.headers
       const wanted = getCookieValue(cookie, "ses_23k_xh")
+
       //   console.log(wanted)
       //   res.status(200).json({ data: comment })
       //   const query = req.query
       //   const { page, count, param, sorted, order } = query
-      console.log("hi")
+
       const result = await userLoginCheck(wanted as string)
 
       if (result) {
         res.status(200).json({ status: 200, message: result.message })
+      } else {
+        res.status(200).json({ status: 200 })
       }
     }
   } catch (e) {
