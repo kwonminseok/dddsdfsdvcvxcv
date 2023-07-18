@@ -22,6 +22,7 @@ export const issueNFT = async (cookie: string, supportId: string, password: stri
         Authorization: `Bearer ${cookie}`,
       },
     })
+    console.log(res)
     return res.data
   } catch (error) {
     console.log(error)
@@ -40,11 +41,11 @@ export default async function handler(req: any, res: any) {
       const { supportId, password } = req.query
 
       const result = await issueNFT(wanted as string, supportId, password)
-
+      console.log(result)
       if (result) {
         res.status(200).json({ status: 200, message: result.message })
       } else {
-        res.status(200).json({ status: 200, message: "error api" })
+        res.status(200).json({ status: 200, data: result })
       }
     }
   } catch (e) {

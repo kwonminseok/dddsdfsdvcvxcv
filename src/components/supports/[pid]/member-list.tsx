@@ -5,14 +5,39 @@ import { Users } from "lucide-react"
 import SkeletonMemberCard from "../skeleton-member-card"
 import { useTranslation } from "next-i18next"
 import { createIcon } from "@icons/icons"
+import { useMutation } from "@tanstack/react-query"
+import { useCallback, useEffect, useState } from "react"
+import axios from "axios"
+import Pagination from "@components/commons/Pagination/pagination"
 interface MemberListProps {
-  total: number
-  members?: any[]
+  pid: string
 }
+const COUNT = 10
 
-const MemberList = ({ total, members }: MemberListProps) => {
+const MemberList = ({ pid }: MemberListProps) => {
   const sizetype = useWindowSize()
   const { t } = useTranslation("support")
+  const [nowPage, setNowPage] = useState<number>(1)
+  const [lastPage, setLastPage] = useState<number>(1)
+  const fetchMemberList = useCallback(async () => {
+    if (pid) {
+      const res = await axios.get(`/api/supports/memberlist/${pid}?page=${nowPage}&count=${COUNT}`)
+      const result = res.data
+
+      return result
+    }
+  }, [nowPage])
+
+  const { data, mutate, isLoading, isError, error, isSuccess } = useMutation(fetchMemberList)
+  useEffect(() => {
+    mutate()
+    window.scrollTo(0, 0)
+  }, [nowPage])
+  useEffect(() => {
+    if (isSuccess) {
+      setLastPage(Math.ceil(data.data.total / COUNT))
+    }
+  }, [isSuccess])
 
   return (
     <Box sx={{ mb: 7, width: "100%", mr: 3 }}>
@@ -33,20 +58,28 @@ const MemberList = ({ total, members }: MemberListProps) => {
             {t("certificateholders")}
           </Box>
         </Flex>
-        {total !== undefined ? (
+        {data !== undefined && isSuccess ? (
           <Flex>
             <Box>{t("total")}</Box>
-            <Box sx={{ pl: 1, fontWeight: "bold" }}>{total}</Box>
+            <Box sx={{ pl: 1, fontWeight: "bold" }}>{data.data.total}</Box>
           </Flex>
         ) : (
           <Skeleton height={"23px"} sx={{ width: "76px" }} radius="4px" />
         )}
       </Flex>
       <Flex sx={{ my: 2, flexDirection: "column" }}>
-        {members ? (
-          members.map((member, key) => <MemberCard key={key} sizeType={sizetype as number} {...member} />)
-        ) : (
+        {isSuccess &&
+          data &&
+          data.data.list.map((member: any, key: number) => (
+            <MemberCard key={key} sizeType={sizetype as number} {...member} />
+          ))}
+
+        {isLoading && (
           <>
+            <SkeletonMemberCard sizeType={sizetype as number} />
+            <SkeletonMemberCard sizeType={sizetype as number} />
+            <SkeletonMemberCard sizeType={sizetype as number} />
+            <SkeletonMemberCard sizeType={sizetype as number} />
             <SkeletonMemberCard sizeType={sizetype as number} />
             <SkeletonMemberCard sizeType={sizetype as number} />
             <SkeletonMemberCard sizeType={sizetype as number} />
@@ -54,6 +87,11 @@ const MemberList = ({ total, members }: MemberListProps) => {
           </>
         )}
       </Flex>
+      {lastPage > 1 && (
+        <Flex sx={{ alignItems: "center", justifyContent: "center" }}>
+          <Pagination nowPage={nowPage} lastPage={lastPage} setPage={setNowPage} />
+        </Flex>
+      )}
     </Box>
   )
 }

@@ -16,6 +16,7 @@ import { TabsContainer, TabList, Tab } from "@components/commons/Tabs/tab"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 import { GetServerSideProps } from "next"
+import Pagination from "@components/commons/Pagination/pagination"
 const inter = Inter({ subsets: ["latin"] })
 
 export default function Home() {
@@ -36,6 +37,7 @@ export default function Home() {
             <Tab tabKey="namba2">남바투</Tab>
           </TabList>
         </TabsContainer>
+        <Pagination nowPage={2} lastPage={24} />
       </div>
     </>
   )

@@ -1,23 +1,4 @@
-import axios from "axios"
-
-const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-})
-
-const getSupportList = async (page: number, count = 10, param = "", sorted = "createAt", order = -1) => {
-  console.log(page, count, param, sorted, order)
-  try {
-    const res = await instance.get(`/api/floody/supports?page=${page}&count=${count}&sorted=${sorted}&order=${order}`)
-    // console.log(res)
-    return res.data
-  } catch (error) {
-    console.log("error")
-    // console.log(error)
-  }
-  // try{
-  //     const res = await instance.get(`/api/makers?`)
-  // }
-}
+import { getSupportList } from "@libs/api/support"
 
 export default async function handler(req: any, res: any) {
   try {
@@ -33,6 +14,5 @@ export default async function handler(req: any, res: any) {
     }
   } catch (e) {
     console.log("e")
-    // console.log(e)
   }
 }

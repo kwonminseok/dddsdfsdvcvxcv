@@ -1,19 +1,4 @@
-// import axios from "axios"
 import { getMakerInfo } from "@libs/api/maker"
-
-// const instance = axios.create({
-//   baseURL: process.env.NEXT_PUBLIC_API_URL,
-// })
-
-// const getMakerInfo = async (pid: string) => {
-//   try {
-//     const res = await instance.get(`/api/makers/${pid}?page=1&count=10&sort=createdAt&order=-1`)
-//     // console.log(res.data)
-//     return res.data
-//   } catch (error) {
-//     console.log("error")
-//   }
-// }
 
 export default async function handler(req: any, res: any) {
   const { pid } = req.query

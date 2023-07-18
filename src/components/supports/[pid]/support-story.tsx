@@ -86,36 +86,11 @@ const SupportStory = ({ description, subImages }: { description: string; subImag
                 subImages ? (
                   <></>
                 ) : (
-                  <Skeleton sx={{ width: "100%", paddingBottom: "100%" }} />
+                  <Skeleton key={idx} sx={{ width: "100%", paddingBottom: "100%" }} />
                 )}
               </Box>
             ))}
           </>
-
-          {/* <Box sx={{ flex: 1, mr: "9px" }}>
-          <ImageWrapper
-            brProps="8px"
-            src={
-              "https://public.nftstatic.com/static/nft/webp/nft-extdata-loader/S3/1687117348836_qisaf0n3f5cs35v6e73o0x7kmkxh7rm7_400x400.webp"
-            }
-            wrapperClassName="lazy-load-image-wrapper"
-            effect="blur"
-            wrapperProps={{
-              style: {
-                display: "flex",
-                width: "100%",
-                height: "100%",
-                borderRadius: "8px",
-                border: "0px solid",
-              },
-            }}
-            style={{
-              borderRadius: "8px",
-              objectFit: "contain",
-            }}
-          />
-        </Box>
-      */}
         </Flex>
       </Box>
       <SubImageModal

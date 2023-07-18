@@ -45,7 +45,7 @@ const MakerInfo = ({ maker }: MakerInfoProps) => {
             lineHeight: ["24px", "30px"],
           }}
         >
-          {t("fandom")}
+          {t("support:fandom")}
         </Box>
       </Flex>
       <Box></Box>

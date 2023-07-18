@@ -28,7 +28,6 @@ function transformedDate(str: string) {
 }
 
 const MemberCard = ({ sizeType, _id, user, createdAt, ...props }: MemberCardProps) => {
-  console.log(props)
   return (
     <Box
       sx={{

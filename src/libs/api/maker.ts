@@ -22,13 +22,24 @@ const getMakerInfo = async (pid: string) => {
   }
 }
 
+const getMakerMemberlist = async (pid: string, page: number, count = 10, sorted = "createAt", order = -1) => {
+  try {
+    const res = await instance.get(`/api/makers/${pid}/nfts?page=${page}&count=${count}&sort=${sorted}&order=${order}`)
+    return res.data
+  } catch (error) {
+    console.log("maker member list api error")
+  }
+}
+
 const getMakerSupportList = async (pid: string, page: number, count = 10, sorted = "createAt", order = -1) => {
   try {
-    const res = await instance.get(`/api/makers/${pid}?page=${page}&count=${count}&sort=${sorted}&order=${order}`)
+    const res = await instance.get(
+      `/api/makers/${pid}/supports?page=${page}&count=${count}&sort=${sorted}&order=${order}`,
+    )
     return res.data
   } catch (error) {
     console.log("maker support list api error")
   }
 }
 
-export { getMakerInfo, getMakerList, getMakerSupportList }
+export { getMakerInfo, getMakerList, getMakerSupportList, getMakerMemberlist }

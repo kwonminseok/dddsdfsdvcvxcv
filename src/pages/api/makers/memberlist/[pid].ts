@@ -1,16 +1,19 @@
-import { getMemberlist } from "@libs/api/support"
+// import axios from "axios"
+import { getMakerMemberlist } from "@libs/api/maker"
 
 export default async function handler(req: any, res: any) {
+  //   const { pid } = req.query
   const { pid, page, count, param, sorted, order } = req.query
 
   try {
     if (req.method === "GET") {
-      const result = await getMemberlist(pid, page, count, param, sorted, order)
+      const result = await getMakerMemberlist(pid, page, count, sorted, order)
       console.log(result)
       if (result) {
         res.status(200).json({
           status: 200,
-          data: result.data,
+          members: result.data,
+          //   total: result.data.supports.total,
         })
       }
     }
@@ -19,3 +22,7 @@ export default async function handler(req: any, res: any) {
     // console.log(e)
   }
 }
+
+//title
+//mainImage
+//maker

@@ -6,25 +6,18 @@ import { SupportStory, DetailInfo, MakerInfo, SupportInfo, MemberList } from "@c
 import BlockInfo from "../../../components/supports/[pid]/block-info"
 import useWindowSize from "@libs/hooks/use-window-size"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useMutation } from "@tanstack/react-query"
 import axios from "axios"
 import { useEffect } from "react"
 import { GetServerSideProps } from "next"
 export default function Support({ pid }: any) {
   const sizeType = useWindowSize()
+
   const fetchSupport = async () => {
     if (pid) {
       const res = await axios.get(`/api/supports/info/${pid}`)
       const result = res.data
-
-      return result
-    }
-  }
-  const fetchMemberList = async () => {
-    if (pid) {
-      const res = await axios.get(`/api/supports/memberlist/${pid}`)
-      const result = res.data
-
+      console.log(result)
       return result
     }
   }
@@ -32,12 +25,6 @@ export default function Support({ pid }: any) {
   const { data, isLoading, error } = useQuery({
     queryKey: ["support", pid],
     queryFn: fetchSupport,
-    refetchOnReconnect: true,
-    retry: 1,
-  })
-  const memberlist = useQuery({
-    queryKey: ["memberlist", pid],
-    queryFn: fetchMemberList,
     refetchOnReconnect: true,
     retry: 1,
   })
@@ -111,12 +98,7 @@ export default function Support({ pid }: any) {
             />
             {/* <SupportInfo 
             /> */}
-            {(sizeType as number) > 0 && (
-              <MemberList
-                total={memberlist.data && memberlist.data.data.total}
-                members={memberlist.data && memberlist.data.data.list}
-              />
-            )}
+            {(sizeType as number) > 0 && <MemberList pid={pid} />}
           </Flex>
         </Flex>
         {(sizeType as number) < 1 && (
@@ -125,10 +107,7 @@ export default function Support({ pid }: any) {
             <DetailInfo attributes={data && data.attributes} />
             <BlockInfo totalMinted={data && data.totalMinted} />
             <MakerInfo maker={data && data.maker} />
-            <MemberList
-              total={memberlist.data && memberlist.data.data.total}
-              members={memberlist.data && memberlist.data.data.list}
-            />
+            <MemberList pid={pid} />
           </Box>
         )}
       </Wrapper>

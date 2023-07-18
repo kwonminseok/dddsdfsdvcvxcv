@@ -89,7 +89,7 @@ export default function Makers() {
               pb: [3, 6],
             }}
           >
-            Super Makers
+            Super Fandom
           </Box>
           <Box sx={{ fontSize: ["14px", "16px"], textAlign: "center", px: 6 }}>{t("maker:sub")}</Box>
         </Flex>

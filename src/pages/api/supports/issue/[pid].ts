@@ -7,7 +7,7 @@ const instance = axios.create({
 const getSupportList = async (pid: string) => {
   console.log(pid)
   try {
-    const res = await instance.get(`/api/floody/supports/${pid}`)
+    const res = await instance.get(`/api/supports/${pid}`)
     // console.log(res.data)
     return res.data
   } catch (error) {
