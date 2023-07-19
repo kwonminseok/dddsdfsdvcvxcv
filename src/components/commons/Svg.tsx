@@ -6,7 +6,10 @@ export interface SVGProps extends Assign<SVGAttributes<SVGElement>, BoxOwnProps>
   size?: any
 }
 
-export const SVG: ForwardRef<SVGSVGElement, SVGProps> = React.forwardRef(function SVG({ size = 24, ...rest }, ref) {
+export const SVG: ForwardRef<SVGSVGElement, SVGProps> = React.forwardRef(function SVG(
+  { size = 24, __css, ...rest },
+  ref,
+) {
   const svgProps: SVGProps = {
     xmlns: "http://www.w3.org/2000/svg",
 
@@ -15,6 +18,6 @@ export const SVG: ForwardRef<SVGSVGElement, SVGProps> = React.forwardRef(functio
     ...rest,
   }
 
-  return <Box ref={ref} as="svg" {...(svgProps as {})} __css={{ width: size, height: size }} />
+  return <Box ref={ref} as="svg" {...(svgProps as {})} __css={{ width: size, height: size, ...__css }} />
 })
 SVG.displayName = "SVG"

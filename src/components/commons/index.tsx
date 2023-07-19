@@ -13,6 +13,7 @@ import { Checkbox } from "./CheckBox/checkbox"
 import Portal from "./Portal/portal"
 import Modal from "./Modal/modal"
 import { Label } from "./Label/label"
+import { Flink } from "./LInk/link"
 export {
   Box,
   Flex,
@@ -29,4 +30,5 @@ export {
   Portal,
   Modal,
   Label,
+  Flink as Link,
 }

@@ -6,9 +6,9 @@ import TwitterProvider from "next-auth/providers/twitter"
 import axios from "axios"
 // import { JWT } from "next-auth/jwt";
 // import { userLogin, TSocial } from "../user/use-login";
-import { TSocial } from "../users/login"
-import { userLogin } from "../users/login"
 
+import { TSocial } from "@libs/api/user"
+import { userLogin } from "@libs/api/user"
 export const authOptions: NextAuthOptions = {
   // your configs
   // const dispatch = useDispatch()
@@ -80,7 +80,12 @@ export const authOptions: NextAuthOptions = {
       // console.log("credentials ", credentials)
 
       try {
-        const res = await userLogin(user.email as string, account?.provider as TSocial, account?.access_token as string)
+        const res = await userLogin(
+          user.id,
+          user.email as string,
+          account?.provider as TSocial,
+          account?.access_token as string,
+        )
         // const res = await axios.post("/users/login", {
         //   email: user.email as string,
         //   type: account?.provider as TSocial,

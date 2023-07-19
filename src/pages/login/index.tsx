@@ -6,10 +6,11 @@ import { useEffect, useLayoutEffect } from "react"
 import { useRouter } from "next/router"
 import Register from "@components/login/register"
 import axios from "axios"
-import { userReady } from "@pages/api/users/ready"
+import { userRegisterReady } from "@libs/api/user"
 import { Axiosinstance } from "@pages/api/users/logincheck"
 export default function LoginPages({ next, userInfo }: any) {
   const router = useRouter()
+  console.log(userInfo)
   useEffect(() => {
     if (next == "SignIn") {
       // window.history.replaceState({}, null, "/")
@@ -29,7 +30,15 @@ export default function LoginPages({ next, userInfo }: any) {
           overflow: "hidden",
         }}
       >
-        <Flex sx={{ bg: "black05", borderRadius: [0, "6px"], boxShadow: ["none", "floody3"], my: 2 }}>
+        <Flex
+          sx={{
+            bg: "black05",
+            borderRadius: [0, "6px"],
+            boxShadow: ["none", "floody3"],
+            my: 2,
+            width: ["100%", "auto"],
+          }}
+        >
           {next === "notRegisted" ? <Register userInfo={userInfo} /> : <Login />}
         </Flex>
       </Flex>
@@ -43,6 +52,7 @@ interface IUserInfoProps {
   email?: string
   provider?: string
   token?: string
+  oauthId?: string
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
@@ -54,16 +64,16 @@ export const getServerSideProps: GetServerSideProps = async context => {
     if (token !== "") {
       //
       try {
-        const res = await userReady(token as string)
+        const res = await userRegisterReady(token as string)
 
         if (res) {
-          const { status, data } = res
-          if (status === 200) {
-            if (data.message == "PRE_USER_EXIST") {
-              userInfo.email = data.data.preUser.email
-              userInfo.provider = data.data.preUser.loginType
-              userInfo.token = data.data.preUser.token
-            }
+          const { data, message } = res
+          console.log(data)
+          if (message == "PRE_USER_EXIST") {
+            userInfo.email = data.preUser.email
+            userInfo.provider = data.preUser.loginType
+            userInfo.token = data.preUser.token
+            userInfo.oauthId = data.preUser.oauthId
           }
         }
       } catch (e) {

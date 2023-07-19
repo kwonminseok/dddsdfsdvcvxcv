@@ -214,4 +214,7 @@ export const theme: Theme = {
       },
     },
   },
+  forms: {
+    checkbox: {},
+  },
 }

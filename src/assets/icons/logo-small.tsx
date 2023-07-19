@@ -1,5 +1,5 @@
 import { Box } from "@components/commons"
-import Logo from "../../../public/logosmall.svg"
+import Logo from "../../../public/logo-small.svg"
 
 interface LogoSmallProps {
   width: string

@@ -53,6 +53,10 @@ const CardImageWrapper = ({ src, imageStyles, boxSx, ...props }: ImageWrapper) =
               borderRadius: "8px",
               objectFit: "contain",
               overflow: "hidden",
+              // maxWidth: "100%",
+              // maxHeight: "100%",
+              // width: "100%",
+              // height: "100%",
               ...imageStyles,
             }}
           />

@@ -1,5 +1,5 @@
 // import { Box } from "@chakra-ui/react";
-import { Box, Flex, Text, Button } from "@components/commons"
+import { Box, Flex, Text, Button, TextField, Link } from "@components/commons"
 // import LogoMain from "@assets/icons/LogoMain";
 import { useSession, signIn, signOut, getSession } from "next-auth/react"
 // import Google from "@assets/icons/Google";
@@ -7,13 +7,14 @@ import GoogleLogo from "@icons/logo-google"
 import LogoSmall from "@icons/logo-small"
 import LogoMain from "@icons/logo-main"
 import Image from "next/image"
+import { useTranslation } from "next-i18next"
+
 const Login = () => {
+  const { t } = useTranslation("common")
   return (
     <>
       <Flex
-        py="6"
-        px="6"
-        sx={{ width: "100%", height: ["100vh", "100%"] }}
+        sx={{ width: "100%", height: ["100vh", "100%"], py: ["48px"], px: [8] }}
         direction="column"
         align="center"
         justify="center"
@@ -36,27 +37,56 @@ const Login = () => {
               나만의 영원한 디지털 뱃지
             </Text>
           </Flex>
+          <Flex direction="column" py="4">
+            <Box pb="2">
+              <TextField variant="line" size="lg" boxProps={{ sx: { width: "100%" } }} placeholder="이메일 입력" />
+            </Box>
 
-          <Flex direction="column" align="center" mb="6">
-            <Box mb="3">
+            <Button
+              sx={{
+                position: "relative",
+                borderRadius: "6px",
+                fontWeight: "medium",
+                bg: "main50",
+                minWidth: "300px",
+                minHeight: "42px",
+                px: 3,
+                pt: 3,
+                color: "black05",
+              }}
+              onClick={e => {
+                e.preventDefault()
+              }}
+            >
+              이메일로 시작하기
+            </Button>
+          </Flex>
+          <Flex sx={{ pb: 4, borderTop: "1px solid", borderColor: "black30" }}></Flex>
+          <Flex
+            direction="column"
+            align="center"
+            mb="6"
+            pb="4"
+            sx={{ borderBottom: "1px solid", borderColor: "black10" }}
+          >
+            <Box mb="3" sx={{ width: "100%" }}>
               <Button
                 sx={{
                   position: "relative",
-                  borderRadius: "12px",
+                  borderRadius: "6px",
                   border: "1px solid",
+                  borderColor: "black10",
                   fontWeight: "medium",
                   bg: "#fff",
                   minWidth: "300px",
+                  minHeight: "42px",
+                  width: "100%",
                   px: 3,
                   pt: 3,
                   color: "black90",
                 }}
                 leftIcon={<GoogleLogo width={"18px"} />}
                 iconSx={{ position: "absolute", left: "32px", top: 0, bottom: 0 }}
-                // px='3'
-                // pt='3'
-                // iconVariants="left"
-                // sx={{ position: "relative" }}
                 onClick={e => {
                   e.preventDefault()
                   signIn("google")
@@ -66,15 +96,17 @@ const Login = () => {
               </Button>
               {/* google */}
             </Box>
-            <Box mb="3">
+            <Box mb="3" sx={{ width: "100%" }}>
               <Button
                 sx={{
                   position: "relative",
-                  borderRadius: "12px",
+                  borderRadius: "6px",
                   border: "1px solid",
+                  width: "100%",
                   fontWeight: "medium",
                   bg: "#03c75a",
                   minWidth: "300px",
+                  minHeight: "42px",
                   px: 3,
                   pt: 3,
                   color: "#fff",
@@ -89,15 +121,17 @@ const Login = () => {
                 네이버로 시작하기
               </Button>
             </Box>
-            <Box mb="3">
+            <Box mb="3" sx={{ width: "100%" }}>
               <Button
                 sx={{
                   position: "relative",
-                  borderRadius: "12px",
+                  borderRadius: "6px",
                   border: "1px solid",
                   fontWeight: "medium",
                   bg: "#03c75a",
                   minWidth: "300px",
+                  width: "100%",
+                  minHeight: "42px",
                   px: 3,
                   pt: 3,
                   color: "#fff",
@@ -124,15 +158,15 @@ const Login = () => {
             }}
           >
             <Flex mt="5" mb="3">
-              <Text mx="2" variant={"h6"} onClick={() => signOut()}>
+              <Link target="_blank" mx="2" sx={{ fontWeight: "medium", color: "black90", fontSize: 2 }}>
                 이용약관
-              </Text>
-              <Text mx="2" variant={"h6"}>
+              </Link>
+              <Link target="_blank" mx="2" sx={{ fontWeight: "medium", color: "black90", fontSize: 2 }}>
                 개인정보처리지침
-              </Text>
+              </Link>
             </Flex>
             <Flex>
-              <Text variant={"s"}>© 2023 Floody. All rights reserved.</Text>
+              <Text sx={{ fontSize: 0 }}>© 2023 Floody. All rights reserved.</Text>
             </Flex>
           </Flex>
         </Box>

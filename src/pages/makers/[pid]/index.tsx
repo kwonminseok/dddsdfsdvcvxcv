@@ -193,7 +193,7 @@ export default function Maker({ pid }: any) {
               sx={{
                 flexWrap: "wrap",
                 pt: 5,
-                gap: "40px",
+                gap: ["16px", "40px"],
                 flexDirection: "row",
               }}
             >

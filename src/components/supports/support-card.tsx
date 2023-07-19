@@ -80,6 +80,7 @@ const SupportCard = forwardRef(
                 ":hover": {
                   transform: "scale(1.05)",
                 },
+                width: ["120px", "100%"],
               }}
             />
             <Box sx={{ padding: 2, color: "t.primary", paddingLeft: ["136px", 2] }}>

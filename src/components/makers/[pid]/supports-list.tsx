@@ -4,24 +4,29 @@ import { useState, useCallback, useEffect } from "react"
 import axios from "axios"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useInView } from "react-intersection-observer"
-
+import LogoEmpty from "@icons/logo-empty"
 import { SupportCard, SkeletonSupportCard } from "@components/supports"
-import { Box, Flex, Selector } from "@components/commons"
+import { Box, Flex, Selector, Skeleton } from "@components/commons"
+
+export type Tsorted = "createdAt" | "totalMinted"
 const SupportList = ({ pid }: any) => {
   const [ref, isView] = useInView()
   const { t } = useTranslation(["common", "maker"])
   const [filter, setFilter] = useState<string>("latest")
   const [order, setOrder] = useState<number>(-1)
   const [count, setCount] = useState<number>(0)
-
+  const [sorted, setSorted] = useState<Tsorted>("createdAt")
+  const [total, setTotal] = useState<number>(0)
   const fetchSupportList = useCallback(
     async ({ pageParam = 1 }) => {
       if (pid) {
-        const res = await axios.get(`/api/makers/supportlist/${pid}?page=${pageParam}&order=${order}`)
+        const res = await axios.get(`/api/makers/supportlist/${pid}?page=${pageParam}&sorted=${sorted}&order=${order}`)
         const result = res.data
-        console.log(result)
+
+        setTotal(result.total)
         return {
           supports: result.supports,
+          // total: result.total,
           nextPage: pageParam + 1,
           isLast: result.supports.length < 10,
         }
@@ -69,22 +74,32 @@ const SupportList = ({ pid }: any) => {
       }}
     >
       <Flex direction={"row-reverse"} py="3">
-        <Selector
-          options={[
-            { content: t("common:latest"), key: "latest" },
-            { content: t("common:oldest"), key: "oldest" },
-          ]}
-          value={filter} //초기값됴
-          onChange={onChangeOrder}
-          sx={{
-            fontSize: [1, 2],
-            lineHeight: "26px",
-            padding: "6px 12px",
-            color: "black90",
-            width: ["96px", "120px"],
-            height: ["32px", "40px"],
-          }}
-        />
+        {isSuccess ? (
+          total > 0 ? (
+            <Selector
+              options={[
+                { content: t("common:latest"), key: "latest" },
+                { content: t("common:oldest"), key: "oldest" },
+              ]}
+              value={filter} //초기값됴
+              onChange={onChangeOrder}
+              sx={{
+                fontSize: [1, 2],
+                lineHeight: "26px",
+                padding: "6px 12px",
+                color: "black90",
+                width: ["96px", "120px"],
+                height: ["32px", "40px"],
+              }}
+            />
+          ) : (
+            <></>
+          )
+        ) : (
+          <>
+            <Skeleton sx={{ width: "90px", height: "24px" }} radius="4px" />
+          </>
+        )}
       </Flex>
       <Box
         sx={{
@@ -108,6 +123,7 @@ const SupportList = ({ pid }: any) => {
               })
             })
           : null}
+
         {isFetching && (
           <>
             <SkeletonSupportCard />
@@ -117,6 +133,14 @@ const SupportList = ({ pid }: any) => {
           </>
         )}
       </Box>
+      {isSuccess && data.pages && total == 0 && (
+        <Flex sx={{ alignItems: "center", justifyContent: "center", py: 8, flexDirection: "column" }}>
+          <LogoEmpty width="345px" />
+          <Box sx={{ pt: 10 }}>
+            <Box sx={{ fontSize: "40px", fontWeight: "bold", color: "black10" }}>Love & Action</Box>
+          </Box>
+        </Flex>
+      )}
     </Box>
   )
 }

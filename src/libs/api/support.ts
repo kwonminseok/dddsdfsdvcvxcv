@@ -13,7 +13,7 @@ const getSupportInfo = async (pid: string) => {
   }
 }
 
-const getSupportList = async (page: number, count = 10, param = "", sorted = "createAt", order = -1) => {
+const getSupportList = async (page: number, count = 10, param = "", sorted = "createdAt", order = -1) => {
   try {
     const res = await instance.get(`/api/supports?page=${page}&count=${count}&sorted=${sorted}&order=${order}`)
 
@@ -23,7 +23,7 @@ const getSupportList = async (page: number, count = 10, param = "", sorted = "cr
   }
 }
 
-const getMemberlist = async (pid: string, page: number, count = 10, param = "", sorted = "createAt", order = -1) => {
+const getMemberlist = async (pid: string, page: number, count = 10, param = "", sorted = "createdAt", order = -1) => {
   try {
     const res = await instance.get(
       `/api/supports/${pid}/nfts?page=${page}&count=${count}&sorted=${sorted}&order=${order}`,

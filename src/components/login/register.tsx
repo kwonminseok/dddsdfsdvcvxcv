@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import LogoMain from "@icons/logo-main"
 import axios from "axios"
 import { forwardRef } from "react"
-import { inherits } from "util"
+
 interface IFormValues {
   email: string
   nickName: string
@@ -15,7 +15,7 @@ interface IFormValues {
 
 type InputProps = {
   label: string
-  register: any //UseFormRegister<IFormValues>
+  register: any
   value: Path<IFormValues>
   // required: boolean
   rule?: {
@@ -38,6 +38,7 @@ type TRegister = {
     email?: string
     provider?: string
     token?: string
+    oauthId?: string
   }
 }
 
@@ -59,9 +60,11 @@ export const RegiInput = forwardRef(({ label, register, value, rule, error, ...p
 })
 
 const Register = ({ userInfo, ...props }: TRegister) => {
+  console.log(userInfo)
   const router = useRouter()
   const initialValues = {
     email: userInfo?.email ? userInfo.email : "",
+    oauthId: userInfo.oauthId,
     nickName: "",
     age: false,
     use: false,
@@ -87,6 +90,7 @@ const Register = ({ userInfo, ...props }: TRegister) => {
           email: data.email,
           nickname: data.nickName,
           token: userInfo.token,
+          oauthId: userInfo.oauthId,
         })
         if (res.data.status == 200) {
           switch (res.data.result.message) {
@@ -184,11 +188,11 @@ const Register = ({ userInfo, ...props }: TRegister) => {
                   <Text variant="p">만 14세 이상입니다 [필수]</Text>
                 </Label>
                 <Label sx={{ alignItems: "center", cursor: "pointer" }}>
-                  <Checkbox checked={getValues("use")} {...register("use", { required: true })}></Checkbox>
+                  <Checkbox checked={getValues("use")} {...register("use", { required: true })} />
                   <Text variant="p">마이뱃지 이용약관 동의 [필수]</Text>
                 </Label>
                 <Label sx={{ alignItems: "center", cursor: "pointer" }}>
-                  <Checkbox checked={getValues("privacy")} {...register("privacy", { required: true })}></Checkbox>
+                  <Checkbox checked={getValues("privacy")} {...register("privacy", { required: true })} />
                   <Text variant="p">개인정보 수집 및 이용 동의 [필수]</Text>
                 </Label>
               </Flex>

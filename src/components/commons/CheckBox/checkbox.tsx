@@ -11,38 +11,42 @@ const CheckboxChecked = (props: SVGProps) => (
   </SVG>
 )
 
-const CheckboxUnchecked = (props: SVGProps) => (
-  <SVG {...props}>
-    <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" />
-  </SVG>
-)
+const CheckboxUnchecked = (props: SVGProps) => {
+  return (
+    <SVG {...props}>
+      <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" />
+    </SVG>
+  )
+}
 
-const CheckboxIcon = (props: SVGProps) => (
-  <React.Fragment>
-    <CheckboxChecked
-      {...props}
-      {...__internalProps({
-        __css: {
-          display: "none",
-          "input:checked ~ &": {
-            display: "block",
-          },
-        },
-      })}
-    />
-    <CheckboxUnchecked
-      {...props}
-      {...__internalProps({
-        __css: {
-          display: "block",
-          "input:checked ~ &": {
+const CheckboxIcon = (props: SVGProps) => {
+  return (
+    <React.Fragment>
+      <CheckboxChecked
+        {...props}
+        {...__internalProps({
+          __css: {
             display: "none",
+            "input:checked ~ &": {
+              display: "block",
+            },
           },
-        },
-      })}
-    />
-  </React.Fragment>
-)
+        })}
+      />
+      <CheckboxUnchecked
+        {...props}
+        {...__internalProps({
+          __css: {
+            display: "block",
+            "input:checked ~ &": {
+              display: "none",
+            },
+          },
+        })}
+      />
+    </React.Fragment>
+  )
+}
 
 export interface CheckboxProps extends Assign<React.ComponentPropsWithRef<"input">, BoxOwnProps> {}
 
@@ -80,14 +84,14 @@ export const Checkbox: ForwardRef<HTMLInputElement, CheckboxProps> = React.forwa
         className={className}
         sx={sx}
         {...__internalProps({
-          __themeKey: "checkbox",
+          __themeKey: "forms",
           __css: {
             mr: 2,
             borderRadius: 4,
             // color: "gray",
             flexShrink: 0,
             "input:checked ~ &": {
-              // color: "primary",
+              // color: "blue",
             },
             "input:focus ~ &": {
               // color: "primary",
