@@ -14,6 +14,7 @@ import Portal from "./Portal/portal"
 import Modal from "./Modal/modal"
 import { Label } from "./Label/label"
 import { Flink } from "./LInk/link"
+import Pagination from "./Pagination/pagination"
 export {
   Box,
   Flex,
@@ -31,4 +32,5 @@ export {
   Modal,
   Label,
   Flink as Link,
+  Pagination,
 }

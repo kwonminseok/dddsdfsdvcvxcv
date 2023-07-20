@@ -2,16 +2,20 @@ import { useMutation } from "@tanstack/react-query"
 import { useTranslation } from "next-i18next"
 import { useCallback, useEffect, useState } from "react"
 import axios from "axios"
-import { Box, Flex, Selector, Skeleton } from "@components/commons"
+import { Box, Flex, Selector, Skeleton, Pagination } from "@components/commons"
 import LogoEmpty from "@icons/logo-empty"
 import MemberCard from "./member-card"
 import SkeletonMemberCard from "./skeleton-member-card"
+
+const COUNT = 20
+
 const MemberList = ({ pid }: any) => {
   const { t } = useTranslation(["common", "maker"])
   const [filter, setFilter] = useState<string>("latest")
   const [order, setOrder] = useState<number>(-1)
   const [count, setCount] = useState<number>(0)
   const [nowPage, setNowPage] = useState<number>(1)
+  const [lastPage, setLastPage] = useState<number>(1)
 
   const onChangeOrder = (newOrder: string) => {
     if (newOrder !== filter) {
@@ -26,7 +30,7 @@ const MemberList = ({ pid }: any) => {
   }
 
   const fetchMemberList = useCallback(async () => {
-    const res = await axios.get(`/api/makers/memberlist/${pid}?page=${nowPage}&order=${order}`)
+    const res = await axios.get(`/api/makers/memberlist/${pid}?page=${nowPage}&count=${COUNT}&order=${order}`)
     const result = res.data
     return {
       members: result.members.list,
@@ -38,9 +42,14 @@ const MemberList = ({ pid }: any) => {
 
   useEffect(() => {
     mutate()
+    window.scrollTo(0, 0)
   }, [pid, nowPage, order])
-  console.log(data)
 
+  useEffect(() => {
+    if (isSuccess) {
+      setLastPage(Math.ceil(data.total / COUNT))
+    }
+  }, [isSuccess])
   return (
     <Box
       sx={{
@@ -54,8 +63,8 @@ const MemberList = ({ pid }: any) => {
         <Flex>
           {isSuccess && data.total > 0 && (
             <>
-              <Box sx={{ fontWeight: "bold", pr: 1, fontSize: [2] }}>{data?.total.toLocaleString()}</Box>
-              <Box>Members</Box>
+              <Box sx={{ fontWeight: "bold", pr: 1, fontSize: [1, 2] }}>{data?.total.toLocaleString()}</Box>
+              <Box sx={{ fontSize: [1, 2] }}>Members</Box>
             </>
           )}
           {isLoading && (
@@ -114,6 +123,11 @@ const MemberList = ({ pid }: any) => {
               <Box sx={{ fontSize: "40px", fontWeight: "bold", color: "black10" }}>Meet Here! Soon!</Box>
             </Box>
           </Flex>
+        </Flex>
+      )}
+      {lastPage > 1 && (
+        <Flex sx={{ alignItems: "center", justifyContent: "center" }}>
+          <Pagination nowPage={nowPage} lastPage={lastPage} setPage={setNowPage} />
         </Flex>
       )}
     </Box>

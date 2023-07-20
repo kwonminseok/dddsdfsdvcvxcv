@@ -1,4 +1,3 @@
-// import axios from "axios"
 import { getMakerMemberlist } from "@libs/api/maker"
 
 export default async function handler(req: any, res: any) {
@@ -8,7 +7,7 @@ export default async function handler(req: any, res: any) {
   try {
     if (req.method === "GET") {
       const result = await getMakerMemberlist(pid, page, count, sorted, order)
-      console.log(result)
+
       if (result) {
         res.status(200).json({
           status: 200,

@@ -16,6 +16,5 @@ export default async function handler(req: any, res: any) {
     }
   } catch (e) {
     console.log("e")
-    // console.log(e)
   }
 }

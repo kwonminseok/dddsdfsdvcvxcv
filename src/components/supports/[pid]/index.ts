@@ -4,5 +4,5 @@ import MakerInfo from "./maker-info"
 import MemberList from "./member-list"
 import SupportInfo from "./support-info"
 import SupportStory from "./support-story"
-
-export { BlockInfo, DetailInfo, MakerInfo, MemberList, SupportInfo, SupportStory }
+import Caution from "./caution"
+export { BlockInfo, DetailInfo, MakerInfo, MemberList, SupportInfo, SupportStory, Caution }

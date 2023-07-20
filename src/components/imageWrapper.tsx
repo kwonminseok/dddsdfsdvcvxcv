@@ -38,7 +38,26 @@ const ImageWrapper = ({ brProps = "0px", pb = 100, boxSx, src, ...props }: Image
           sx={boxSx}
         >
           {src ? (
-            <LazyLoadImage src={src} {...props} />
+            <LazyLoadImage
+              src={src}
+              {...props}
+              wrapperProps={{
+                style: {
+                  display: "flex",
+                  width: "100%",
+                  height: "100%",
+                },
+              }}
+              style={{
+                borderRadius: "8px",
+                objectFit: "contain",
+                overflow: "hidden",
+                maxWidth: "100%",
+                maxHeight: "100%",
+                width: "100%",
+                height: "100%",
+              }}
+            />
           ) : (
             <Box sx={{ bg: "black10", width: "100%", height: "100%" }}> </Box>
           )}

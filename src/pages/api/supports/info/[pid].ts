@@ -24,6 +24,7 @@ export default async function handler(req: any, res: any) {
           _id: result.data.support._id,
           digit: result.data.support.passwordType == "MULTIPLE" ? 6 : 4,
           totalSupporters: result.data.support.totalSupporters,
+          contractAddress: result.data.support.maker.address,
         })
       }
     }

@@ -37,7 +37,7 @@ export default function Home() {
             <Tab tabKey="namba2">남바투</Tab>
           </TabList>
         </TabsContainer>
-        <Pagination nowPage={2} lastPage={24} />
+        {/* <Pagination nowPage={2} lastPage={24} /> */}
       </div>
     </>
   )

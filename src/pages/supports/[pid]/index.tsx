@@ -2,13 +2,12 @@ import Head from "next/head"
 import { Box, Flex, Skeleton } from "@components/commons"
 import Wrapper from "@components/supports/[pid]/Wrapper"
 import ImageWrapper from "@components/imageWrapper"
-import { SupportStory, DetailInfo, MakerInfo, SupportInfo, MemberList } from "@components/supports/[pid]"
+import { SupportStory, DetailInfo, MakerInfo, SupportInfo, MemberList, Caution } from "@components/supports/[pid]"
 import BlockInfo from "../../../components/supports/[pid]/block-info"
 import useWindowSize from "@libs/hooks/use-window-size"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useQuery, useMutation } from "@tanstack/react-query"
 import axios from "axios"
-import { useEffect } from "react"
 import { GetServerSideProps } from "next"
 export default function Support({ pid }: any) {
   const sizeType = useWindowSize()
@@ -72,8 +71,9 @@ export default function Support({ pid }: any) {
               <Box sx={{ pt: 6 }}>
                 <SupportStory description={data && data.description} subImages={data && data.subImages} />
                 <DetailInfo attributes={data && data.attributes} />
+                <BlockInfo totalMinted={data && data.totalMinted} contractAddress={data && data.contractAddress} />
                 <MakerInfo maker={data && data.maker} />
-                <BlockInfo totalMinted={data && data.totalMinted} />
+                <Caution />
               </Box>
             )}
           </Box>
@@ -96,8 +96,7 @@ export default function Support({ pid }: any) {
               _id={data && data._id}
               digit={data && data.digit}
             />
-            {/* <SupportInfo 
-            /> */}
+
             {(sizeType as number) > 0 && <MemberList pid={pid} />}
           </Flex>
         </Flex>
@@ -105,8 +104,9 @@ export default function Support({ pid }: any) {
           <Box sx={{ width: "auto" }}>
             <SupportStory description={data && data.description} subImages={data && data.subImages} />
             <DetailInfo attributes={data && data.attributes} />
-            <BlockInfo totalMinted={data && data.totalMinted} />
+            <BlockInfo totalMinted={data && data.totalMinted} contractAddress={data && data.contractAddress} />
             <MakerInfo maker={data && data.maker} />
+            <Caution />
             <MemberList pid={pid} />
           </Box>
         )}

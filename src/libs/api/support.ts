@@ -35,4 +35,26 @@ const getMemberlist = async (pid: string, page: number, count = 10, param = "", 
   }
 }
 
-export { getSupportInfo, getSupportList, getMemberlist }
+const getMintedSupportInfo = async (pid: string) => {
+  try {
+    const res = await instance.get(`/api/nfts/${pid}`)
+    return res.data
+  } catch (error) {
+    console.log("get Minted Support info api error")
+  }
+}
+
+const issueSupport = async (cookie: string, supportId: string, password: string) => {
+  try {
+    const res = await instance.get(`/api/mints?supportId=${supportId}&password=${password}`, {
+      headers: {
+        Authorization: `Bearer ${cookie}`,
+      },
+    })
+    return res.data
+  } catch (error) {
+    console.log("get issue support api error ")
+  }
+}
+
+export { getSupportInfo, getSupportList, getMemberlist, getMintedSupportInfo, issueSupport }

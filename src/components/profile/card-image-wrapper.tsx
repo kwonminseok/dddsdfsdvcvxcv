@@ -1,8 +1,5 @@
 import { Box } from "@components/commons"
-import {
-  LazyLoadImage,
-  LazyLoadImageProps,
-} from "react-lazy-load-image-component"
+import { LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component"
 
 interface ImageWrapper {
   src: string
@@ -52,6 +49,11 @@ const CardImageWrapper = ({ src, ...props }: ImageWrapper) => {
             style={{
               borderRadius: "8px",
               objectFit: "contain",
+              maxWidth: "100%",
+              maxHeight: "100%",
+              width: "100%",
+              height: "100%",
+              overflow: "hidden",
             }}
           />
         </Box>

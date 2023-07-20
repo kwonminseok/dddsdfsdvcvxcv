@@ -1,4 +1,3 @@
-// import axios from "axios"
 import { getMakerSupportList } from "@libs/api/maker"
 
 export default async function handler(req: any, res: any) {

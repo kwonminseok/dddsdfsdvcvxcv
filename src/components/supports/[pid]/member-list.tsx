@@ -1,4 +1,4 @@
-import { Box, Flex, Skeleton, SVG } from "@components/commons"
+import { Box, Flex, Skeleton, SVG, Pagination } from "@components/commons"
 import MemberCard from "@components/supports/member-card"
 import useWindowSize from "@libs/hooks/use-window-size"
 import { Users } from "lucide-react"
@@ -8,7 +8,7 @@ import { createIcon } from "@icons/icons"
 import { useMutation } from "@tanstack/react-query"
 import { useCallback, useEffect, useState } from "react"
 import axios from "axios"
-import Pagination from "@components/commons/Pagination/pagination"
+
 interface MemberListProps {
   pid: string
 }
@@ -33,6 +33,7 @@ const MemberList = ({ pid }: MemberListProps) => {
     mutate()
     window.scrollTo(0, 0)
   }, [nowPage])
+
   useEffect(() => {
     if (isSuccess) {
       setLastPage(Math.ceil(data.data.total / COUNT))
